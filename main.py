@@ -24,6 +24,8 @@ class Prompt(cmd.Cmd):
 
     def do_komi(self,arg):
         print('='+'\n')
+        x=[(i,j) for i in range(2) for j in range(2)]
+        print(x)
 
     def do_play(self,arg):
         print(arg)
