@@ -226,37 +226,28 @@ class GoState:
         while (q.empty()==False and NoLib==True):
             pos=q.get()
             checked[pos[0]][pos[1]]=True
-            try:
+            if pos[0]>0:
                 if (st[pos[0]-1][pos[1]]==0):
                     NoLib=False
                 if (st[pos[0]-1][pos[1]]==color and checked[pos[0]-1][pos[1]]==False):
                     q.put((pos[0]-1,pos[1]))
-            except:
-                error=1
 
-            try:
+            if pos[0]<self.size-1:
                 if (st[pos[0]+1][pos[1]]==0):
                     NoLib=False
                 if (st[pos[0]+1][pos[1]]==color and checked[pos[0]+1][pos[1]]==False):
                     q.put((pos[0]+1,pos[1]))
-            except:
-                error=1
-
-            try:
+            if pos[1]>0:
                 if (st[pos[0]][pos[1]-1]==0):
                     NoLib=False
                 if (st[pos[0]][pos[1]-1]==color and checked[pos[0]][pos[1]-1]==False):
                     q.put((pos[0],pos[1]-1))
-            except:
-                error=1
 
-            try:
+            if pos[1]<self.size-1:
                 if (st[pos[0]][pos[1]+1]==0):
                     NoLib=False
                 if (st[pos[0]][pos[1]+1]==color & checked[pos[0]][pos[1]+1]==False):
                     q.put((pos[0],pos[1]+1))
-            except:
-                error=1
         #If no liberties for the group, we have to remove it from the board
         if(NoLib==True):
             q.put((x,y))
@@ -268,29 +259,18 @@ class GoState:
                     self.points1+=1
                 else:
                     self.points2+=1
-                try:
+                if pos[0]>0:
                     if (st[pos[0]-1][pos[1]]==color):
                         q.put((pos[0]-1,pos[1]))
-                except:
-                    error=1
-
-                try:
+                if pos[0]<self.size-1:
                     if (st[pos[0]+1][pos[1]]==color ):
                         q.put((pos[0]+1,pos[1]))
-                except:
-                    error=1
-
-                try:
+                if pos[1]>0:
                     if (st[pos[0]][pos[1]-1]==color):
                         q.put((pos[0],pos[1]-1))
-                except:
-                    error=1
-
-                try:
+                if pos[1]<self.size-1:
                     if (st[pos[0]][pos[1]+1]==color ):
                         q.put((pos[0],pos[1]+1))
-                except:
-                    error=1
 
         return st
 
@@ -323,7 +303,6 @@ class GoState:
         #return [(i,i) for i in range(self.size)  if self.board[i][i] == 0]
         return [(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j] == 0 and self.CheckNBB(self.CheckNB(i,j),i,j)]# and  not self.CheckNBB(i,j)]
         #ATTENTION AU KO ! TODO
-        #Can't play on a suicide position except if it kill TODO
 
     def GetResult(self,player):
         checked = [[False] * self.size for _ in range(self.size)]
@@ -349,7 +328,7 @@ class GoState:
                             if (self.board[pos[0]-1][pos[1]]==1):
                                 b=True
                             if (self.board[pos[0]-1][pos[1]]==2):
-                                w=True #TODO LE FAIRE POUR LES AUTRE POSITIONS
+                                w=True
 
                         if(pos[0]<self.size-1):
                             if (self.board[pos[0]+1][pos[1]]==0 and checked[pos[0]+1][pos[1]]==False ):
@@ -527,8 +506,9 @@ if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players.
 """
     a=GoState(2)
-    a.board=[[1,1],[1,2]]
-    print(a.CheckNBB(a.CheckNB(1,0),1,0))
+    a.board=[[1,1],[0,2]]
+
+    #  print(a.CheckNBB(a.CheckNB(1,0),1,0))
     a.board=a.CheckNB(1,0)
     print(a.board)
     #print(a.CheckNBB(1,0))
@@ -536,5 +516,8 @@ if __name__ == "__main__":
 
 
     #UCTPlayGame()
+
+
+    #TODO : COmmunication with GTP / Problems of posing a stone and remove the deads one/ Not posing a stone where she will die immediately/ The equal and the changing rootstate
 
 
