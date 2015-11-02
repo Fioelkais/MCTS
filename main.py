@@ -1,8 +1,11 @@
 import cmd
 from convert import *
-
+from GS import *
+from init import *
 class Prompt(cmd.Cmd):
     prompt = ''
+
+
 
     # ----- basic turtle commands -----
     def do_printsomething(self, arg):
@@ -21,6 +24,7 @@ class Prompt(cmd.Cmd):
     def do_clear_board(self,arg):
         print('=')
         print('')
+
 
     def do_komi(self,arg):
         print('='+'\n')

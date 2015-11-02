@@ -2,6 +2,7 @@ __author__ = 'admin'
 from math import *
 import random
 import queue
+import copy
 
 class GameState:
     """ A state of the game, i.e. the game board. These are the only functions which are
@@ -52,111 +53,11 @@ A board of 19*19 intersections
 """
 
 
-
-
-
-
-class NimState:
-    """ A state of the game Nim. In Nim, players alternately take 1,2 or 3 chips with the
-        winner being the player to take the last chip.
-        In Nim any initial state of the form 4n+k for k = 1,2,3 is a win for player 1
-        (by choosing k) chips.
-        Any initial state of the form 4n is a win for player 2.
-    """
-    def __init__(self, ch):
-        self.playerJustMoved = 2 # At the root pretend the player just moved is p2 - p1 has the first move
-        self.chips = ch
-
-    def Clone(self):
-        """ Create a deep clone of this game state.
-        """
-        st = NimState(self.chips)
-        st.playerJustMoved = self.playerJustMoved
-        return st
-
-    def DoMove(self, move):
-        """ Update a state by carrying out the given move.
-            Must update playerJustMoved.
-        """
-        assert move >= 1 and move <= 3 and move == int(move)
-        self.chips -= move
-        self.playerJustMoved = 3 - self.playerJustMoved
-
-    def GetMoves(self):
-        """ Get all possible moves from this state.
-        """
-        return list(range(1,min([4, self.chips + 1])))
-
-    def GetResult(self, playerjm):
-        """ Get the game result from the viewpoint of playerjm.
-        """
-        assert self.chips == 0
-        if self.playerJustMoved == playerjm:
-            return 1.0 # playerjm took the last chip and has won
-        else:
-            return 0.0 # playerjm's opponent took the last chip and has won
-
-    def __repr__(self):
-        s = "Chips:" + str(self.chips) + " JustPlayed:" + str(self.playerJustMoved)
-        return s
-
-class OXOState:
-    """ A state of the game, i.e. the game board.
-        Squares in the board are in this arrangement
-        012
-        345
-        678
-        where 0 = empty, 1 = player 1 (X), 2 = player 2 (O)
-    """
-    def __init__(self):
-        self.playerJustMoved = 2 # At the root pretend the player just moved is p2 - p1 has the first move
-        self.board = [0,0,0,0,0,0,0,0,0] # 0 = empty, 1 = player 1, 2 = player 2
-
-    def Clone(self):
-        """ Create a deep clone of this game state.
-        """
-        st = OXOState()
-        st.playerJustMoved = self.playerJustMoved
-        st.board = self.board[:]
-        return st
-
-    def DoMove(self, move):
-        """ Update a state by carrying out the given move.
-            Must update playerToMove.
-        """
-        assert move >= 0 and move <= 8 and move == int(move) and self.board[move] == 0
-        self.playerJustMoved = 3 - self.playerJustMoved
-        self.board[move] = self.playerJustMoved
-
-    def GetMoves(self):
-        """ Get all possible moves from this state.
-        """
-        l=list( [i for i in range(9) if self.board[i] == 0])
-        return l
-
-    def GetResult(self, playerjm):
-        """ Get the game result from the viewpoint of playerjm.
-        """
-        for (x,y,z) in [(0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6)]:
-            if self.board[x] == self.board[y] == self.board[z]:
-                if self.board[x] == playerjm:
-                    return 1.0
-                else:
-                    return 0.0
-        if self.GetMoves() == []: return 0.5 # draw
-        assert False # Should not be possible to get here
-
-    def __repr__(self):
-        s= ""
-        for i in range(9):
-            s += ".XO"[self.board[i]]
-            if i % 3 == 2: s += "\n"
-        return s
-
 class GoState:
     def __init__(self, size):
         self.playerJustMoved = 2 # At the root pretend the player just moved is p2 - p1 has the first move
         self.board = [[0] * size for _ in range(size)]
+        self.lastboard = [[0] * size for _ in range(size)]
         self.points1 = 0
         self.points2 = 6.5
         self.size = size
@@ -166,7 +67,8 @@ class GoState:
         """ Create a deep clone of this game state.
         """
         st = GoState(self.size)
-        st.board=self.board [:]
+        st.board=copy.deepcopy(self.board [:])
+        st.lastboard=copy.deepcopy(self.lastboard [:])
         st.playerJustMoved = self.playerJustMoved
         st.points1=self.points1
         st.points2=self.points2
@@ -174,13 +76,18 @@ class GoState:
         return st
 
     def DoMove(self,move):
+        self.lastboard=self.board
         (x,y)=(move[0],move[1])
         self.board[x][y]= 3 - self.playerJustMoved
         #print(self.CheckNB(move[0],move[1]))
 
-        #self.board=self.CheckNB(move[0],move[1])
+        self.board=self.CheckNB(move[0],move[1])
         self.playerJustMoved = 3 - self.playerJustMoved
 
+
+    def CheckKo(self, x,y):
+        st=self.Clone()
+        return  self.lastboard!=st.CheckNB(x,y)
 
 
     """
@@ -188,27 +95,28 @@ class GoState:
     If yes, checked if it's alive
     """
     def CheckNB(self,x,y):
-        st=self.board
+        st=copy.deepcopy(self.board)
         color= 3-self.playerJustMoved
         st[x][y]=color
         if x>0:
             if(st[x-1][y]==3-color):
                 st= self.CheckAlive(st,x-1,y,3-color)
-
+                #print("test")
         if y>0:
             if(st[x][y-1]==3-color):
-                st= self.CheckAlive(st,x-1,y,3-color)
+                st= self.CheckAlive(st,x,y-1,3-color)
+                #print("test")
 
 
         if x<self.size-1:
             if(st[x+1][y]==3-color):
-                st= self.CheckAlive(st,x-1,y,3-color)
-
+                st= self.CheckAlive(st,x+1,y,3-color)
+                #print("test")
 
         if y <self.size-1:
             if(st[x][y+1]==3-color):
-                st= self.CheckAlive(st,x-1,y,3-color)
-
+                st= self.CheckAlive(st,x,y+1,3-color)
+                #print("test")
         return st
 
 
@@ -218,13 +126,15 @@ class GoState:
     or when a liberty is found
     return a board updated
     """
-    def CheckAlive(self,st,x,y,color):
+    def CheckAlive(self,brd,x,y,color):
+        st=brd
         q = queue.Queue()
         checked = [[False] * self.size for _ in range(self.size)]
         q.put((x,y))
         NoLib=True
         while (q.empty()==False and NoLib==True):
             pos=q.get()
+            print(pos)
             checked[pos[0]][pos[1]]=True
             if pos[0]>0:
                 if (st[pos[0]-1][pos[1]]==0):
@@ -274,34 +184,83 @@ class GoState:
 
         return st
 
+
+    def CheckAliveB(self,brd,x,y,color):
+        st=brd
+        q = queue.Queue()
+        checked = [[False] * self.size for _ in range(self.size)]
+        q.put((x,y))
+        NoLib=True
+        while (q.empty()==False and NoLib==True):
+            pos=q.get()
+            checked[pos[0]][pos[1]]=True
+            if pos[0]>0:
+                if (st[pos[0]-1][pos[1]]==0):
+                    NoLib=False
+                if (st[pos[0]-1][pos[1]]==color and checked[pos[0]-1][pos[1]]==False):
+                    q.put((pos[0]-1,pos[1]))
+
+            if pos[0]<self.size-1:
+                if (st[pos[0]+1][pos[1]]==0):
+                    NoLib=False
+                if (st[pos[0]+1][pos[1]]==color and checked[pos[0]+1][pos[1]]==False):
+                    q.put((pos[0]+1,pos[1]))
+            if pos[1]>0:
+                if (st[pos[0]][pos[1]-1]==0):
+                    NoLib=False
+                if (st[pos[0]][pos[1]-1]==color and checked[pos[0]][pos[1]-1]==False):
+                    q.put((pos[0],pos[1]-1))
+
+            if pos[1]<self.size-1:
+                if (st[pos[0]][pos[1]+1]==0):
+                    NoLib=False
+                if (st[pos[0]][pos[1]+1]==color & checked[pos[0]][pos[1]+1]==False):
+                    q.put((pos[0],pos[1]+1))
+        return NoLib
     def CheckNBB(self,brd,x,y):
         st=brd
         color= 3-self.playerJustMoved
         hasnb=False
+        st[x][y]=color
         if x>0:
             if(st[x-1][y]==0):
                 hasnb=True
+            elif st[x-1][y]==3-color:
+                if self.CheckAliveB(st,x-1,y,3-color):
+                    hasnb=True
+
 
 
         if y>0:
             if(st[x][y-1]==0):
                 hasnb=True
+            elif st[x][y-1]==3-color:
+                if self.CheckAliveB(st,x,y-1,3-color):
+                    hasnb=True
 
 
         if x<self.size-1:
             if(st[x+1][y]==0):
                 hasnb=True
+            elif st[x+1][y]==3-color:
+                if self.CheckAliveB(st,x+1,y,3-color):
+                    hasnb=True
 
 
         if y<self.size-1 :
             if(st[x][y+1]==0):
                 hasnb=True
+            elif st[x][y+1]==3-color:
+                if self.CheckAliveB(st,x,y+1,3-color):
+                    hasnb=True
+        st[x][y]=0
         return hasnb
 
     def GetMoves(self):
         #print(self.board)
         #return [(i,i) for i in range(self.size)  if self.board[i][i] == 0]
-        return [(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j] == 0 and self.CheckNBB(self.CheckNB(i,j),i,j)]# and  not self.CheckNBB(i,j)]
+        st=self.Clone()
+        return [(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j] == 0 and st.CheckNBB(st.board,i,j) and st.CheckKo(i,j)]# and  not self.CheckNBB(i,j)]
         #ATTENTION AU KO ! TODO
 
     def GetResult(self,player):
@@ -506,18 +465,25 @@ if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players.
 """
     a=GoState(2)
-    a.board=[[1,1],[0,2]]
-
-    #  print(a.CheckNBB(a.CheckNB(1,0),1,0))
-    a.board=a.CheckNB(1,0)
+    a.board=[[2,2],[2,0]]
+    a.lastboard=[[1,0],[0,0]]
+    print(a.CheckNB(1,1))
     print(a.board)
-    #print(a.CheckNBB(1,0))
+    print(a.CheckKo(0,0))
+    print(a.board)
+    a.DoMove((1,1))
+    print(a.board)
     #print(a.CheckNB(1,0))
+    print(a.GetMoves())
+    #print(a.CheckNBB( a.board,1,1))
+    #print(a.board)
+
 
 
     #UCTPlayGame()
 
 
-    #TODO : COmmunication with GTP / Problems of posing a stone and remove the deads one/ Not posing a stone where she will die immediately/ The equal and the changing rootstate
+    #TODO : COmmunication with GTP /The equal and the changing rootstate/ Ko problem
+    #Solved ?  Problems of posing a stone and remove the deads one/ Not posing a stone where she will die immediately/
 
 
