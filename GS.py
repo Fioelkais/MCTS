@@ -227,20 +227,18 @@ class GoState:
                 hasnb=True
             elif st[x-1][y]==3-color:
 
-                if self.CheckAliveB(st,x-1,y,3-color):
+                if not self.CheckAliveB(st,x-1,y,3-color):
                     hasnb=True
             elif st[x-1][y]==color:
                 if self.CheckAliveB(st,x-1,y,color):
                     hasnb=True
 
-
-
-
         if y>0:
             if(st[x][y-1]==0):
                 hasnb=True
             elif st[x][y-1]==3-color:
-                if self.CheckAliveB(st,x,y-1,3-color):
+
+                if not self.CheckAliveB(st,x,y-1,3-color):
                     hasnb=True
             elif st[x][y-1]==color:
                 if self.CheckAliveB(st,x,y-1,color):
@@ -252,7 +250,7 @@ class GoState:
             if(st[x+1][y]==0):
                 hasnb=True
             elif st[x+1][y]==3-color:
-                if self.CheckAliveB(st,x+1,y,3-color):
+                if not self.CheckAliveB(st,x+1,y,3-color):
                     hasnb=True
             elif st[x+1][y]==color:
                 if self.CheckAliveB(st,x+1,y,color):
@@ -264,7 +262,7 @@ class GoState:
             if(st[x][y+1]==0):
                 hasnb=True
             elif st[x][y+1]==3-color:
-                if self.CheckAliveB(st,x,y+1,3-color):
+                if not self.CheckAliveB(st,x,y+1,3-color):
                     hasnb=True
             elif st[x][y+1]==color:
                 if self.CheckAliveB(st,x,y+1,color):
@@ -485,20 +483,20 @@ if __name__ == "__main__":
     a.board=[[1, 1, 2, 0], [1, 1, 2, 2], [1, 1, 1, 1], [0, 0, 2, 2]]
     #a.lastboard=[[1,0],[0,0]]
     #print(a.CheckNB(1,1))
-    #print(a.board)
+    print(a.board)
     #print(a.CheckKo(0,0))
     #print(a.board)
-    a.DoMove((3,1))
-    print(a.board)
+    #a.DoMove((0,3))
+    #print(a.board)
     #print(a.CheckNB(1,0))
     #print(a.GetMoves())
-    print(a.CheckNBB(a.board,3,0))
+    print(a.CheckNBB(a.board,0,3))
     #print(a.CheckNBB( a.board,1,1))
     #print(a.board)
 
 
 
-    #UCTPlayGame()
+    UCTPlayGame()
 
 
     #TODO : COmmunication with GTP /The equal and the changing rootstate/ Ko problem
