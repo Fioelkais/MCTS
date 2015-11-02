@@ -134,7 +134,7 @@ class GoState:
         NoLib=True
         while (q.empty()==False and NoLib==True):
             pos=q.get()
-            print(pos)
+            #print(pos)
             checked[pos[0]][pos[1]]=True
             if pos[0]>0:
                 if (st[pos[0]-1][pos[1]]==0):
@@ -216,7 +216,7 @@ class GoState:
                     NoLib=False
                 if (st[pos[0]][pos[1]+1]==color & checked[pos[0]][pos[1]+1]==False):
                     q.put((pos[0],pos[1]+1))
-        return NoLib
+        return not NoLib
     def CheckNBB(self,brd,x,y):
         st=brd
         color= 3-self.playerJustMoved
@@ -226,8 +226,13 @@ class GoState:
             if(st[x-1][y]==0):
                 hasnb=True
             elif st[x-1][y]==3-color:
+
                 if self.CheckAliveB(st,x-1,y,3-color):
                     hasnb=True
+            elif st[x-1][y]==color:
+                if self.CheckAliveB(st,x-1,y,color):
+                    hasnb=True
+
 
 
 
@@ -237,6 +242,10 @@ class GoState:
             elif st[x][y-1]==3-color:
                 if self.CheckAliveB(st,x,y-1,3-color):
                     hasnb=True
+            elif st[x][y-1]==color:
+                if self.CheckAliveB(st,x,y-1,color):
+                    hasnb=True
+
 
 
         if x<self.size-1:
@@ -245,6 +254,10 @@ class GoState:
             elif st[x+1][y]==3-color:
                 if self.CheckAliveB(st,x+1,y,3-color):
                     hasnb=True
+            elif st[x+1][y]==color:
+                if self.CheckAliveB(st,x+1,y,color):
+                    hasnb=True
+
 
 
         if y<self.size-1 :
@@ -253,6 +266,10 @@ class GoState:
             elif st[x][y+1]==3-color:
                 if self.CheckAliveB(st,x,y+1,3-color):
                     hasnb=True
+            elif st[x][y+1]==color:
+                if self.CheckAliveB(st,x,y+1,color):
+                    hasnb=True
+
         st[x][y]=0
         return hasnb
 
@@ -400,7 +417,7 @@ def UCT(rootstate, itermax, verbose = False):
     for i in range(itermax):
         node = rootnode
         state = rootstate.Clone()
-        state.board=[[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        #state.board=[[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 
 
         # Select
@@ -448,13 +465,13 @@ def UCTPlayGame():
     while (state.GetMoves() != []):
         print(str(state))
         if state.playerJustMoved == 1:
-            m = UCT(rootstate = state, itermax = 5, verbose = False) # play with values for itermax and verbose = True
+            m = UCT(rootstate = state, itermax = 2, verbose = False) # play with values for itermax and verbose = True
         else:
-            m = UCT(rootstate = state, itermax = 5, verbose = False)
+            m = UCT(rootstate = state, itermax = 2, verbose = False)
         print("Best Move: " + str(m) + "\n")
-        print(state.board)
-        state.DoMove(m)
         #print(state.board)
+        state.DoMove(m)
+        print(state.board)
     if state.GetResult(state.playerJustMoved) == 1.0:
         print("Player " + str(state.playerJustMoved) + " wins!")
     elif state.GetResult(state.playerJustMoved) == 0.0:
@@ -464,17 +481,18 @@ def UCTPlayGame():
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players.
 """
-    a=GoState(2)
-    a.board=[[2,2],[2,0]]
-    a.lastboard=[[1,0],[0,0]]
-    print(a.CheckNB(1,1))
-    print(a.board)
-    print(a.CheckKo(0,0))
-    print(a.board)
-    a.DoMove((1,1))
+    a=GoState(4)
+    a.board=[[1, 1, 2, 0], [1, 1, 2, 2], [1, 1, 1, 1], [0, 0, 2, 2]]
+    #a.lastboard=[[1,0],[0,0]]
+    #print(a.CheckNB(1,1))
+    #print(a.board)
+    #print(a.CheckKo(0,0))
+    #print(a.board)
+    a.DoMove((3,1))
     print(a.board)
     #print(a.CheckNB(1,0))
-    print(a.GetMoves())
+    #print(a.GetMoves())
+    print(a.CheckNBB(a.board,3,0))
     #print(a.CheckNBB( a.board,1,1))
     #print(a.board)
 

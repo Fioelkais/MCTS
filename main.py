@@ -5,12 +5,15 @@ from init import *
 class Prompt(cmd.Cmd):
     prompt = ''
 
+    a=GoState(5)
+    size=5
 
 
     # ----- basic turtle commands -----
     def do_printsomething(self, arg):
         'Move the turtle forward by the specified distance:  FORWARD 10'
         print(arg)
+
 
     def do_bye(self, arg):
         'Stop recording, close the turtle window, and exit:  BYE'
@@ -20,10 +23,12 @@ class Prompt(cmd.Cmd):
     def do_boardsize(self,arg):
         print('=')
         print('')
+        self.a.size=int(arg)
 
     def do_clear_board(self,arg):
         print('=')
         print('')
+        self.a.__init__(self.size)
 
 
     def do_komi(self,arg):
