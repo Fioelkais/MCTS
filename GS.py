@@ -351,8 +351,9 @@ class GoState:
                     """2eme methode a faire pour une autre representation, voire feuille pq dans celle ci
                     probleme du fait qu'on ne peut jouer un coup perdu, sauf si ca tue"""
         win1= self.points1>self.points2
-        if player==1 and win1 | player==2 and not win1:
+        if (player==1 and win1) or (player==2 and not win1):
             return 1.0
+            print("test")
         else:
             return 0.0
 
@@ -456,8 +457,8 @@ def UCT(rootstate, itermax, verbose = False):
 
 
     # Output some information about the tree - can be omitted
-    #if (verbose): print (rootnode.TreeToString(0))
-    #else: print (rootnode.ChildrenToString())
+    if (verbose): print (rootnode.TreeToString(0))
+    else: print (rootnode.ChildrenToString())
 
     return sorted(rootnode.childNodes, key = lambda c: c.visits)[-1].move # return the move that was most visited
 
@@ -468,14 +469,14 @@ def UCTPlayGame():
     #state = OthelloState(4) # uncomment to play Othello on a square board of the given size
     #state = OXOState() # uncomment to play OXO
     #state = NimState(15) # uncomment to play Nim with the given number of starting chips
-    state = GoState(6)
-    state.board=[[2, 2, 2, 2, 1, 0], [2, 2, 2, 2, 1, 1], [2, 0, 2, 2, 2, 2], [2, 2, 2, 2, 2, 2], [2, 2, 2, 0, 2, 2], [2, 2, 2, 2, 1, 0]]
+    state = GoState(4)
+    #state.board=[[2, 2, 2, 2, 1, 0], [2, 2, 2, 2, 1, 1], [2, 0, 2, 2, 2, 2], [2, 2, 2, 2, 2, 2], [2, 2, 2, 0, 2, 2], [2, 2, 2, 2, 1, 0]]
     while (state.GetMoves() != []):
         print(str(state))
         if state.playerJustMoved == 1:
-            m = UCT(rootstate = state, itermax = 3, verbose = False) # play with values for itermax and verbose = True
+            m = UCT(rootstate = state, itermax = 60, verbose = False) # play with values for itermax and verbose = True
         else:
-            m = UCT(rootstate = state, itermax = 3, verbose = False)
+            m = UCT(rootstate = state, itermax = 10, verbose = False)
         print("Best Move: " + str(m) + "\n")
         #print(state.board)
         state.DoMove(m)
@@ -489,12 +490,10 @@ def UCTPlayGame():
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players.
 """
-    a=GoState(6)
+    a=GoState(2)
     a.points2=0
     a.board=[[2, 2, 2, 2, 1, 0], [2, 2, 2, 2, 1, 1], [2, 0, 2, 2, 2, 2], [2, 2, 2, 2, 2, 2], [2, 2, 2, 0, 2, 2], [2, 2, 2, 2, 1, 0]]
-    a.GetResult(1)
-    print(a.points1)
-    print(a.points2)
+
     #a.lastboard=[[1,0],[0,0]]
     #print(a.CheckNB(1,1))
     #print(a.board)
@@ -509,7 +508,7 @@ if __name__ == "__main__":
 
 
 
-    #UCTPlayGame()
+    UCTPlayGame()
 
 
     #TODO : COmmunication with GTP /The pass problem : Solution  add a move pass (-1,-1), can be play only when the last mvoe wasn't pass.

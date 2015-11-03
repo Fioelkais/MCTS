@@ -10,17 +10,6 @@ class Prompt(cmd.Cmd):
     komi=0
     a.points2=komi
 
-    # ----- basic turtle commands -----
-    def do_printsomething(self, arg):
-        'Move the turtle forward by the specified distance:  FORWARD 10'
-        print(arg)
-
-
-    def do_bye(self, arg):
-        'Stop recording, close the turtle window, and exit:  BYE'
-        print('Thank you for using Turtle')
-        return True
-
     def do_boardsize(self,arg):
         print('=')
         print('')
@@ -68,7 +57,7 @@ class Prompt(cmd.Cmd):
     def do_genmove(self,arg):
         if(arg=='w'):
             self.a.playerJustMoved=1
-            move=UCT(rootstate = self.a, itermax = 40, verbose = False)
+            move=UCT(rootstate = self.a, itermax = 100, verbose = False)
             self.a.DoMove(move)
             result = self.inttogtp(move[0],move[1])
             if result[0]=="@" and result[1]==self.size+1:
@@ -78,7 +67,7 @@ class Prompt(cmd.Cmd):
                 print('= '+result2 +'\n')
         if (arg=='b'):
             self.a.playerJustMoved=2
-            move=UCT(rootstate = self.a, itermax = 40, verbose = False)
+            move=UCT(rootstate = self.a, itermax = 100, verbose = False)
             self.a.DoMove(move)
             result=self.inttogtp(move[0],move[1])
             if result[0]=="@" and result[1]==self.size+1:
@@ -111,7 +100,8 @@ class Prompt(cmd.Cmd):
         print('= genmove'+ '\n' +'genmove_black'+ '\n'+'genmove_white'+ '\n'+'black'+ '\n'+'white'+ '\n'+'play'+ '\n'+'version'+ '\n'+'name'+ '\n'+'boardsize'+ '\n'+'clear_board'+ '\n')
 
     def do_quit(self,arg):
-        self.close()
+        return True
+
     def gtptoint(self,letter,number):
         x=self.a.size-number
         y= ord(letter)-65
