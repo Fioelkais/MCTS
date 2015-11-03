@@ -59,7 +59,7 @@ class GoState:
         self.board = [[0] * size for _ in range(size)]
         self.lastboard = [[0] * size for _ in range(size)]
         self.points1 = 0
-        self.points2 = 6.5
+        self.points2 = 0
         self.size = size
         self.lastpass= False
         #KOMI TODO

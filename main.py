@@ -7,7 +7,7 @@ class Prompt(cmd.Cmd):
 
     a=GoState(4)
     size=4
-    komi=6.5
+    komi=0
     a.points2=komi
 
     # ----- basic turtle commands -----
@@ -68,7 +68,7 @@ class Prompt(cmd.Cmd):
     def do_genmove(self,arg):
         if(arg=='w'):
             self.a.playerJustMoved=1
-            move=UCT(rootstate = self.a, itermax = 1, verbose = False)
+            move=UCT(rootstate = self.a, itermax = 40, verbose = False)
             self.a.DoMove(move)
             result = self.inttogtp(move[0],move[1])
             if result[0]=="@" and result[1]==self.size+1:
@@ -78,7 +78,7 @@ class Prompt(cmd.Cmd):
                 print('= '+result2 +'\n')
         if (arg=='b'):
             self.a.playerJustMoved=2
-            move=UCT(rootstate = self.a, itermax = 1, verbose = False)
+            move=UCT(rootstate = self.a, itermax = 40, verbose = False)
             self.a.DoMove(move)
             result=self.inttogtp(move[0],move[1])
             if result[0]=="@" and result[1]==self.size+1:
@@ -110,6 +110,8 @@ class Prompt(cmd.Cmd):
     def do_list_commands(self,arg):
         print('= genmove'+ '\n' +'genmove_black'+ '\n'+'genmove_white'+ '\n'+'black'+ '\n'+'white'+ '\n'+'play'+ '\n'+'version'+ '\n'+'name'+ '\n'+'boardsize'+ '\n'+'clear_board'+ '\n')
 
+    def do_quit(self,arg):
+        self.close()
     def gtptoint(self,letter,number):
         x=self.a.size-number
         y= ord(letter)-65
