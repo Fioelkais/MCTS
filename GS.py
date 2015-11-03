@@ -456,8 +456,8 @@ def UCT(rootstate, itermax, verbose = False):
 
 
     # Output some information about the tree - can be omitted
-    if (verbose): print (rootnode.TreeToString(0))
-    else: print (rootnode.ChildrenToString())
+    #if (verbose): print (rootnode.TreeToString(0))
+    #else: print (rootnode.ChildrenToString())
 
     return sorted(rootnode.childNodes, key = lambda c: c.visits)[-1].move # return the move that was most visited
 
