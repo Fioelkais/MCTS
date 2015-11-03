@@ -5,9 +5,10 @@ from init import *
 class Prompt(cmd.Cmd):
     prompt = ''
 
-    a=GoState(5)
-    size=5
-
+    a=GoState(4)
+    size=4
+    komi=6.5
+    a.points2=komi
 
     # ----- basic turtle commands -----
     def do_printsomething(self, arg):
@@ -24,17 +25,18 @@ class Prompt(cmd.Cmd):
         print('=')
         print('')
         self.a.size=int(arg)
+        self.size=int(arg)
+        self.a.__init__(self.size)
 
     def do_clear_board(self,arg):
         print('=')
         print('')
         self.a.__init__(self.size)
-
+        self.a.points2=self.komi
 
     def do_komi(self,arg):
         print('='+'\n')
-        x=[(i,j) for i in range(2) for j in range(2)]
-        print(x)
+        self.komi=int(arg)
 
     def do_play(self,arg):
         print(arg)
@@ -46,13 +48,30 @@ class Prompt(cmd.Cmd):
         number = ''.join([i for i in test[1] if i.isdigit()])
         print (number)
         print(gtptoint(letter,int(number)))
+        if test[0]=="B":
+            self.a.playerJustMoved=2
+            self.a.DoMove(gtptoint(letter,int(number)))
+        if test[0]=="W":
+            self.a.playerJustMoved=1
+            self.a.DoMove(gtptoint(letter,int(number)))
+        print('='+'\n')
 
     def do_genmove(self,arg):
-        print('A1')
-        if(arg=='white'):
-            print('w')
-        if (arg=='black'):
-            print('b')
+        if(arg=='w'):
+            self.a.playerJustMoved=1
+            move=UCT(rootstate = self.a, itermax = 1, verbose = False)
+            self.a.DoMove(move)
+            result = inttogtp(move[0],move[1])
+            result2 =str(result[0])+str(result[1])
+            print('= '+result2 +'\n')
+        if (arg=='b'):
+            self.a.playerJustMoved=2
+            move=UCT(rootstate = self.a, itermax = 1, verbose = False)
+            self.a.DoMove(move)
+            result=inttogtp(move[0],move[1])
+            result2 =str(result[0])+str(result[1])
+            print('= '+result2 +'\n')
+
 
     def do_genmove_black(self,arg):
         print('= A1')
