@@ -1,4 +1,5 @@
 __author__ = 'admin'
+__author__ = 'admin'
 from math import *
 import random
 import queue
@@ -62,6 +63,7 @@ class GoState:
         self.points2 = 0
         self.size = size
         self.lastpass= False
+        self.kopos=(-2,-2)
         #KOMI TODO
 
     def Clone(self):
@@ -75,6 +77,7 @@ class GoState:
         st.points2=self.points2
         st.size=self.size
         st.lastpass=self.lastpass
+        st.kopos=self.kopos
         return st
 
     def DoMove(self,move):
@@ -135,6 +138,7 @@ class GoState:
     return a board updated
     """
     def CheckAlive(self,brd,x,y,color):
+        change=False
         st=brd
         q = queue.Queue()
         checked = [[False] * self.size for _ in range(self.size)]
@@ -508,7 +512,10 @@ if __name__ == "__main__":
     #MakeSet(a)
 
 
-    UCTPlayGame()
+    #UCTPlayGame()
+
+    b = [[NodeUF()] * 3 for _ in range(3)]
+    print(b[0][0].color)
 
 
     #TODO : COmmunication with GTP /The pass problem : Solution  add a move pass (-1,-1), can be play only when the last mvoe wasn't pass.
