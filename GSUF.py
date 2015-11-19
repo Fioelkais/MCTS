@@ -514,8 +514,7 @@ if __name__ == "__main__":
 
     #UCTPlayGame()
 
-    b = [[NodeUF()] * 3 for _ in range(3)]
-    print(b[0][0].color)
+    #b = [[NodeUF()] * 3 for _ in range(3)]
 
 
     #TODO : COmmunication with GTP /The pass problem : Solution  add a move pass (-1,-1), can be play only when the last mvoe wasn't pass.

@@ -9,7 +9,7 @@ class NodeUF(object):
         self.liberty=0
         self.children = []
     def __str__(self):
-        return self.value
+        return self.rank
 
 def Create(values):
     l = [NodeUF(value) for value in values]
@@ -45,3 +45,26 @@ def Find(x):
      else:
         x.parent = Find(x.parent)
         return x.parent
+
+
+"""Unit test to verify the methods of UF"""
+b = [[NodeUF() for x in range(3)] for x in range(3)]
+print(b[0][0].color)
+
+
+b[0][1].color= 2
+b[0][0].color= 1
+b[0][2].color = 3
+print(b[0][0].color)
+print(b[0][1].color)
+
+Union(b[0][1],b[0][0])
+Union(b[0][1],b[0][2])
+
+print(Find(b[0][0]).color)
+
+
+for i in Find(b[0][0]).children:
+    print(i.color)
+    #i.color=25
+#    print(b[0][0].color)
