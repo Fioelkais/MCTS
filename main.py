@@ -4,7 +4,7 @@ from GS import *
 from init import *
 class Prompt(cmd.Cmd):
     prompt = ''
-
+    file=None
     a=GoState(4)
     size=4
     komi=0
@@ -89,7 +89,7 @@ class Prompt(cmd.Cmd):
         print('')
 
     def do_name(self,arg):
-        print('= MCTSTV')
+        print('= V-Run')
         print('')
 
     def do_protocol_version(self,arg):
@@ -108,7 +108,10 @@ class Prompt(cmd.Cmd):
         if(y>7):
             y=y-1
         return(x,y)
-
+    def close(self):
+        if self.file:
+            self.file.close()
+            self.file = None
 
     def inttogtp(self,x,y):
         if(y>=8):
@@ -119,3 +122,4 @@ class Prompt(cmd.Cmd):
 
 if __name__ == '__main__':
     Prompt().cmdloop()
+

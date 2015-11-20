@@ -84,6 +84,8 @@ if __name__ == "__main__":
     print(b[2][2].color,"test")
 
     print(len(b[0][0].liberty),"length")
+    for i in range(3):
+        print(i,"range")
 
     for i in Find(b[0][0]).children:
         print(i.color)
