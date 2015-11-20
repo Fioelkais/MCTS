@@ -57,13 +57,11 @@ A board of 19*19 intersections
 class GoState:
     def __init__(self, size):
         self.playerJustMoved = 2 # At the root pretend the player just moved is p2 - p1 has the first move
-        self.board = [[0] * size for _ in range(size)]
-        self.lastboard = [[0] * size for _ in range(size)]
+        self.board = [[NodeUF() for x in range(size)] for x in range(size)]
         self.points1 = 0
         self.points2 = 0
         self.size = size
         self.lastpass= False
-        self.kopos=(-2,-2)
         #KOMI TODO
 
     def Clone(self):
@@ -71,13 +69,11 @@ class GoState:
         """
         st = GoState(self.size)
         st.board=copy.deepcopy(self.board [:])
-        st.lastboard=copy.deepcopy(self.lastboard [:])
         st.playerJustMoved = self.playerJustMoved
         st.points1=self.points1
         st.points2=self.points2
         st.size=self.size
         st.lastpass=self.lastpass
-        st.kopos=self.kopos
         return st
 
     def DoMove(self,move):
@@ -87,206 +83,135 @@ class GoState:
             self.lastpass=True
         else:
             self.lastpass=False
-            self.lastboard=self.board
             (x,y)=(move[0],move[1])
-            self.board[x][y]= 3 - self.playerJustMoved
-            #print(self.CheckNB(move[0],move[1]))
+            self.board[x][y].color = 3 - self.playerJustMoved
 
-            self.board=self.CheckNB(move[0],move[1])
+            if x>0:
+                if(self.board[x-1][y].color==0):
+                    self.board[x][y].liberty.append(self.board[x-1][y])
+            if y>0:
+                if(self.board[x][y-1].color==0):
+                    self.board[x][y].liberty.append(self.board[x][y-1])
+
+            if x<self.size-1:
+                if(self.board[x+1][y].color==0):
+                    self.board[x][y].liberty.append(self.board[x+1][y])
+
+            if y <self.size-1:
+                if(self.board[x][y+1].color==0):
+                    self.board[x][y].liberty.append(self.board[x][y+1])
+
+
+            if x>0:
+                if(self.board[x-1][y].color==3-self.playerJustMoved):
+                    Union(self.board[x][y],self.board[x-1][y])
+
+                if(self.board[x-1][y].color==self.playerJustMoved):
+                    Find(self.board[x-1][y]).liberty.remove(self.board[x][y])
+                    if len(Find(self.board[x-1][y]).liberty)==0:
+                        a=Find(self.board[x-1][y])
+                        for i in a.children: #attention est ce que ca ne detruit pas la recherche du noeud
+                            i.parent=i
+                            i.color=0
+                            i.rank=0
+                            i.liberty=[]
+                            i.children=[]
+                        a.parent=a
+                        a.color=0
+                        a.rank=0
+                        a.liberty=[]
+                        a.liberty=[]
+                        a.children=[]
+
+            if y>0:
+                if(self.board[x][y-1].color==3-self.playerJustMoved):
+                    Union(self.board[x][y],self.board[x][y-1])
+
+                if(self.board[x][y-1].color==self.playerJustMoved):
+                    Find(self.board[x][y-1]).liberty.remove(self.board[x][y])
+                    if len(Find(self.board[x][y-1]).liberty)==0:
+                        a=Find(self.board[x][y-1])
+                        for i in a.children: #attention est ce que ca ne detruit pas la recherche du noeud
+                            i.parent=i
+                            i.color=0
+                            i.rank=0
+                            i.liberty=[]
+                            i.children=[]
+                        a.parent=a
+                        a.color=0
+                        a.rank=0
+                        a.liberty=[]
+                        a.liberty=[]
+                        a.children=[]
+
+            if x<self.size-1:
+                if(self.board[x+1][y].color==3-self.playerJustMoved):
+                    Union(self.board[x][y],self.board[x+1][y])
+
+                if(self.board[x+1][y].color==self.playerJustMoved):
+                    Find(self.board[x+1][y]).liberty.remove(self.board[x][y])
+                    if len(Find(self.board[x+1][y]).liberty)==0:
+                        a=Find(self.board[x+1][y])
+                        for i in a.children: #attention est ce que ca ne detruit pas la recherche du noeud
+                            i.parent=i
+                            i.color=0
+                            i.rank=0
+                            i.liberty=[]
+                            i.children=[]
+                        a.parent=a
+                        a.color=0
+                        a.rank=0
+                        a.liberty=[]
+                        a.liberty=[]
+                        a.children=[]
+
+            if y <self.size-1:
+                if(self.board[x][y+1].color==3-self.playerJustMoved):
+                    Union(self.board[x][y],self.board[x][y+1])
+
+                if(self.board[x][y+1].color==self.playerJustMoved):
+                    Find(self.board[x][y+1]).liberty.remove(self.board[x][y])
+                    if len(Find(self.board[x][y+1]).liberty)==0:
+                        a=Find(self.board[x][y+1])
+                        for i in a.children: #attention est ce que ca ne detruit pas la recherche du noeud
+                            i.parent=i
+                            i.color=0
+                            i.rank=0
+                            i.liberty=[]
+                            i.children=[]
+                        a.parent=a
+                        a.color=0
+                        a.rank=0
+                        a.liberty=[]
+                        a.liberty=[]
+                        a.children=[]
+
+
             self.playerJustMoved = 3 - self.playerJustMoved
 
-
-    def CheckKo(self, x,y):
-        st=self.Clone()
-        return  self.lastboard!=st.CheckNB(x,y)
-
-
-    """
-    When we play a stone of a color we have to check if there is another stone of the other color in neighbour.
-    If yes, checked if it's alive
-    """
-    def CheckNB(self,x,y):
-        st=copy.deepcopy(self.board)
-        color= 3-self.playerJustMoved
-        st[x][y]=color
+    def Check(self,x,y):
+        check=False
         if x>0:
-            if(st[x-1][y]==3-color):
-                st= self.CheckAlive(st,x-1,y,3-color)
-                #print("test")
+            if(self.board[x-1][y].color==0 or len(Find(self.board[x-1][y]).liberty)==1):
+                check= True
         if y>0:
-            if(st[x][y-1]==3-color):
-                st= self.CheckAlive(st,x,y-1,3-color)
-                #print("test")
-
+            if(self.board[x][y-1].color==0 or len(Find(self.board[x][y-1]).liberty)==1):
+                check= True
 
         if x<self.size-1:
-            if(st[x+1][y]==3-color):
-                st= self.CheckAlive(st,x+1,y,3-color)
-                #print("test")
+            if(self.board[x+1][y].color==0 or len(Find(self.board[x+1][y]).liberty)==1):
+                check= True
 
         if y <self.size-1:
-            if(st[x][y+1]==3-color):
-                st= self.CheckAlive(st,x,y+1,3-color)
-                #print("test")
-        return st
-
-
-    """
-    Check from a stone of a color all the neighbouring stones and liberties to see if the group of >=1 stone is alive or not
-    Do it with a queue to add in the queue all the neighbouring stone of the same color. Stop when the queue is empty( no liberty)
-    or when a liberty is found
-    return a board updated
-    """
-    def CheckAlive(self,brd,x,y,color):
-        change=False
-        st=brd
-        q = queue.Queue()
-        checked = [[False] * self.size for _ in range(self.size)]
-        q.put((x,y))
-        NoLib=True
-        while (q.empty()==False and NoLib==True):
-            pos=q.get()
-            #print(pos)
-            checked[pos[0]][pos[1]]=True
-            if pos[0]>0:
-                if (st[pos[0]-1][pos[1]]==0):
-                    NoLib=False
-                if (st[pos[0]-1][pos[1]]==color and checked[pos[0]-1][pos[1]]==False):
-                    q.put((pos[0]-1,pos[1]))
-
-            if pos[0]<self.size-1:
-                if (st[pos[0]+1][pos[1]]==0):
-                    NoLib=False
-                if (st[pos[0]+1][pos[1]]==color and checked[pos[0]+1][pos[1]]==False):
-                    q.put((pos[0]+1,pos[1]))
-            if pos[1]>0:
-                if (st[pos[0]][pos[1]-1]==0):
-                    NoLib=False
-                if (st[pos[0]][pos[1]-1]==color and checked[pos[0]][pos[1]-1]==False):
-                    q.put((pos[0],pos[1]-1))
-
-            if pos[1]<self.size-1:
-                if (st[pos[0]][pos[1]+1]==0):
-                    NoLib=False
-                if (st[pos[0]][pos[1]+1]==color and checked[pos[0]][pos[1]+1]==False):
-                    q.put((pos[0],pos[1]+1))
-        #If no liberties for the group, we have to remove it from the board
-        if(NoLib==True):
-            q.put((x,y))
-            while (q.empty()==False):
-                pos=q.get()
-                st[pos[0]][pos[1]]=0
-                #Computations of prisonners IF THERE IS NO COMPUTATION OF PRISONNERS IN SCORE LOOK HERE
-                if(color==2):
-                    self.points1+=1
-                else:
-                    self.points2+=1
-                if pos[0]>0:
-                    if (st[pos[0]-1][pos[1]]==color):
-                        q.put((pos[0]-1,pos[1]))
-                if pos[0]<self.size-1:
-                    if (st[pos[0]+1][pos[1]]==color ):
-                        q.put((pos[0]+1,pos[1]))
-                if pos[1]>0:
-                    if (st[pos[0]][pos[1]-1]==color):
-                        q.put((pos[0],pos[1]-1))
-                if pos[1]<self.size-1:
-                    if (st[pos[0]][pos[1]+1]==color ):
-                        q.put((pos[0],pos[1]+1))
-
-        return st
-
-    """
-    return True if the group is alive
-    """
-    def CheckAliveB(self,brd,x,y,color):
-        st=brd
-        q = queue.Queue()
-        checked = [[False] * self.size for _ in range(self.size)]
-        q.put((x,y))
-        NoLib=True
-        while (q.empty()==False and NoLib==True):
-            pos=q.get()
-            checked[pos[0]][pos[1]]=True
-            if pos[0]>0:
-                if (st[pos[0]-1][pos[1]]==0):
-                    NoLib=False
-                if (st[pos[0]-1][pos[1]]==color and checked[pos[0]-1][pos[1]]==False):
-                    q.put((pos[0]-1,pos[1]))
-
-            if pos[0]<self.size-1:
-                if (st[pos[0]+1][pos[1]]==0):
-                    NoLib=False
-                if (st[pos[0]+1][pos[1]]==color and checked[pos[0]+1][pos[1]]==False):
-                    q.put((pos[0]+1,pos[1]))
-            if pos[1]>0:
-                if (st[pos[0]][pos[1]-1]==0):
-                    NoLib=False
-                if (st[pos[0]][pos[1]-1]==color and checked[pos[0]][pos[1]-1]==False):
-                    q.put((pos[0],pos[1]-1))
-
-            if pos[1]<self.size-1:
-                if (st[pos[0]][pos[1]+1]==0):
-                    NoLib=False
-                if (st[pos[0]][pos[1]+1]==color and checked[pos[0]][pos[1]+1]==False):
-                    q.put((pos[0],pos[1]+1))
-        return not NoLib
-    def CheckNBB(self,brd,x,y):
-        st=brd
-        color= 3-self.playerJustMoved
-        hasnb=False
-        st[x][y]=color
-        if x>0:
-            if(st[x-1][y]==0):
-                hasnb=True
-            elif st[x-1][y]==3-color:
-                if not self.CheckAliveB(st,x-1,y,3-color):
-                    hasnb=True
-            elif st[x-1][y]==color:
-                if self.CheckAliveB(st,x-1,y,color):
-                    hasnb=True
-
-        if y>0:
-            if(st[x][y-1]==0):
-                hasnb=True
-            elif st[x][y-1]==3-color:
-                if not self.CheckAliveB(st,x,y-1,3-color):
-                    hasnb=True
-            elif st[x][y-1]==color:
-                if self.CheckAliveB(st,x,y-1,color):
-                    hasnb=True
-
-        if x<self.size-1:
-            if(st[x+1][y]==0):
-                hasnb=True
-            elif st[x+1][y]==3-color:
-                if not self.CheckAliveB(st,x+1,y,3-color):
-                    hasnb=True
-            elif st[x+1][y]==color:
-                if self.CheckAliveB(st,x+1,y,color):
-                    hasnb=True
-
-        if y<self.size-1 :
-            if(st[x][y+1]==0):
-                hasnb=True
-            elif st[x][y+1]==3-color:
-                if not self.CheckAliveB(st,x,y+1,3-color):
-                    hasnb=True
-            elif st[x][y+1]==color:
-                if self.CheckAliveB(st,x,y+1,color):
-                    hasnb=True
-
-        st[x][y]=0
-        return hasnb
+            if(self.board[x][y+1].color==0 or len(Find(self.board[x][y+1]).liberty)==1):
+                check= True
+        return check
 
     def GetMoves(self):
-        #print(self.board)
-        #return [(i,i) for i in range(self.size)  if self.board[i][i] == 0]
-        st=self.Clone()
         if self.lastpass==True:
-            return [(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j] == 0 and st.CheckNBB(st.board,i,j) and st.CheckKo(i,j)]# and  not self.CheckNBB(i,j)]
+            return [(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j] == 0 and self.Check(i,j)]#
         else :
-            a =list([(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j] == 0 and st.CheckNBB(st.board,i,j) and st.CheckKo(i,j)])
+            a =list([(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j] == 0 and self.Check(i,j)])
             a.append((-1,-1))
             return a
         #ATTENTION AU KO ! TODO
@@ -495,8 +420,17 @@ if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players.
 """
     a=GoState(2)
-    a.points2=0
-    a.board=[[2, 2, 2, 2, 1, 0], [2, 2, 2, 2, 1, 1], [2, 0, 2, 2, 2, 2], [2, 2, 2, 2, 2, 2], [2, 2, 2, 0, 2, 2], [2, 2, 2, 2, 1, 0]]
+    a.DoMove((0,0))
+
+    print(a.board[0][0].color)
+    a.DoMove((0,1))
+    print(a.board[0][1].liberty)
+    a.DoMove((1,1))
+    print(a.board[0][1].color)
+
+
+    #a.points2=0
+    #a.board=[[2, 2, 2, 2, 1, 0], [2, 2, 2, 2, 1, 1], [2, 0, 2, 2, 2, 2], [2, 2, 2, 2, 2, 2], [2, 2, 2, 0, 2, 2], [2, 2, 2, 2, 1, 0]]
 
     #a.lastboard=[[1,0],[0,0]]
     #print(a.CheckNB(1,1))
