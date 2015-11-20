@@ -58,6 +58,10 @@ class GoState:
     def __init__(self, size):
         self.playerJustMoved = 2 # At the root pretend the player just moved is p2 - p1 has the first move
         self.board = [[NodeUF() for x in range(size)] for x in range(size)]
+        for i in range(size):
+            for j in range(size) :
+                self.board[i][j].x=i
+                self.board[i][j].y=j
         self.points1 = 0
         self.points2 = 0
         self.size = size
@@ -109,19 +113,8 @@ class GoState:
                 if(self.board[x-1][y].color==self.playerJustMoved):
                     Find(self.board[x-1][y]).liberty.remove(self.board[x][y])
                     if len(Find(self.board[x-1][y]).liberty)==0:
-                        a=Find(self.board[x-1][y])
-                        for i in a.children: #attention est ce que ca ne detruit pas la recherche du noeud
-                            i.parent=i
-                            i.color=0
-                            i.rank=0
-                            i.liberty=[]
-                            i.children=[]
-                        a.parent=a
-                        a.color=0
-                        a.rank=0
-                        a.liberty=[]
-                        a.liberty=[]
-                        a.children=[]
+                        self.Destroy(x-1,y)
+
 
             if y>0:
                 if(self.board[x][y-1].color==3-self.playerJustMoved):
@@ -130,19 +123,7 @@ class GoState:
                 if(self.board[x][y-1].color==self.playerJustMoved):
                     Find(self.board[x][y-1]).liberty.remove(self.board[x][y])
                     if len(Find(self.board[x][y-1]).liberty)==0:
-                        a=Find(self.board[x][y-1])
-                        for i in a.children: #attention est ce que ca ne detruit pas la recherche du noeud
-                            i.parent=i
-                            i.color=0
-                            i.rank=0
-                            i.liberty=[]
-                            i.children=[]
-                        a.parent=a
-                        a.color=0
-                        a.rank=0
-                        a.liberty=[]
-                        a.liberty=[]
-                        a.children=[]
+                        self.Destroy(x,y-1)
 
             if x<self.size-1:
                 if(self.board[x+1][y].color==3-self.playerJustMoved):
@@ -151,19 +132,7 @@ class GoState:
                 if(self.board[x+1][y].color==self.playerJustMoved):
                     Find(self.board[x+1][y]).liberty.remove(self.board[x][y])
                     if len(Find(self.board[x+1][y]).liberty)==0:
-                        a=Find(self.board[x+1][y])
-                        for i in a.children: #attention est ce que ca ne detruit pas la recherche du noeud
-                            i.parent=i
-                            i.color=0
-                            i.rank=0
-                            i.liberty=[]
-                            i.children=[]
-                        a.parent=a
-                        a.color=0
-                        a.rank=0
-                        a.liberty=[]
-                        a.liberty=[]
-                        a.children=[]
+                       self.Destroy(x+1,y)
 
             if y <self.size-1:
                 if(self.board[x][y+1].color==3-self.playerJustMoved):
@@ -172,22 +141,39 @@ class GoState:
                 if(self.board[x][y+1].color==self.playerJustMoved):
                     Find(self.board[x][y+1]).liberty.remove(self.board[x][y])
                     if len(Find(self.board[x][y+1]).liberty)==0:
-                        a=Find(self.board[x][y+1])
-                        for i in a.children: #attention est ce que ca ne detruit pas la recherche du noeud
-                            i.parent=i
-                            i.color=0
-                            i.rank=0
-                            i.liberty=[]
-                            i.children=[]
-                        a.parent=a
-                        a.color=0
-                        a.rank=0
-                        a.liberty=[]
-                        a.liberty=[]
-                        a.children=[]
+                        self.Destroy(x,y+1)
 
 
             self.playerJustMoved = 3 - self.playerJustMoved
+
+    def Destroy(self,x,y):
+        a=Find(self.board[x][y])
+        a.children.append(a)
+        for i in a.children:
+            #attention est ce que ca ne detruit pas la recherche du noeud
+            #give the liberties freed to the corresponding groups
+            if i.x>0:
+                if(self.board[i.x-1][y].color==3-self.playerJustMoved):
+                    Find(self.board[i.x-1][i.y]).liberty.extend([i])
+
+            if i.y>0:
+                if(self.board[x][y-1].color==3-self.playerJustMoved):
+                    Find(self.board[i.x][i.y-1]).liberty.extend([i])
+
+            if i.x<self.size-1:
+                if(self.board[x+1][y].color==3-self.playerJustMoved):
+                    Find(self.board[i.x+1][i.y]).liberty.extend([i])
+
+
+            if i.y <self.size-1:
+                if(self.board[x][y+1].color==3-self.playerJustMoved):
+                    Find(self.board[i.x][i.y+1]).liberty.extend([i])
+
+            i.parent=i
+            i.color=0
+            i.rank=0
+            i.liberty=[]
+            i.children=[]
 
     def Check(self,x,y):
         check=False
@@ -209,9 +195,9 @@ class GoState:
 
     def GetMoves(self):
         if self.lastpass==True:
-            return [(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j] == 0 and self.Check(i,j)]#
+            return [(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j].color == 0 and self.Check(i,j)]#
         else :
-            a =list([(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j] == 0 and self.Check(i,j)])
+            a =list([(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j].color == 0 and self.Check(i,j)])
             a.append((-1,-1))
             return a
         #ATTENTION AU KO ! TODO
@@ -221,7 +207,7 @@ class GoState:
         q = queue.Queue()
         for i in range(self.size):
             for j in range (self.size):
-                if(self.board[i][j]==0 and checked[i][j]==False):
+                if(self.board[i][j].color==0 and checked[i][j]==False):
                     q.put((i,j))
                     b=False
                     w=False
@@ -233,37 +219,37 @@ class GoState:
                         checked[pos[0]][pos[1]]=True
                         count+=1
                         if(pos[0]>0):
-                            if (self.board[pos[0]-1][pos[1]]==0 and checked[pos[0]-1][pos[1]]==False):
+                            if (self.board[pos[0]-1][pos[1]].color==0 and checked[pos[0]-1][pos[1]]==False):
                                 #print((pos[0]-1,pos[1]))
                                 print(checked[pos[0]-1][pos[1]])
                                 q.put((pos[0]-1,pos[1]))
-                            if (self.board[pos[0]-1][pos[1]]==1):
+                            if (self.board[pos[0]-1][pos[1]].color==1):
                                 b=True
-                            if (self.board[pos[0]-1][pos[1]]==2):
+                            if (self.board[pos[0]-1][pos[1]].color==2):
                                 w=True
 
                         if(pos[0]<self.size-1):
-                            if (self.board[pos[0]+1][pos[1]]==0 and checked[pos[0]+1][pos[1]]==False ):
+                            if (self.board[pos[0]+1][pos[1]].color==0 and checked[pos[0]+1][pos[1]]==False ):
                                 q.put((pos[0]+1,pos[1]))
-                            if (self.board[pos[0]+1][pos[1]]==1):
+                            if (self.board[pos[0]+1][pos[1]].color==1):
                                 b=True
-                            if (self.board[pos[0]+1][pos[1]]==2):
+                            if (self.board[pos[0]+1][pos[1]].color==2):
                                 w=True
 
                         if(pos[1]>0):
-                            if (self.board[pos[0]][pos[1]-1]==0 and checked[pos[0]][pos[1]-1]==False):
+                            if (self.board[pos[0]][pos[1]-1].color==0 and checked[pos[0]][pos[1]-1]==False):
                                 q.put((pos[0],pos[1]-1))
-                            if (self.board[pos[0]][pos[1]-1]==1):
+                            if (self.board[pos[0]][pos[1]-1].color==1):
                                 b=True
-                            if (self.board[pos[0]][pos[1]-1]==2):
+                            if (self.board[pos[0]][pos[1]-1].color==2):
                                 w=True
 
                         if(pos[1]<self.size-1):
-                            if (self.board[pos[0]][pos[1]+1]==0 and checked[pos[0]][pos[1]+1]==False):
+                            if (self.board[pos[0]][pos[1]+1].color==0 and checked[pos[0]][pos[1]+1]==False):
                                 q.put((pos[0],pos[1]+1))
-                            if (self.board[pos[0]][pos[1]+1]==1):
+                            if (self.board[pos[0]][pos[1]+1].color==1):
                                 b=True
-                            if (self.board[pos[0]][pos[1]+1]==2):
+                            if (self.board[pos[0]][pos[1]+1].color==2):
                                 w=True
 
                     if b and not w :
@@ -282,7 +268,6 @@ class GoState:
         win1= self.points1>self.points2
         if (player==1 and win1) or (player==2 and not win1):
             return 1.0
-            print("test")
         else:
             return 0.0
 
@@ -398,14 +383,14 @@ def UCTPlayGame():
     #state = OthelloState(4) # uncomment to play Othello on a square board of the given size
     #state = OXOState() # uncomment to play OXO
     #state = NimState(15) # uncomment to play Nim with the given number of starting chips
-    state = GoState(3)
+    state = GoState(9)
     #state.board=[[2, 2, 2, 2, 1, 0], [2, 2, 2, 2, 1, 1], [2, 0, 2, 2, 2, 2], [2, 2, 2, 2, 2, 2], [2, 2, 2, 0, 2, 2], [2, 2, 2, 2, 1, 0]]
     while (state.GetMoves() != []):
         print(str(state))
         if state.playerJustMoved == 1:
-            m = UCT(rootstate = state, itermax = 50, verbose = False) # play with values for itermax and verbose = True
+            m = UCT(rootstate = state, itermax = 200, verbose = False) # play with values for itermax and verbose = True
         else:
-            m = UCT(rootstate = state, itermax = 50, verbose = False)
+            m = UCT(rootstate = state, itermax = 200, verbose = False)
         print("Best Move: " + str(m) + "\n")
         #print(state.board)
         state.DoMove(m)
@@ -425,9 +410,12 @@ if __name__ == "__main__":
     print(a.board[0][0].color)
     a.DoMove((0,1))
     print(a.board[0][1].liberty)
-    a.DoMove((1,1))
-    print(a.board[0][1].color)
 
+    #print(a.board[0][0].)
+    a.DoMove((1,1))
+    #print(a.board[0][1].color)
+    #print(a.board[1][1].liberty)
+    print(a.GetMoves())
 
     #a.points2=0
     #a.board=[[2, 2, 2, 2, 1, 0], [2, 2, 2, 2, 1, 1], [2, 0, 2, 2, 2, 2], [2, 2, 2, 2, 2, 2], [2, 2, 2, 0, 2, 2], [2, 2, 2, 2, 1, 0]]
@@ -446,7 +434,7 @@ if __name__ == "__main__":
     #MakeSet(a)
 
 
-    #UCTPlayGame()
+    UCTPlayGame()
 
     #b = [[NodeUF()] * 3 for _ in range(3)]
 

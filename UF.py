@@ -8,6 +8,8 @@ class NodeUF(object):
         self.color=0
         self.liberty=[]
         self.children = []
+        self.x=0
+        self.y=0
     def __str__(self):
         return self.rank
 
