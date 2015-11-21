@@ -219,6 +219,7 @@ class GoState:
             a =list([(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j].color == 0 and self.Check(i,j)])
             a.append((-1,-1))
             if len(self.komove)==1:
+                a.extend([self.komove[0]])
                 a.remove(self.komove[0])
                 self.komove.clear()
             return a
@@ -380,7 +381,6 @@ def UCT(rootstate, itermax, verbose = False):
     for i in range(itermax):
         node = rootnode
         state = rootstate.Clone()
-        #state.board=[[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 
 
         # Select
@@ -421,13 +421,13 @@ def UCTPlayGame():
     """ Play a sample game between two UCT players where each player gets a different number
         of UCT iterations (= simulations = tree nodes).
     """
-    state = GoState(6)
+    state = GoState(9)
     while (state.GetMoves() != []):
         print(str(state))
         if state.playerJustMoved == 1:
-            m = UCT(rootstate = state, itermax = 500, verbose = False) # play with values for itermax and verbose = True
+            m = UCT(rootstate = state, itermax = 1000, verbose = False) # play with values for itermax and verbose = True
         else:
-            m = UCT(rootstate = state, itermax = 50, verbose = False)
+            m = UCT(rootstate = state, itermax = 1000, verbose = False)
         print("Best Move: " + str(m) + "\n")
         state.DoMove(m)
         print(state.board)
@@ -467,7 +467,7 @@ if __name__ == "__main__":
     #a.DoMove((2,1))
     #print(a.board)
 
-    #UCTPlayGame()
+    UCTPlayGame()
 
 
 
