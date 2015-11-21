@@ -66,6 +66,7 @@ class GoState:
         self.points2 = 0
         self.size = size
         self.lastpass= False
+        self.komove=[]
         #KOMI TODO
 
     def Clone(self):
@@ -78,6 +79,7 @@ class GoState:
         st.points2=self.points2
         st.size=self.size
         st.lastpass=self.lastpass
+        st.komove=self.komove
         return st
 
     def DoMove(self,move):
@@ -160,6 +162,8 @@ class GoState:
     def Destroy(self,x,y):
         a=Find(self.board[x][y])
         a.children.append(a)
+        if len(a.children)==1:
+            self.komove.append((x,y))
         if self.playerJustMoved==2:
             self.points1+=len(a.children)
         else:
@@ -193,18 +197,18 @@ class GoState:
     def Check(self,x,y):
         check=False
         if x>0:
-            if(self.board[x-1][y].color==0 or len(Find(self.board[x-1][y]).liberty)==1):
+            if self.board[x-1][y].color==0 or (self.board[x-1][y].color==self.playerJustMoved and len(Find(self.board[x-1][y]).liberty)==1) or (self.board[x-1][y].color== 3- self.playerJustMoved and len(Find(self.board[x-1][y]).liberty)>1 ) :
                 check= True
         if y>0:
-            if(self.board[x][y-1].color==0 or len(Find(self.board[x][y-1]).liberty)==1):
+            if self.board[x][y-1].color==0 or (self.board[x][y-1].color==self.playerJustMoved and len(Find(self.board[x][y-1]).liberty)==1) or (self.board[x][y-1].color== 3- self.playerJustMoved and len(Find(self.board[x][y-1]).liberty)>1 ):
                 check= True
 
         if x<self.size-1:
-            if(self.board[x+1][y].color==0 or len(Find(self.board[x+1][y]).liberty)==1):
+            if self.board[x+1][y].color==0 or (self.board[x+1][y].color==self.playerJustMoved and len(Find(self.board[x+1][y]).liberty)==1) or (self.board[x+1][y].color== 3- self.playerJustMoved and len(Find(self.board[x+1][y]).liberty)>1 ):
                 check= True
 
         if y <self.size-1:
-            if(self.board[x][y+1].color==0 or len(Find(self.board[x][y+1]).liberty)==1):
+            if self.board[x][y+1].color==0 or(self.board[x][y+1].color==self.playerJustMoved and len(Find(self.board[x][y+1]).liberty)==1) or (self.board[x][y+1].color== 3- self.playerJustMoved and len(Find(self.board[x][y+1]).liberty)>1 ) :
                 check= True
         return check
 
@@ -214,6 +218,9 @@ class GoState:
         else :
             a =list([(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j].color == 0 and self.Check(i,j)])
             a.append((-1,-1))
+            if len(self.komove)==1:
+                a.remove(self.komove[0])
+                self.komove.clear()
             return a
         #ATTENTION AU KO ! TODO
 
@@ -399,7 +406,7 @@ def UCT(rootstate, itermax, verbose = False):
         # Backpropagate
 
         while node != None: # backpropagate from the expanded node and work back to the root node
-            node.Update(state.GetResult(node.playerJustMoved)) # state is terminal. Update node with result from POV of node.playerJustMoved
+            node.Update(state.GetWinner(node.playerJustMoved)) # state is terminal. Update node with result from POV of node.playerJustMoved
             #print("backpropagate")
             node = node.parentNode
 
@@ -414,13 +421,13 @@ def UCTPlayGame():
     """ Play a sample game between two UCT players where each player gets a different number
         of UCT iterations (= simulations = tree nodes).
     """
-    state = GoState(9)
+    state = GoState(6)
     while (state.GetMoves() != []):
         print(str(state))
         if state.playerJustMoved == 1:
-            m = UCT(rootstate = state, itermax = 1000, verbose = False) # play with values for itermax and verbose = True
+            m = UCT(rootstate = state, itermax = 500, verbose = False) # play with values for itermax and verbose = True
         else:
-            m = UCT(rootstate = state, itermax = 1000, verbose = False)
+            m = UCT(rootstate = state, itermax = 50, verbose = False)
         print("Best Move: " + str(m) + "\n")
         state.DoMove(m)
         print(state.board)
@@ -433,21 +440,21 @@ def UCTPlayGame():
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players.
 """
-    a=GoState(2)
+    a=GoState(3)
     a.DoMove((0,0))
     a.DoMove((0,1))
-    a.DoMove((1,0))
+    #a.DoMove((1,1))
+    #a.DoMove((0,2))
+    #a.DoMove((2,2))
 
-    a.DoMove((1,1))
+    #a.DoMove((1,1))
     #print(a.board[0][1].color)
     #print(a.board[1][1].liberty)
+    #a.playerJustMoved=3-a.playerJustMoved
+    print(a.GetMoves())
+    a.komove.append((1,1))
     print(a.GetMoves())
 
-
-
-    print(a.GetWinner(1),"winner")
-    print(a.points1,"black p")
-    print(a.points2,"white p")
     #a.points2=0
     #a.board=[[2, 2, 2, 2, 1, 0], [2, 2, 2, 2, 1, 1], [2, 0, 2, 2, 2, 2], [2, 2, 2, 2, 2, 2], [2, 2, 2, 0, 2, 2], [2, 2, 2, 2, 1, 0]]
 
@@ -460,14 +467,8 @@ if __name__ == "__main__":
     #a.DoMove((2,1))
     #print(a.board)
 
-    #print(a.CheckNBB(a.board,0,3))
-    #a=NodeUF((0,0))
-    #MakeSet(a)
-
-
     #UCTPlayGame()
 
-    #b = [[NodeUF()] * 3 for _ in range(3)]
 
 
     #TODO : COmmunication with GTP /The pass problem : Solution  add a move pass (-1,-1), can be play only when the last mvoe wasn't pass.

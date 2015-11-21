@@ -1,7 +1,7 @@
 import cmd
 from convert import *
-from GS import *
-from init import *
+#from GS import *
+from GSUF import*
 class Prompt(cmd.Cmd):
     prompt = ''
     file=None
@@ -57,7 +57,7 @@ class Prompt(cmd.Cmd):
     def do_genmove(self,arg):
         if(arg=='w'):
             self.a.playerJustMoved=1
-            move=UCT(rootstate = self.a, itermax = 100, verbose = False)
+            move=UCT(rootstate = self.a, itermax = 1000, verbose = False)
             self.a.DoMove(move)
             result = self.inttogtp(move[0],move[1])
             if result[0]=="@" and result[1]==self.size+1:
@@ -67,7 +67,7 @@ class Prompt(cmd.Cmd):
                 print('= '+result2 +'\n')
         if (arg=='b'):
             self.a.playerJustMoved=2
-            move=UCT(rootstate = self.a, itermax = 100, verbose = False)
+            move=UCT(rootstate = self.a, itermax = 1000, verbose = False)
             self.a.DoMove(move)
             result=self.inttogtp(move[0],move[1])
             if result[0]=="@" and result[1]==self.size+1:
@@ -100,6 +100,7 @@ class Prompt(cmd.Cmd):
         print('= genmove'+ '\n' +'genmove_black'+ '\n'+'genmove_white'+ '\n'+'black'+ '\n'+'white'+ '\n'+'play'+ '\n'+'version'+ '\n'+'name'+ '\n'+'boardsize'+ '\n'+'clear_board'+ '\n')
 
     def do_quit(self,arg):
+        self.close()
         return True
 
     def gtptoint(self,letter,number):
@@ -119,6 +120,9 @@ class Prompt(cmd.Cmd):
         letter=chr(y+65)
         number=self.a.size-x
         return(letter,number)
+
+    def do_EOF(self):
+        return True
 
 if __name__ == '__main__':
     Prompt().cmdloop()
