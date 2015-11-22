@@ -28,29 +28,35 @@ def Union(x, y):
          yRoot.parent = xRoot
          #process of transferring children
          xRoot.children.append(yRoot)
-         xRoot.children.extend(yRoot.children)
+         Extend1(xRoot.children,yRoot.children)
+         #xRoot.children.extend(yRoot.children)
          yRoot.children.clear()
          #process of transferring liberties
-         xRoot.liberty.extend(yRoot.liberty)
+         Extend1(xRoot.liberty,yRoot.liberty)
+         #xRoot.liberty.extend(yRoot.liberty)
          yRoot.liberty.clear()
 
      elif xRoot.rank < yRoot.rank:
          xRoot.parent = yRoot
 
          yRoot.children.append(xRoot)
-         yRoot.children.extend(xRoot.children)
+         Extend1(yRoot.children,xRoot.children)
+         #yRoot.children.extend(xRoot.children)
          xRoot.children.clear()
 
-         yRoot.liberty.extend(xRoot.liberty)
+         Extend1(yRoot.liberty,xRoot.liberty)
+         #yRoot.liberty.extend(xRoot.liberty)
          xRoot.liberty.clear()
      elif xRoot != yRoot: # Unless x and y are already in same set, merge them
          yRoot.parent = xRoot
 
          xRoot.children.append(yRoot)
-         xRoot.children.extend(yRoot.children)
+         Extend1(xRoot.children,yRoot.children)
+         #xRoot.children.extend(yRoot.children)
          yRoot.children.clear()
 
-         xRoot.liberty.extend(yRoot.liberty)
+         Extend1(xRoot.liberty,yRoot.liberty)
+         #xRoot.liberty.extend(yRoot.liberty)
          yRoot.liberty.clear()
 
          xRoot.rank = xRoot.rank + 1
@@ -61,6 +67,11 @@ def Find(x):
      else:
         x.parent = Find(x.parent)
         return x.parent
+
+def Extend1(x,y):
+    for i in y:
+        if i not in x:
+            x.append(i)
 
 if __name__ == "__main__":
     """Unit test to verify the methods of UF"""
@@ -91,3 +102,8 @@ if __name__ == "__main__":
         print(i.color)
         #i.color=25
     #    print(b[0][0].color)
+
+    test=[2,3]
+    f=[2,0]
+    Extend1(test,f)
+    print(test)
