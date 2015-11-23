@@ -1,5 +1,3 @@
-__author__ = 'admin'
-__author__ = 'admin'
 
 class NodeUF(object):
     def __init__(self):
