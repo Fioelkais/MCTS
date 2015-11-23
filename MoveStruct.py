@@ -5,26 +5,24 @@ class Mpos(object):
     def __init__(self):
         self.h={}
         self.ar=[]
-        self.l=0
 
     def insert(self, value):
-        self.l+=1
         self.ar.append(value)
-        self.h[value]=self.l-1
+        self.h[value]=len(self.ar)-1
 
     def remove(self,value):
-        last=self.ar[self.l-1]
+        last=self.ar[len(self.ar)-1]
         torem=self.h[value]
         self.ar[torem]=last
         self.h[last]=torem
-        self.l-=1
+        self.ar.pop()
         del self.h[value]
 
     def contain(self,value):
         return value in self.h
 
     def getRandom(self):
-        x = random.randint(0,self.l-1)
+        x = random.randint(0,len(self.ar)-1)
         return self.ar[x]
 
     def isempty(self):
@@ -36,5 +34,7 @@ class Mpos(object):
 if __name__ == "__main__":
     a=Mpos()
     a.insert((0,0))
+    a.insert((1,1))
+    a.remove((1,1))
     print(a.contain((0,1)))
     print(a.getRandom())
