@@ -1,4 +1,5 @@
 __author__ = 'admin'
+__author__ = 'admin'
 
 class NodeUF(object):
     def __init__(self):
@@ -6,8 +7,8 @@ class NodeUF(object):
         #self.value = value
         self.rank = 0
         self.color=0
-        self.liberty=[]
-        self.children = []
+        self.liberty=set()
+        self.children =set()
         self.x=0
         self.y=0
     def __str__(self):
@@ -26,37 +27,33 @@ def Union(x, y):
      yRoot = Find(y)
      if xRoot.rank > yRoot.rank:
          yRoot.parent = xRoot
+
          #process of transferring children
-         xRoot.children.append(yRoot)
-         Extend1(xRoot.children,yRoot.children)
-         #xRoot.children.extend(yRoot.children)
+         xRoot.children.add(yRoot)
+         xRoot.children=xRoot.children|yRoot.children
          yRoot.children.clear()
+
          #process of transferring liberties
-         Extend1(xRoot.liberty,yRoot.liberty)
-         #xRoot.liberty.extend(yRoot.liberty)
+         xRoot.liberty=xRoot.liberty|yRoot.liberty
          yRoot.liberty.clear()
 
      elif xRoot.rank < yRoot.rank:
          xRoot.parent = yRoot
 
-         yRoot.children.append(xRoot)
-         Extend1(yRoot.children,xRoot.children)
-         #yRoot.children.extend(xRoot.children)
+         xRoot.children.add(yRoot)
+         xRoot.children=xRoot.children|yRoot.children
          xRoot.children.clear()
 
-         Extend1(yRoot.liberty,xRoot.liberty)
-         #yRoot.liberty.extend(xRoot.liberty)
+         yRoot.liberty=yRoot.liberty|xRoot.liberty
          xRoot.liberty.clear()
      elif xRoot != yRoot: # Unless x and y are already in same set, merge them
          yRoot.parent = xRoot
 
-         xRoot.children.append(yRoot)
-         Extend1(xRoot.children,yRoot.children)
-         #xRoot.children.extend(yRoot.children)
+         xRoot.children.add(yRoot)
+         xRoot.children=xRoot.children|yRoot.children
          yRoot.children.clear()
 
-         Extend1(xRoot.liberty,yRoot.liberty)
-         #xRoot.liberty.extend(yRoot.liberty)
+         xRoot.liberty=xRoot.liberty|yRoot.liberty
          yRoot.liberty.clear()
 
          xRoot.rank = xRoot.rank + 1
@@ -91,10 +88,7 @@ if __name__ == "__main__":
 
     print(Find(b[0][0]).color)
 
-
     print(b[2][2].color,"test")
-
-    print(len(b[0][0].liberty),"length")
     for i in range(3):
         print(i,"range")
 
@@ -103,9 +97,9 @@ if __name__ == "__main__":
         #i.color=25
     #    print(b[0][0].color)
 
-    test={2,3}
+    test={0,2,3}
     f={2}
+    test.add(2)
+    test.difference({4})
     print(test)
-    print(len(test))
-    for i in f:
-        print(i)
+
