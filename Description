@@ -1,0 +1,9 @@
+GS : First version, really bad complexity
+GSUF : First version with union Find works correctly
+GSUF2 : first attempt of a version with getmoves returning a list, it finally is worse than GSUF
+GSUF3 : Correction of GSUF, use the UFSET Structure instead of UF, which use list and was incorrect
+GSUF4 : Upgrade of GSUF3 but trying to put Getmoves in O(1)
+
+
+ATTENTION BUG SUR LA GSUF3 et 4, voir la séquence 0,0 / 0,1 / 1,0 / 1,1 sur 2*2. Si je remplace les difference de set par des a=a-b, ca a l'air de marcher mais ca prends bcp plus longtemps.
+Ko problem ?

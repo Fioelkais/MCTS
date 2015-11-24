@@ -31,6 +31,11 @@ class Mpos(object):
         else:
             return True
 
+    def show(self):
+        print("moves")
+        for i in self.ar:
+            print(i)
+
 if __name__ == "__main__":
     a=Mpos()
     a.insert((0,0))
@@ -38,3 +43,4 @@ if __name__ == "__main__":
     a.remove((1,1))
     print(a.contain((0,1)))
     print(a.getRandom())
+    a.show()

@@ -59,12 +59,14 @@ class GoState:
     def __init__(self, size):
         self.playerJustMoved = 2 # At the root pretend the player just moved is p2 - p1 has the first move
         self.board = [[NodeUF() for x in range(size)] for x in range(size)]
-        self.moves=Mpos()
+        self.moves1=Mpos()
+        self.moves2=Mpos()
         for i in range(size):
             for j in range(size) :
                 self.board[i][j].x=i
                 self.board[i][j].y=j
-                self.moves.insert((i,j))
+                self.moves1.insert((i,j))
+                self.moves2.insert((i,j))
         self.points1 = 0
         self.points2 = 0
         self.size = size
@@ -83,6 +85,8 @@ class GoState:
         st.size=self.size
         st.lastpass=self.lastpass
         st.komove=self.komove
+        st.moves1=copy.deepcopy(self.moves1)
+        st.moves2=copy.deepcopy(self.moves2)
         return st
 
     def DoMove(self,move):
@@ -90,28 +94,41 @@ class GoState:
             self.playerJustMoved= 3 - self.playerJustMoved
             self.lastboard=self.board
             self.lastpass=True
+            self.komove.clear()
         else:
             self.lastpass=False
             first=True
+            self.komove.clear()
+            tocheck=[]
             (x,y)=(move[0],move[1])
             self.board[x][y].color = 3 - self.playerJustMoved
+
+            #Remove move of stone put
+            if self.moves1.contain(move):
+                self.moves1.remove(move)
+            if self.moves2.contain(move):
+                self.moves2.remove(move)
 
             #set liberties of the stone alone
             if x>0:
                 if(self.board[x-1][y].color==0):
                     self.board[x][y].liberty.add(self.board[x-1][y])
+                    tocheck.append((x-1,y))
 
             if y>0:
                 if(self.board[x][y-1].color==0):
                     self.board[x][y].liberty.add(self.board[x][y-1])
+                    tocheck.append((x,y-1))
 
             if x<self.size-1:
                 if(self.board[x+1][y].color==0):
                     self.board[x][y].liberty.add(self.board[x+1][y])
+                    tocheck.append((x+1,y))
 
             if y <self.size-1:
                 if(self.board[x][y+1].color==0):
                     self.board[x][y].liberty.add(self.board[x][y+1])
+                    tocheck.append((x,y+1))
 
 
             #if another stone of the same color, union
@@ -122,14 +139,17 @@ class GoState:
                 if(self.board[x-1][y].color==3-self.playerJustMoved):
                     Union(self.board[x][y],self.board[x-1][y])
 
-                    Find(self.board[x][y]).liberty.difference({self.board[x][y]})
+                    Find(self.board[x][y]).liberty=Find(self.board[x][y]).liberty-{self.board[x][y]}
 
 
                 if(self.board[x-1][y].color==self.playerJustMoved):
-                    Find(self.board[x-1][y]).liberty.difference({self.board[x][y]})
+                    Find(self.board[x-1][y]).liberty=Find(self.board[x-1][y]).liberty-{self.board[x][y]}
 
                     if len(Find(self.board[x-1][y]).liberty)==0:
-                        self.Destroy(x-1,y)
+                        tocheck.extend(self.Destroy(x-1,y))
+                    elif len(Find(self.board[x-1][y]).liberty)==1:
+                        for l in Find(self.board[x-1][y]).liberty:
+                            tocheck.append((l.x,l.y))
 
 
 
@@ -138,47 +158,75 @@ class GoState:
                 if(self.board[x][y-1].color==3-self.playerJustMoved):
                     Union(self.board[x][y],self.board[x][y-1])
 
-                    Find(self.board[x][y]).liberty.difference({self.board[x][y]})
+                    Find(self.board[x][y]).liberty=Find(self.board[x][y]).liberty-{self.board[x][y]}
 
                 if(self.board[x][y-1].color==self.playerJustMoved):
-
-                    Find(self.board[x][y-1]).liberty.difference({self.board[x][y]})
+                    Find(self.board[x][y-1]).liberty=Find(self.board[x][y-1]).liberty-{self.board[x][y]}
 
                     if len(Find(self.board[x][y-1]).liberty)==0:
-                        self.Destroy(x,y-1)
+                        tocheck.extend(self.Destroy(x,y-1))
+                    elif len(Find(self.board[x][y-1]).liberty)==1:
+                        for l in Find(self.board[x][y-1]).liberty:
+                            tocheck.append((l.x,l.y))
 
             if x<self.size-1:
                 if(self.board[x+1][y].color==3-self.playerJustMoved):
                     Union(self.board[x][y],self.board[x+1][y])
 
 
-                    Find(self.board[x][y]).liberty.difference({self.board[x][y]})
+                    Find(self.board[x][y]).liberty=Find(self.board[x][y]).liberty-{self.board[x][y]}
 
                 if(self.board[x+1][y].color==self.playerJustMoved):
-                    Find(self.board[x+1][y]).liberty.difference({self.board[x][y]})
+                    Find(self.board[x+1][y]).liberty=Find(self.board[x+1][y]).liberty-{self.board[x][y]}
 
                     if len(Find(self.board[x+1][y]).liberty)==0:
-                       self.Destroy(x+1,y)
+                       tocheck.extend(self.Destroy(x+1,y))
+                    elif len(Find(self.board[x+1][y]).liberty)==1:
+                        for l in Find(self.board[x+1][y]).liberty:
+                            tocheck.append((l.x,l.y))
 
 
             if y <self.size-1:
                 if(self.board[x][y+1].color==3-self.playerJustMoved):
                     Union(self.board[x][y],self.board[x][y+1])
 
-                    Find(self.board[x][y]).liberty.difference({self.board[x][y]})
+                    Find(self.board[x][y]).liberty=Find(self.board[x][y]).liberty-{self.board[x][y]}
 
                 if(self.board[x][y+1].color==self.playerJustMoved):
 
-                    Find(self.board[x][y+1]).liberty.difference({self.board[x][y]})
+                    Find(self.board[x][y+1]).liberty=Find(self.board[x][y+1]).liberty-{self.board[x][y]}
 
                     if len(Find(self.board[x][y+1]).liberty)==0:
-                        self.Destroy(x,y+1)
+                        tocheck.extend(self.Destroy(x,y+1))
+                    elif len(Find(self.board[x][y+1]).liberty)==1:
+                        for l in Find(self.board[x][y+1]).liberty:
+                            tocheck.append((l.x,l.y))
+
+            if len(Find(self.board[x][y]).liberty)==1:
+                for l in Find(self.board[x][y]).liberty:
+                            tocheck.append((l.x,l.y))
+
+
+            for i in tocheck:
+                if self.CheckP(i[0],i[1],1):
+                    if  not self.moves1.contain((i[0],i[1])):
+                        self.moves1.insert((i[0],i[1]))
+                else:
+                    if  self.moves1.contain((i[0],i[1])):
+                        self.moves1.remove((i[0],i[1]))
+                if self.CheckP(i[0],i[1],2):
+                    if  not self.moves2.contain((i[0],i[1])):
+                        self.moves2.insert((i[0],i[1]))
+                else:
+                    if  self.moves2.contain((i[0],i[1])):
+                        self.moves2.remove((i[0],i[1]))
 
             self.playerJustMoved = 3 - self.playerJustMoved
 
     def Destroy(self,x,y):
         a=Find(self.board[x][y])
         a.children.add(a)
+        tocheck=[]
         if len(a.children)==1:
             self.komove.append((x,y))
         if self.playerJustMoved==2:
@@ -187,23 +235,47 @@ class GoState:
             self.points2+=len(a.children)
         for i in a.children:
 
+            if not self.moves1.contain((i.x,i.y)):
+                self.moves1.insert((i.x,i.y))
+            if not self.moves2.contain((i.x,i.y)):
+                self.moves2.insert((i.x,i.y))
+
             #attention est ce que ca ne detruit pas la recherche du noeud
             #give the liberties freed to the corresponding groups
             if i.x>0:
+
+                if len(Find(self.board[i.x-1][i.y]).liberty)==1:
+                    for l in Find(self.board[i.x-1][i.y]).liberty:
+                            tocheck.append((l.x,l.y))
+
                 #extend lib
                 if  self.board[i.x-1][i.y].color!=0:
                     Find(self.board[i.x-1][i.y]).liberty.add(i)
 
             if i.y>0:
+                if len(Find(self.board[i.x][i.y-1]).liberty)==1:
+                    for l in Find(self.board[i.x][i.y-1]).liberty:
+                            tocheck.append((l.x,l.y))
+
                 if self.board[i.x][i.y-1].color!=0:
                     Find(self.board[i.x][i.y-1]).liberty.add(i)
 
             if i.x<self.size-1:
+                if len(Find(self.board[i.x+1][i.y]).liberty)==1:
+                    for l in Find(self.board[i.x+1][i.y]).liberty:
+                            tocheck.append((l.x,l.y))
+
+
                 if  self.board[i.x+1][i.y].color!=0:
                     Find(self.board[i.x+1][i.y]).liberty.add(i)
 
 
             if i.y <self.size-1:
+
+                if len(Find(self.board[i.x][i.y+1]).liberty)==1:
+                    for l in Find(self.board[i.x][i.y+1]).liberty:
+                            tocheck.append((l.x,l.y))
+
                 if self.board[i.x][i.y+1].color!=0:
                     Find(self.board[i.x][i.y+1]).liberty.add(i)
 
@@ -212,6 +284,7 @@ class GoState:
             i.rank=0
             i.liberty=set()
             i.children=set()
+        return tocheck
 
 
     def Check(self,x,y):
@@ -232,17 +305,47 @@ class GoState:
                 check= True
         return check
 
+    def CheckP(self,x,y,player):
+        check=False
+        if x>0:
+            if self.board[x-1][y].color==0 or (self.board[x-1][y].color==3-player and len(Find(self.board[x-1][y]).liberty)==1) or (self.board[x-1][y].color==player and len(Find(self.board[x-1][y]).liberty)>1 ) :
+                check= True
+        if y>0:
+            if self.board[x][y-1].color==0 or (self.board[x][y-1].color==3-player and len(Find(self.board[x][y-1]).liberty)==1) or (self.board[x][y-1].color== player and len(Find(self.board[x][y-1]).liberty)>1 ):
+                check= True
+
+        if x<self.size-1:
+            if self.board[x+1][y].color==0 or (self.board[x+1][y].color==3-player and len(Find(self.board[x+1][y]).liberty)==1) or (self.board[x+1][y].color== player and len(Find(self.board[x+1][y]).liberty)>1 ):
+                check= True
+
+        if y <self.size-1:
+            if self.board[x][y+1].color==0 or(self.board[x][y+1].color==3-player and len(Find(self.board[x][y+1]).liberty)==1) or (self.board[x][y+1].color== player and len(Find(self.board[x][y+1]).liberty)>1 ) :
+                check= True
+        if self.board[x][y].color!=0:
+            check=False
+        return check
 
     def GetMoves(self):
         if self.lastpass==True:
-            return [(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j].color == 0 and self.Check(i,j)]#
-
+            if self.moves2.contain((-1,-1)):
+                self.moves2.remove((-1,-1))
+            if self.moves1.contain((-1,-1)):
+                self.moves1.remove((-1,-1))
+            #return [(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j].color == 0 and self.Check(i,j)]#
+            if self.playerJustMoved==2:
+                return self.moves1
+            else:
+                return self.moves2
         else :
-            a =list([(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j].color == 0 and self.Check(i,j)])
-            a.append((-1,-1))
-            if len(self.komove)==1 and self.komove[0] in a:
+            #a =list([(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j].color == 0 and self.Check(i,j)])
+            if self.playerJustMoved==2:
+                a=self.moves1
+            else:
+                a=self.moves2
+            if not a.contain((-1,-1)):
+                a.insert((-1,-1))
+            if len(self.komove)==1 and a.contain(self.komove[0]):
                 a.remove(self.komove[0])
-                self.komove.clear()
             return a
         #ATTENTION AU KO ! TODO
 
@@ -371,7 +474,7 @@ class Node:
         self.wins += result
 
     def __repr__(self):
-        return "[M:" + str(self.move) + " W/V:" + str(self.wins) + "/" + str(self.visits) + " U:" + str(self.untriedMoves) + "]"
+        return "[M:" + str(self.move) + " W/V:" + str(self.wins) + "/" + str(self.visits) #+ " U:" + str(self.untriedMoves) + "]"
 
     def TreeToString(self, indent):
         s = self.IndentString(indent) + str(self)
@@ -403,26 +506,25 @@ def UCT(rootstate, itermax, verbose = False):
         node = rootnode
         state = rootstate.Clone()
 
-
         # Select
-        while node.untriedMoves == [] and node.childNodes != []: # node is fully expanded and non-terminal
+        while node.untriedMoves.isempty() and node.childNodes != []: # node is fully expanded and non-terminal
             node = node.UCTSelectChild()
             state.DoMove(node.move)
             #print("select")
         #print(i,rootstate.board)
 
         # Expand
-        if node.untriedMoves != []: # if we can expand (i.e. state/node is non-terminal)
-            m = random.choice(node.untriedMoves)
+        if not node.untriedMoves.isempty(): # if we can expand (i.e. state/node is non-terminal)
+            m = node.untriedMoves.getRandom()
             state.DoMove(m)
             #print("expand")
             node = node.AddChild(m,state) # add child and descend tree
         #print(i,rootstate.board)
 
         # Rollout - this can often be made orders of magnitude quicker using a state.GetRandomMove() function
-        while state.GetMoves() != []: # while state is non-terminal
+        while not state.GetMoves().isempty() : # while state is non-terminal
             #print("printrollout")
-            state.DoMove(random.choice(state.GetMoves()))
+            state.DoMove(state.GetMoves().getRandom())
 
         # Backpropagate
 
@@ -443,12 +545,12 @@ def UCTPlayGame():
         of UCT iterations (= simulations = tree nodes).
     """
     state = GoState(9)
-    while (state.GetMoves() != []):
+    while not state.GetMoves().isempty():
         print(str(state))
         if state.playerJustMoved == 1:
-            m = UCT(rootstate = state, itermax = 100, verbose = False) # play with values for itermax and verbose = True
+            m = UCT(rootstate = state, itermax = 10, verbose = False) # play with values for itermax and verbose = True
         else:
-            m = UCT(rootstate = state, itermax = 100, verbose = False)
+            m = UCT(rootstate = state, itermax = 10, verbose = False)
         print("Best Move: " + str(m) + "\n")
         state.DoMove(m)
         print(state.board)
@@ -462,45 +564,27 @@ if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players.
 """
     a=GoState(2)
+    a.GetMoves().show()
     a.DoMove((0,0))
     a.DoMove((0,1))
+    a.GetMoves().show()
+    print(Find(a.board[0][1]).color)
+    print(len(Find(a.board[0][0]).liberty))
     a.DoMove((1,0))
+    a.GetMoves().show()
+    print(a.CheckP(1,1,2))
     a.DoMove((1,1))
-    print(len(Find(a.board[0][1]).liberty))
-    print(Find(a.board[1][0]).color)
-    print(a.GetMoves())
+    print(Find(a.board[0][0]).color)
+    #print(a.GetMoves())
 
 
     #a.DoMove((1,0))
-    print(a.GetMoves())
+   # print(a.GetMoves())
     #a.DoMove((0,2))
     #a.DoMove((2,2))
 
-
-    #a.DoMove((1,1))
-    #print(a.board[0][1].color)
-    #print(a.board[1][1].liberty)
-    #a.playerJustMoved=3-a.playerJustMoved
-
-    #a.komove.append((1,1))
-    #print(a.GetMoves())
-
-    #a.points2=0
-    #a.board=[[2, 2, 2, 2, 1, 0], [2, 2, 2, 2, 1, 1], [2, 0, 2, 2, 2, 2], [2, 2, 2, 2, 2, 2], [2, 2, 2, 0, 2, 2], [2, 2, 2, 2, 1, 0]]
-
-    #a.lastboard=[[1,0],[0,0]]
-    #print(a.CheckNB(1,1))
-    #print(a.board)
-    #print(a.CheckAliveB(a.board,1,1,2))
-    #print(a.GetMoves())
-    #print(a.board)
-    #a.DoMove((2,1))
-    #print(a.board)
     UCTPlayGame()
 
 
-
-    #TODO : COmmunication with GTP /The pass problem : Solution  add a move pass (-1,-1), can be play only when the last mvoe wasn't pass.
-    #Solved ?  Problems of posing a stone and remove the deads one/ Not posing a stone where she will die immediately/
 
 
