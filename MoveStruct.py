@@ -32,9 +32,10 @@ class Mpos(object):
             return True
 
     def show(self):
-        print("moves")
+        print("moves START")
         for i in self.ar:
             print(i)
+        print("moves END")
 
 if __name__ == "__main__":
     a=Mpos()

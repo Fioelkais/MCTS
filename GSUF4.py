@@ -516,6 +516,7 @@ def UCT(rootstate, itermax, verbose = False):
         # Expand
         if not node.untriedMoves.isempty(): # if we can expand (i.e. state/node is non-terminal)
             m = node.untriedMoves.getRandom()
+            print(m,"nodeexpanded")
             state.DoMove(m)
             #print("expand")
             node = node.AddChild(m,state) # add child and descend tree
@@ -548,9 +549,9 @@ def UCTPlayGame():
     while not state.GetMoves().isempty():
         print(str(state))
         if state.playerJustMoved == 1:
-            m = UCT(rootstate = state, itermax = 1000, verbose = False) # play with values for itermax and verbose = True
+            m = UCT(rootstate = state, itermax = 50, verbose = False) # play with values for itermax and verbose = True
         else:
-            m = UCT(rootstate = state, itermax = 1000, verbose = False)
+            m = UCT(rootstate = state, itermax = 50, verbose = False)
         print("Best Move: " + str(m) + "\n")
         state.DoMove(m)
         print(state.board)
@@ -563,25 +564,22 @@ def UCTPlayGame():
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players.
 """
-    a=GoState(2)
-    a.DoMove((0,0))
-    a.DoMove((0,1))
-    a.DoMove((1,1))
-    #a.DoMove((1,1))
-    a.GetWinner(2)
-    print(a.points1)
-    print(a.points2)
-
+    a=GoState(9)
+    a.DoMove((7,1))
+    a.DoMove((2,5))
+    a.DoMove((2,4))
+    a.DoMove((1,4))
+    #a.GetWinner(2)
     a.GetMoves().show()
     #print(a.GetMoves())
-
+    print(a.GetMoves().isempty())
 
     #a.DoMove((1,0))
    # print(a.GetMoves())
     #a.DoMove((0,2))
     #a.DoMove((2,2))
 
-    UCTPlayGame()
+    #UCTPlayGame()
 
 
 
