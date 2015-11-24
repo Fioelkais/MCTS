@@ -193,11 +193,11 @@ class GoState:
                     Find(self.board[x][y]).liberty=Find(self.board[x][y]).liberty-{self.board[x][y]}
 
                 if(self.board[x][y+1].color==self.playerJustMoved):
-
                     Find(self.board[x][y+1]).liberty=Find(self.board[x][y+1]).liberty-{self.board[x][y]}
 
                     if len(Find(self.board[x][y+1]).liberty)==0:
                         tocheck.extend(self.Destroy(x,y+1))
+
                     elif len(Find(self.board[x][y+1]).liberty)==1:
                         for l in Find(self.board[x][y+1]).liberty:
                             tocheck.append((l.x,l.y))
@@ -548,9 +548,9 @@ def UCTPlayGame():
     while not state.GetMoves().isempty():
         print(str(state))
         if state.playerJustMoved == 1:
-            m = UCT(rootstate = state, itermax = 10, verbose = False) # play with values for itermax and verbose = True
+            m = UCT(rootstate = state, itermax = 1000, verbose = False) # play with values for itermax and verbose = True
         else:
-            m = UCT(rootstate = state, itermax = 10, verbose = False)
+            m = UCT(rootstate = state, itermax = 1000, verbose = False)
         print("Best Move: " + str(m) + "\n")
         state.DoMove(m)
         print(state.board)
@@ -564,17 +564,15 @@ if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players.
 """
     a=GoState(2)
-    a.GetMoves().show()
     a.DoMove((0,0))
     a.DoMove((0,1))
-    a.GetMoves().show()
-    print(Find(a.board[0][1]).color)
-    print(len(Find(a.board[0][0]).liberty))
-    a.DoMove((1,0))
-    a.GetMoves().show()
-    print(a.CheckP(1,1,2))
     a.DoMove((1,1))
-    print(Find(a.board[0][0]).color)
+    #a.DoMove((1,1))
+    a.GetWinner(2)
+    print(a.points1)
+    print(a.points2)
+
+    a.GetMoves().show()
     #print(a.GetMoves())
 
 

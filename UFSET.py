@@ -38,8 +38,8 @@ def Union(x, y):
      elif xRoot.rank < yRoot.rank:
          xRoot.parent = yRoot
 
-         xRoot.children.add(yRoot)
-         xRoot.children=xRoot.children|yRoot.children
+         yRoot.children.add(xRoot)
+         yRoot.children=xRoot.children|yRoot.children
          xRoot.children.clear()
 
          yRoot.liberty=yRoot.liberty|xRoot.liberty
