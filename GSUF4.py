@@ -6,6 +6,7 @@ import queue
 import copy
 from MoveStruct import *
 from UFSET import *
+import time
 class GameState:
     """ A state of the game, i.e. the game board. These are the only functions which are
         absolutely necessary to implement UCT in any 2-player complete information deterministic
@@ -387,7 +388,7 @@ class GoState:
                         if(pos[0]>0):
                             if (self.board[pos[0]-1][pos[1]].color==0 and checked[pos[0]-1][pos[1]]==False):
                                 #print((pos[0]-1,pos[1]))
-                                print(checked[pos[0]-1][pos[1]])
+                                #print(checked[pos[0]-1][pos[1]])
                                 q.put((pos[0]-1,pos[1]))
                             if (self.board[pos[0]-1][pos[1]].color==1):
                                 b=True
@@ -519,7 +520,6 @@ def UCT(rootstate, itermax, verbose = False):
             m = node.untriedMoves.getRandom()
             #print(m,"nodeexpanded")
             state.DoMove(m)
-            print(m)
             #print("expand")
             node = node.AddChild(m,state) # add child and descend tree
         #print(i,rootstate.board)
@@ -527,9 +527,11 @@ def UCT(rootstate, itermax, verbose = False):
         # Rollout - this can often be made orders of magnitude quicker using a state.GetRandomMove() function
         while not state.GetMoves().isempty() : # while state is non-terminal
             #print("printrollout")
-            r=state.GetMoves().getRandom()
-            state.DoMove(r)
-            print(r)
+            state.DoMove(state.GetMoves().getRandom())
+
+        for i in range(state.size):
+            for j in range(state.size):
+                print(i,j,state.board[i][j].color)
 
         # Backpropagate
 
@@ -577,8 +579,10 @@ def UCTPlayGame():
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players.
 """
-    a=GoState(2)
+    a=GoState(9)
+    s=time.time()
     print(UCT(rootstate = a, itermax = 1, verbose = False))
+    print(time.time()-s)
     #a.DoMove((1,4))
     #a.GetWinner(2)
     #print(a.GetMoves())

@@ -6,6 +6,7 @@ import queue
 import copy
 from MoveStruct import *
 from UFSET import *
+import time
 class GameState:
     """ A state of the game, i.e. the game board. These are the only functions which are
         absolutely necessary to implement UCT in any 2-player complete information deterministic
@@ -242,7 +243,6 @@ class GoState:
             a.append((-1,-1))
             if len(self.komove)==1 and self.komove[0] in a:
                 a.remove(self.komove[0])
-                self.komove.clear()
             return a
         #ATTENTION AU KO ! TODO
 
@@ -448,7 +448,7 @@ def UCTPlayGame():
     """ Play a sample game between two UCT players where each player gets a different number
         of UCT iterations (= simulations = tree nodes).
     """
-    state = GoState(4)
+    state = GoState(3)
     while (state.GetMoves() != []):
         print(str(state))
         if state.playerJustMoved == 1:
@@ -470,15 +470,14 @@ def UCTPlayGame():
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players.
 """
-    a=GoState(2)
-    a.DoMove((0,0))
-    a.DoMove((0,1))
-    print(len(Find(a.board[0][1]).liberty))
-    a.DoMove((1,1))
+    a=GoState(9)
+    start = time.time()
+    m = UCT(rootstate = a, itermax = 1000, verbose = False)
+    print(m)
+    print(time.time()-start)
     #a.DoMove((1,1))
-    print(len(Find(a.board[0][1]).liberty))
-    print(Find(a.board[0][1]).color)
-    print(a.GetMoves())
+    #print(len(Find(a.board[0][1]).liberty))
+
 
 
     #a.DoMove((1,0))
@@ -505,7 +504,7 @@ if __name__ == "__main__":
     #print(a.board)
     #a.DoMove((2,1))
     #print(a.board)
-    UCTPlayGame()
+    #UCTPlayGame()
 
 
 
