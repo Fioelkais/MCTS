@@ -426,8 +426,15 @@ def UCT(rootstate, itermax, verbose = False):
 
         # Backpropagate
 
+        p1=state.GetWinner(1)
+        p2=1-p1
+
         while node != None: # backpropagate from the expanded node and work back to the root node
-            node.Update(state.GetWinner(node.playerJustMoved)) # state is terminal. Update node with result from POV of node.playerJustMoved
+            #node.Update(state.GetWinner(node.playerJustMoved)) # state is terminal. Update node with result from POV of node.playerJustMoved
+            if node.playerJustMoved==2:
+                node.Update(p2)
+            if node.playerJustMoved==1:
+                node.Update(p1)
             #print("backpropagate")
             node = node.parentNode
 
@@ -446,7 +453,7 @@ def UCTPlayGame():
     while (state.GetMoves() != []):
         print(str(state))
         if state.playerJustMoved == 1:
-            m = UCT(rootstate = state, itermax = 500, verbose = False) # play with values for itermax and verbose = True
+            m = UCT(rootstate = state, itermax = 1000, verbose = False) # play with values for itermax and verbose = True
         else:
             m = UCT(rootstate = state, itermax = 100, verbose = False)
         print("Best Move: " + str(m) + "\n")

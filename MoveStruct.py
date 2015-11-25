@@ -26,7 +26,7 @@ class Mpos(object):
         return self.ar[x]
 
     def isempty(self):
-        if self.ar:
+        if self.ar  :
             return False
         else:
             return True

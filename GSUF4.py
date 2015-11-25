@@ -516,7 +516,7 @@ def UCT(rootstate, itermax, verbose = False):
         # Expand
         if not node.untriedMoves.isempty(): # if we can expand (i.e. state/node is non-terminal)
             m = node.untriedMoves.getRandom()
-            print(m,"nodeexpanded")
+            #print(m,"nodeexpanded")
             state.DoMove(m)
             #print("expand")
             node = node.AddChild(m,state) # add child and descend tree
@@ -529,8 +529,17 @@ def UCT(rootstate, itermax, verbose = False):
 
         # Backpropagate
 
+        p1=copy.deepcopy(state.GetResult(1))
+        p2=1-p1
+
         while node != None: # backpropagate from the expanded node and work back to the root node
-            node.Update(state.GetWinner(node.playerJustMoved)) # state is terminal. Update node with result from POV of node.playerJustMoved
+            #node.Update(state.GetWinner(node.playerJustMoved)) # state is terminal. Update node with result from POV of node.playerJustMoved
+
+            if node.playerJustMoved==2:
+                node.Update(p2)
+            if node.playerJustMoved==1:
+                node.Update(p1)
+
             #print("backpropagate")
             node = node.parentNode
 
@@ -549,9 +558,9 @@ def UCTPlayGame():
     while not state.GetMoves().isempty():
         print(str(state))
         if state.playerJustMoved == 1:
-            m = UCT(rootstate = state, itermax = 50, verbose = False) # play with values for itermax and verbose = True
+            m = UCT(rootstate = state, itermax = 2000, verbose = False) # play with values for itermax and verbose = True
         else:
-            m = UCT(rootstate = state, itermax = 50, verbose = False)
+            m = UCT(rootstate = state, itermax = 750, verbose = False)
         print("Best Move: " + str(m) + "\n")
         state.DoMove(m)
         print(state.board)
@@ -565,14 +574,13 @@ if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players.
 """
     a=GoState(9)
-    a.DoMove((7,1))
-    a.DoMove((2,5))
-    a.DoMove((2,4))
-    a.DoMove((1,4))
+    a.DoMove((5,1))
+    a.DoMove((3,2))
+    print(UCT(rootstate = a, itermax = 3000, verbose = False))
+    #a.DoMove((1,4))
     #a.GetWinner(2)
-    a.GetMoves().show()
     #print(a.GetMoves())
-    print(a.GetMoves().isempty())
+    #print(a.GetMoves().isempty())
 
     #a.DoMove((1,0))
    # print(a.GetMoves())
