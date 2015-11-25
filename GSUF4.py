@@ -308,22 +308,30 @@ class GoState:
 
     def CheckP(self,x,y,player):
         check=False
+        l=[]
         if x>0:
             if self.board[x-1][y].color==0 or (self.board[x-1][y].color==3-player and len(Find(self.board[x-1][y]).liberty)==1) or (self.board[x-1][y].color==player and len(Find(self.board[x-1][y]).liberty)>1 ) :
                 check= True
+                l.append(Find(self.board[x-1][y]))
         if y>0:
             if self.board[x][y-1].color==0 or (self.board[x][y-1].color==3-player and len(Find(self.board[x][y-1]).liberty)==1) or (self.board[x][y-1].color== player and len(Find(self.board[x][y-1]).liberty)>1 ):
                 check= True
+                l.append(Find(self.board[x-1][y]))
 
         if x<self.size-1:
             if self.board[x+1][y].color==0 or (self.board[x+1][y].color==3-player and len(Find(self.board[x+1][y]).liberty)==1) or (self.board[x+1][y].color== player and len(Find(self.board[x+1][y]).liberty)>1 ):
                 check= True
+                l.append(Find(self.board[x-1][y]))
 
         if y <self.size-1:
             if self.board[x][y+1].color==0 or(self.board[x][y+1].color==3-player and len(Find(self.board[x][y+1]).liberty)==1) or (self.board[x][y+1].color== player and len(Find(self.board[x][y+1]).liberty)>1 ) :
                 check= True
+                l.append(Find(self.board[x-1][y]))
         if self.board[x][y].color!=0:
             check=False
+        if l :
+            if l.count(l[0])==len(l) and l[0].color==player:
+                check=False
         return check
 
     def GetMoves(self):
@@ -579,7 +587,8 @@ def UCTPlayGame():
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players.
 """
-    a=GoState(9)
+    a=GoState(6)
+    #print(a.CheckP(0,0,1))
     s=time.time()
     print(UCT(rootstate = a, itermax = 1, verbose = False))
     print(time.time()-s)
