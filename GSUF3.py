@@ -122,11 +122,11 @@ class GoState:
                 if(self.board[x-1][y].color==3-self.playerJustMoved):
                     Union(self.board[x][y],self.board[x-1][y])
 
-                    Find(self.board[x][y]).liberty.difference({self.board[x][y]})
+                    Find(self.board[x][y]).liberty=Find(self.board[x][y]).liberty.difference({self.board[x][y]})
 
 
                 if(self.board[x-1][y].color==self.playerJustMoved):
-                    Find(self.board[x-1][y]).liberty.difference({self.board[x][y]})
+                    Find(self.board[x-1][y]).liberty=Find(self.board[x-1][y]).liberty.difference({self.board[x][y]})
 
                     if len(Find(self.board[x-1][y]).liberty)==0:
                         self.Destroy(x-1,y)
@@ -138,11 +138,11 @@ class GoState:
                 if(self.board[x][y-1].color==3-self.playerJustMoved):
                     Union(self.board[x][y],self.board[x][y-1])
 
-                    Find(self.board[x][y]).liberty.difference({self.board[x][y]})
+                    Find(self.board[x][y]).liberty=Find(self.board[x][y]).liberty.difference({self.board[x][y]})
 
                 if(self.board[x][y-1].color==self.playerJustMoved):
 
-                    Find(self.board[x][y-1]).liberty.difference({self.board[x][y]})
+                    Find(self.board[x][y-1]).liberty=Find(self.board[x][y-1]).liberty.difference({self.board[x][y]})
 
                     if len(Find(self.board[x][y-1]).liberty)==0:
                         self.Destroy(x,y-1)
@@ -152,10 +152,10 @@ class GoState:
                     Union(self.board[x][y],self.board[x+1][y])
 
 
-                    Find(self.board[x][y]).liberty.difference({self.board[x][y]})
+                    Find(self.board[x][y]).liberty=Find(self.board[x][y]).liberty.difference({self.board[x][y]})
 
                 if(self.board[x+1][y].color==self.playerJustMoved):
-                    Find(self.board[x+1][y]).liberty.difference({self.board[x][y]})
+                    Find(self.board[x+1][y]).liberty=Find(self.board[x+1][y]).liberty.difference({self.board[x][y]})
 
                     if len(Find(self.board[x+1][y]).liberty)==0:
                        self.Destroy(x+1,y)
@@ -165,13 +165,13 @@ class GoState:
                 if(self.board[x][y+1].color==3-self.playerJustMoved):
                     Union(self.board[x][y],self.board[x][y+1])
 
-                    Find(self.board[x][y]).liberty.difference({self.board[x][y]})
+                    Find(self.board[x][y]).liberty=Find(self.board[x][y]).liberty.difference({self.board[x][y]})
 
                 if(self.board[x][y+1].color==self.playerJustMoved):
 
-                    Find(self.board[x][y+1]).liberty.difference({self.board[x][y]})
+                   Find(self.board[x][y+1]).liberty=Find(self.board[x][y+1]).liberty.difference({self.board[x][y]})
 
-                    if len(Find(self.board[x][y+1]).liberty)==0:
+                   if len(Find(self.board[x][y+1]).liberty)==0:
                         self.Destroy(x,y+1)
 
             self.playerJustMoved = 3 - self.playerJustMoved
@@ -284,7 +284,6 @@ class GoState:
                         if(pos[0]>0):
                             if (self.board[pos[0]-1][pos[1]].color==0 and checked[pos[0]-1][pos[1]]==False):
                                 #print((pos[0]-1,pos[1]))
-                                print(checked[pos[0]-1][pos[1]])
                                 q.put((pos[0]-1,pos[1]))
                             if (self.board[pos[0]-1][pos[1]].color==1):
                                 b=True
@@ -449,16 +448,19 @@ def UCTPlayGame():
     """ Play a sample game between two UCT players where each player gets a different number
         of UCT iterations (= simulations = tree nodes).
     """
-    state = GoState(9)
+    state = GoState(4)
     while (state.GetMoves() != []):
         print(str(state))
         if state.playerJustMoved == 1:
-            m = UCT(rootstate = state, itermax = 1000, verbose = False) # play with values for itermax and verbose = True
+            m = UCT(rootstate = state, itermax = 300, verbose = False) # play with values for itermax and verbose = True
         else:
             m = UCT(rootstate = state, itermax = 100, verbose = False)
         print("Best Move: " + str(m) + "\n")
         state.DoMove(m)
         print(state.board)
+        for i in range(state.size):
+            for j in range(state.size):
+                print(i,j,state.board[i][j].color)
     if state.GetResult(state.playerJustMoved) == 1.0:
         print("Player " + str(state.playerJustMoved) + " wins!")
     elif state.GetResult(state.playerJustMoved) == 0.0:
@@ -471,15 +473,15 @@ if __name__ == "__main__":
     a=GoState(2)
     a.DoMove((0,0))
     a.DoMove((0,1))
-    a.DoMove((1,0))
-    a.DoMove((1,1))
     print(len(Find(a.board[0][1]).liberty))
-    print(Find(a.board[1][0]).color)
+    a.DoMove((1,1))
+    #a.DoMove((1,1))
+    print(len(Find(a.board[0][1]).liberty))
+    print(Find(a.board[0][1]).color)
     print(a.GetMoves())
 
 
     #a.DoMove((1,0))
-    print(a.GetMoves())
     #a.DoMove((0,2))
     #a.DoMove((2,2))
 
