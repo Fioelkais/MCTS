@@ -1,5 +1,5 @@
 __author__ = 'admin'
-__author__ = 'admin'
+
 from math import *
 import random
 import queue
@@ -514,9 +514,12 @@ def UCT(rootstate, itermax, verbose = False):
         Assumes 2 alternating players (player 1 starts), with game results in the range [0.0, 1.0]."""
 
     rootnode = Node(state = rootstate)
-
+    m1=copy.deepcopy(rootstate.moves1)
+    m2=copy.deepcopy(rootstate.moves2)
     for i in range(itermax):
         node = rootnode
+        rootstate.moves1=m1
+        rootstate.moves2=m2
         state = rootstate.Clone()
         count=0
 
@@ -589,14 +592,22 @@ def UCTPlayGame():
     else: print ("Nobody wins!")
 
 if __name__ == "__main__":
-    """ Play a single game to the end using UCT for both players.
+    """ Play a single game to the end using UCT for both players
 """
     a=GoState(9)
     #print(a.CheckP(0,0,1))
+
     s=time.time()
-    print(UCT(rootstate = a, itermax = 1000, verbose = False))
+    m=UCT(rootstate = a, itermax = 1000, verbose = False)
+
+    print(m)
+    a.DoMove(m)
+    a.DoMove((0,0))
+    #a.GetMoves().show()
+    #a.GetMoves().show()
+
     print(time.time()-s)
-    #a.DoMove((1,4))
+    #a.DoMove((1,4)))
     #a.GetWinner(2)
     #print(a.GetMoves())
     #print(a.GetMoves().isempty())

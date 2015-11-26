@@ -423,6 +423,11 @@ def UCT(rootstate, itermax, verbose = False):
             #print("printrollout")
             state.DoMove(random.choice(state.GetMoves()))
 
+        for i in range(state.size):
+            for j in range(state.size):
+                print(i,j,state.board[i][j].color)
+        print(state.playerJustMoved,"playerjustmoved")
+
         # Backpropagate
 
         p1=state.GetWinner(1)
@@ -472,7 +477,7 @@ if __name__ == "__main__":
 """
     a=GoState(9)
     start = time.time()
-    m = UCT(rootstate = a, itermax = 1000, verbose = False)
+    m = UCT(rootstate = a, itermax = 1, verbose = False)
     print(m)
     print(time.time()-start)
     #a.DoMove((1,1))
