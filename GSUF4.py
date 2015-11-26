@@ -310,23 +310,27 @@ class GoState:
         check=False
         l=[]
         if x>0:
+            l.append(Find(self.board[x-1][y]))
             if self.board[x-1][y].color==0 or (self.board[x-1][y].color==3-player and len(Find(self.board[x-1][y]).liberty)==1) or (self.board[x-1][y].color==player and len(Find(self.board[x-1][y]).liberty)>1 ) :
                 check= True
-                l.append(Find(self.board[x-1][y]))
+
         if y>0:
+            l.append(Find(self.board[x-1][y]))
             if self.board[x][y-1].color==0 or (self.board[x][y-1].color==3-player and len(Find(self.board[x][y-1]).liberty)==1) or (self.board[x][y-1].color== player and len(Find(self.board[x][y-1]).liberty)>1 ):
                 check= True
-                l.append(Find(self.board[x-1][y]))
+
 
         if x<self.size-1:
+            l.append(Find(self.board[x-1][y]))
             if self.board[x+1][y].color==0 or (self.board[x+1][y].color==3-player and len(Find(self.board[x+1][y]).liberty)==1) or (self.board[x+1][y].color== player and len(Find(self.board[x+1][y]).liberty)>1 ):
                 check= True
-                l.append(Find(self.board[x-1][y]))
+
 
         if y <self.size-1:
+            l.append(Find(self.board[x-1][y]))
             if self.board[x][y+1].color==0 or(self.board[x][y+1].color==3-player and len(Find(self.board[x][y+1]).liberty)==1) or (self.board[x][y+1].color== player and len(Find(self.board[x][y+1]).liberty)>1 ) :
                 check= True
-                l.append(Find(self.board[x-1][y]))
+
         if self.board[x][y].color!=0:
             check=False
         if l :
@@ -537,10 +541,10 @@ def UCT(rootstate, itermax, verbose = False):
             #print("printrollout")
             state.DoMove(state.GetMoves().getRandom())
 
-        for i in range(state.size):
-            for j in range(state.size):
-                print(i,j,state.board[i][j].color)
-
+        #for i in range(state.size):
+        #    for j in range(state.size):
+        #        print(i,j,state.board[i][j].color)
+        #print(state.playerJustMoved,"playerjustmoved")
         # Backpropagate
 
         p1=copy.deepcopy(state.GetResult(1))
@@ -587,10 +591,10 @@ def UCTPlayGame():
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players.
 """
-    a=GoState(6)
+    a=GoState(9)
     #print(a.CheckP(0,0,1))
     s=time.time()
-    print(UCT(rootstate = a, itermax = 1, verbose = False))
+    print(UCT(rootstate = a, itermax = 1000, verbose = False))
     print(time.time()-s)
     #a.DoMove((1,4))
     #a.GetWinner(2)
