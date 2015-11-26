@@ -1,7 +1,7 @@
 import cmd
 from convert import *
 #from GS import *
-from GSUF3 import*
+from GSUF4 import*
 class Prompt(cmd.Cmd):
     prompt = ''
     file=None
