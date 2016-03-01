@@ -423,10 +423,10 @@ def UCT(rootstate, itermax, verbose = False):
             #print("printrollout")
             state.DoMove(random.choice(state.GetMoves()))
 
-        for i in range(state.size):
-            for j in range(state.size):
-                print(i,j,state.board[i][j].color)
-        print(state.playerJustMoved,"playerjustmoved")
+        #for i in range(state.size):
+        #    for j in range(state.size):
+        #        print(i,j,state.board[i][j].color)
+        #print(state.playerJustMoved,"playerjustmoved")
 
         # Backpropagate
 

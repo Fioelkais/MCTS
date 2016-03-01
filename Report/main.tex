@@ -1,6 +1,25 @@
 \documentclass[12pt]{report}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
+\usepackage{algpseudocode}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes}
+
+\tikzset{
+  treenode/.style = {align=center, inner sep=0pt, text centered,
+    font=\sffamily},
+  arn_n/.style = {treenode, circle, white, font=\sffamily\bfseries, draw=black,
+    fill=black, text width=2.5em},% arbre rouge noir, noeud noir
+  arn_nc/.style = {treenode, diamond, white, font=\sffamily\bfseries, draw=black,
+    fill=black, text width=2.5em},% arbre rouge noir, noeud noir
+  arn_r/.style = {treenode, circle, red, draw=red, 
+    text width=2.5em, very thick},% arbre rouge noir, noeud rouge
+  arn_rc/.style = {treenode, diamond , red, draw=red, 
+    text width=2.5em, very thick},% arbre rouge noir, noeud rouge
+  arn_x/.style = {treenode, rectangle, draw=black,
+    minimum width=0.5em, minimum height=0.5em}% arbre rouge noir, nil
+}
 \graphicspath{ {images/} }
 
 \title{
@@ -21,8 +40,6 @@
 
 \chapter*{Dedication}
 
-To mum and dad
-
 \chapter*{Declaration}
 
 \chapter*{Acknowledgements}
@@ -35,11 +52,11 @@ To mum and dad
 \chapter{State of the art}
 \input{chapters/chap1}
 
-\chapter{Chapter Two Title}
-%\input{chapters/chapter02}
+\chapter{Naive version}
+\input{chapters/chap2}
 
-\chapter{Chapter Three Title}
-%\input{chapters/chapter03}
+\chapter{Optimization}
+\input{chapters/chap3}
 
 
 \chapter{Conclusion}
