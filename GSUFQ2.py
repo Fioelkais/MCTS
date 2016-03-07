@@ -191,22 +191,22 @@ class GoState:
                 #print("test",free,tocheck)
                 if not free:
                     print("toast")
-                    temp=Find(x).comp.first
+                    temp=Find(self.board[i[0]][i[1]]).comp.first
                     temp.value.color.set(0)
                     temp.value.rank=0
                     temp.value.parent=temp.value
                     temp.value.comp=LKlist(temp.value)
                     temp.value.lib=LKlist(temp.value)
-                    self.moves1.insert((temp.x,temp.y))
-                    self.moves2.insert((temp.x,temp.y))
+                    self.moves1.insert((temp.value.x,temp.value.y))
+                    self.moves2.insert((temp.value.x,temp.value.y))
                     while(temp.next !=None):
                         temp.next.value.color.set(0)
                         temp.next.value.rank=0
                         temp.next.value.parent=temp.value
                         temp.next.value.comp=LKlist(temp.value)
                         temp.next.value.lib=LKlist(temp.value)
-                        self.moves1.insert((temp.next.x,temp.next.y))
-                        self.moves2.insert((temp.next.x,temp.next.y))
+                        self.moves1.insert((temp.next.value.x,temp.next.value.y))
+                        self.moves2.insert((temp.next.value.x,temp.next.value.y))
                         temp2=temp.next
                         temp.next=None
                         temp=temp2
