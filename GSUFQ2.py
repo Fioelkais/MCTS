@@ -176,7 +176,7 @@ class GoState:
                 nd= self.board[i[0]][i[1]].lib.first
                 free=False
                 finish=False
-                while not free or finish :
+                while not free and not finish :
                     #print(nd.value.x,nd.value.y)
                     if nd.value.color.get()==0:
                         free=True
@@ -536,9 +536,11 @@ if __name__ == "__main__":
 
     #print(m)
     a.DoMove((0,0))
-    a.DoMove((1,0))
+    a.DoMove((0,1))
     print("mid")
     a.DoMove((0,2))
+    a.DoMove((2,0))
+    a.DoMove((1,1))
     print("mid2")
     test=a.board[0][0].lib.first
     print(test.value.x,test.value.y)
