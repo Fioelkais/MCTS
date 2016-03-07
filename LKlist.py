@@ -8,6 +8,8 @@ class Node:
         return self.value
     def getNext(self):
         return self.next
+    def removeNext(self):
+        self.next=self.next.next
 
 class LKlist (object):
     def __init__(self,v):
@@ -24,6 +26,7 @@ class LKlist (object):
     def union(self,lk):
         self.last.next=lk.first
         self.last=lk.last
+
     def __str__(self):
         current=self.first
         print(current.value)
