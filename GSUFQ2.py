@@ -106,6 +106,7 @@ class GoState:
             tocheck=[]
             (x,y)=(move[0],move[1])
             self.board[x][y].color.set(3 - self.playerJustMoved)
+            self.board[x][y].comp.add(self.board[x][y])
 
             #Remove move of stone put
             if self.moves1.contain(move):
@@ -172,11 +173,14 @@ class GoState:
                 nd= Find(self.board[i[0]][i[1]]).lib.first
                 free=False
                 finish=False
+                if nd==None:
+                    free=True
+
                 #print(i[0],i[1])
                 while not free and not finish :
                     #print(nd.value.x,nd.value.y)
                     #print(nd.value.x,nd.value.y,nd.value.color.get())
-                    if nd.value.color.get()==0:
+                    if nd.value.color.get()==0 :
                         free=True
                     #Suppress stone of the same group in the liberties
                     #if nd.next.value.color.get()==col:
@@ -193,16 +197,16 @@ class GoState:
                     temp.value.color.set(0)
                     temp.value.rank=0
                     temp.value.parent=temp.value
-                    temp.value.comp=LKlist(temp.value)
-                    temp.value.lib=LKlist(temp.value)
+                    temp.value.comp.clear()
+                    temp.value.lib.clear()
                     self.moves1.insert((temp.value.x,temp.value.y))
                     self.moves2.insert((temp.value.x,temp.value.y))
                     while(temp.next !=None):
                         temp.next.value.color.set(0)
                         temp.next.value.rank=0
                         temp.next.value.parent=temp.value
-                        temp.next.value.comp=LKlist(temp.value)
-                        temp.next.value.lib=LKlist(temp.value)
+                        temp.next.value.comp.clear()
+                        temp.next.value.lib.clear()
                         self.moves1.insert((temp.next.value.x,temp.next.value.y))
                         self.moves2.insert((temp.next.value.x,temp.next.value.y))
                         temp2=temp.next
@@ -554,19 +558,37 @@ if __name__ == "__main__":
     m=UCT(rootstate = a, itermax = 3, verbose = False)
 
     print('AZD')
-    a.DoMove((1,2))
-    a.DoMove((2,2))
-    a.DoMove((0,0))
-    a.DoMove((2,0))
-    a.DoMove((-1,-1))
     a.DoMove((2,1))
+    a.DoMove((0,3))
+    a.DoMove((3,2))
+    a.DoMove((1,1))
+    a.DoMove((2,2))
+    a.DoMove((1,0))
+    a.DoMove((1,2))
+    a.DoMove((1,3))
+    a.DoMove((3,1))
+    a.DoMove((-1,-1))
+    a.DoMove((3,0))
+    a.DoMove((2,0))
+    a.DoMove((0,0))
+    a.DoMove((2,3))
     a.DoMove((0,1))
+    a.DoMove((1,1))
+    a.DoMove((0,2))
+    a.DoMove((-1,-1))
+    a.DoMove((3,3))
+    a.DoMove((0,3))
+    a.DoMove((1,0))
 
-    print("mid")
-
-    #test=a.board[0][1].lib.first
+    #test=Find(a.board[1][1]).lib.first
     #print(test.value.x,test.value.y)
+    #print(test.value.color.get())
     #test=test.next
+
+
+    print("mid----------------")
+
+
 
 
 

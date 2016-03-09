@@ -23,9 +23,15 @@ class LKlist (object):
         temp=Node(v)
         temp.next=self.first
         self.first=temp
+        if(self.last==None):
+            self.last=self.first
     def union(self,lk):
         self.last.next=lk.first
         self.last=lk.last
+
+    def clear(self):
+        self.first=None
+        self.last=None
 
     def __str__(self):
         current=self.first

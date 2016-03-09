@@ -55,8 +55,8 @@ def Destroy(x):
     while(temp.next !=None):
         temp.next.value.color.set(0)
         temp.next.value.rank=0
-        temp.next.value.parent=temp.value
-        temp.next.value.comp=LKlist(temp.value)
+        temp.next.value.parent=temp.next.value
+        temp.next.value.comp=LKlist(temp.next.value)
         temp2=temp.next
         temp.next=None
         temp=temp2
@@ -76,32 +76,31 @@ def Extend1(x,y):
 if __name__ == "__main__":
     """Unit test to verify the methods of UF"""
 
-    x=5
-    y=x
-    x=3
-    print(y,'toast')
-
     b = [[NodeUF() for x in range(3)] for x in range(3)]
-    print(b[0][0].color.get())
-    c=b[0][0].color
-    print(c.get(),"t1")
-    b[0][0].color.set(8)
-    print(c.get(),"t2")
+
 
     print(Find(b[0][0])==Find(b[0][0]))
 
-    b[0][1].color= 2
-    b[0][0].color= 1
-    b[0][2].color = 3
+    b[0][1].color.set(2)
+    b[0][0].color.set(1)
+    b[0][2].color.set(3)
     print(b[0][0].color)
     print(b[0][1].color)
 
     Union(b[0][1],b[0][0])
+    print(Find(b[0][0]).comp.first.value.color.get())
+    print(Find(b[0][0]).comp.last.value.color.get())
     Union(b[0][1],b[0][2])
+
+    print(Find(b[0][0]).comp.first.value.color.get())
+    print(Find(b[0][0]).comp.last.value.color.get())
 
     print("test")
 
     Destroy(Find(b[0][0]))
+
+    print(Find(b[0][0]).comp.first.value.color.get())
+    print(Find(b[0][0]).comp.last.value.color.get())
     print(b[0][0].color)
     print(b[0][1].color)
 
