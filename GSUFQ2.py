@@ -263,6 +263,8 @@ class GoState:
         nd= Find(self.board[x][y]).lib.first
         free=False
         finish=False
+        if nd==None:
+            free=True
         while not free and not finish :
             if nd.value.color.get()==0:
                 free=True
@@ -480,6 +482,7 @@ def UCT(rootstate, itermax, verbose = False):
             m=state.GetMoves().getRandom()
             still=True
             while not state.Check(m[0],m[1],3-state.playerJustMoved) and still :
+                state.GetMoves().show()
                 if 3-state.playerJustMoved==2:
                     state.moves2.remove(m)
                 else:

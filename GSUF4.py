@@ -544,14 +544,14 @@ def UCT(rootstate, itermax, verbose = False):
             #print("printrollout")
             state.DoMove(state.GetMoves().getRandom())
 
-        for i in range(state.size):
-            for j in range(state.size):
-                print(i,j,state.board[i][j].color)
-        print(state.playerJustMoved,"playerjustmoved")
+        #for i in range(state.size):
+        #    for j in range(state.size):
+        #        print(i,j,state.board[i][j].color)
+        #print(state.playerJustMoved,"playerjustmoved")
         # Backpropagate
 
         p1=copy.deepcopy(state.GetResult(1))
-        print(p1)
+        #print(p1)
         p2=1-p1
 
         while node != None: # backpropagate from the expanded node and work back to the root node
@@ -599,7 +599,7 @@ if __name__ == "__main__":
     #print(a.CheckP(0,0,1))
 
     s=time.time()
-    m=UCT(rootstate = a, itermax = 1, verbose = False)
+    m=UCT(rootstate = a, itermax = 100000, verbose = False)
 
     print(m)
     a.DoMove(m)
