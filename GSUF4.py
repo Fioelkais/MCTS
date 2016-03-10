@@ -599,7 +599,7 @@ if __name__ == "__main__":
     #print(a.CheckP(0,0,1))
 
     s=time.time()
-    m=UCT(rootstate = a, itermax = 3000, verbose = False)
+    m=UCT(rootstate = a, itermax = 1000, verbose = False)
 
     print(m)
     a.DoMove(m)

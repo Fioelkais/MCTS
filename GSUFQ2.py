@@ -174,11 +174,11 @@ class GoState:
                 if Find(self.board[i[0]][i[1]]).freed==None:
                     nd= Find(self.board[i[0]][i[1]]).lib.first
                     test=Find(self.board[i[0]][i[1]]).lib.first
-                    first=Find(self.board[i[0]][i[1]]).lib.first
+                    #first=Find(self.board[i[0]][i[1]]).lib.first
                 else:
                     nd=Find(self.board[i[0]][i[1]]).freed
                     test=Find(self.board[i[0]][i[1]]).freed
-                    first=Find(self.board[i[0]][i[1]]).lib.first
+                    #first=Find(self.board[i[0]][i[1]]).lib.first
 
                 free=False
                 finish=False
@@ -196,12 +196,10 @@ class GoState:
 
                         nd=nd.next
                     else:
-                        nd= first
+                        nd= Find(self.board[i[0]][i[1]]).lib.first
                         #second+=1
                     if nd == test:
                         finish=True
-
-
 
                 #if no lib with ==0,destroy
                 if not free:
@@ -276,20 +274,30 @@ class GoState:
         return check
 
     def CheckL(self,x,y):
-        nd= Find(self.board[x][y]).lib.first
+        if Find(self.board[x][y]).freed==None:
+            nd= Find(self.board[x][y]).lib.first
+            test=Find(self.board[x][y]).lib.first
+        else:
+            nd=Find(self.board[x][y]).freed
+            test=Find(self.board[x][y]).freed
+
         free=False
         finish=False
         if nd==None:
             free=True
-        while not free and not finish :
-            if nd.value.color.get()==0:
+        while not free and not finish:
+            if nd.value.color.get()==0 :
                 free=True
+                Find(self.board[x][y]).freed=nd
             #Suppress stone of the same group in the liberties
-            #if nd.next.value.color.get()==col:
             if nd.next != None:
+
                 nd=nd.next
             else:
+                nd= Find(self.board[x][y]).lib.first
+            if nd == test:
                 finish=True
+
         return free
 
     def GetMoves(self):
@@ -572,7 +580,7 @@ if __name__ == "__main__":
     #print(a.CheckP(0,0,1))
 
     s=time.time()
-    #m=UCT(rootstate = a, itermax = 30000, verbose = False)
+    #m=UCT(rootstate = a, itermax = 1000, verbose = False)
 
     #test=Find(a.board[1][1]).lib.first
     #print(test.value.x,test.value.y)
@@ -592,12 +600,6 @@ if __name__ == "__main__":
     print("------------------------")
     a.DoMove((0,2))"""
 
-
-
-
-
-
-
     for i in range(a.size):
             for j in range(a.size) :
                 print(a.board[i][j].color.get(),end="")
@@ -616,7 +618,7 @@ if __name__ == "__main__":
     #a.DoMove((0,2))
     #a.DoMove((2,2))
 
-    UCTPlayGame()
+    #UCTPlayGame()
 
 
 
