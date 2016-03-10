@@ -1,7 +1,7 @@
 import cmd
 from convert import *
 #from GS import *
-from GSUF4 import*
+from GSUFQ2 import*
 class Prompt(cmd.Cmd):
     prompt = ''
     file=None
@@ -57,7 +57,7 @@ class Prompt(cmd.Cmd):
     def do_genmove(self,arg):
         if(arg=='w'):
             self.a.playerJustMoved=1
-            move=UCT(rootstate = self.a, itermax = 1000, verbose = False)
+            move=UCT(rootstate = self.a, itermax = 500, verbose = False)
             self.a.DoMove(move)
             result = self.inttogtp(move[0],move[1])
             if result[0]=="@" and result[1]==self.size+1:
@@ -67,7 +67,7 @@ class Prompt(cmd.Cmd):
                 print('= '+result2 +'\n')
         if (arg=='b'):
             self.a.playerJustMoved=2
-            move=UCT(rootstate = self.a, itermax = 1000, verbose = False)
+            move=UCT(rootstate = self.a, itermax = 500, verbose = False)
             self.a.DoMove(move)
             result=self.inttogtp(move[0],move[1])
             if result[0]=="@" and result[1]==self.size+1:
@@ -122,6 +122,7 @@ class Prompt(cmd.Cmd):
         return(letter,number)
 
     def do_EOF(self):
+        self.close()
         return True
 
 if __name__ == '__main__':

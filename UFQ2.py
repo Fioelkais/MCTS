@@ -7,7 +7,9 @@ class NodeUF(object):
         self.rank = 0
         self.color=rf(0)
         self.comp = LKlist((self))
+        self.comp.clear()
         self.lib=LKlist((self))
+        self.freed=None
         self.x=0
         self.y=0
     def __str__(self):
@@ -84,25 +86,24 @@ if __name__ == "__main__":
     b[0][1].color.set(2)
     b[0][0].color.set(1)
     b[0][2].color.set(3)
-    print(b[0][0].color)
-    print(b[0][1].color)
 
     Union(b[0][1],b[0][0])
     print(Find(b[0][0]).comp.first.value.color.get())
     print(Find(b[0][0]).comp.last.value.color.get())
     Union(b[0][1],b[0][2])
 
+    test=Find(b[0][0]).comp.first
+    print(test.value.x,test.value.y)
+    test=test.next
+    print(test.value.x,test.value.y)
+    test=test.next
+    print(test.value.x,test.value.y)
+    test=test.next
+    test.value
+
+
     print(Find(b[0][0]).comp.first.value.color.get())
     print(Find(b[0][0]).comp.last.value.color.get())
-
-    print("test")
-
-    Destroy(Find(b[0][0]))
-
-    print(Find(b[0][0]).comp.first.value.color.get())
-    print(Find(b[0][0]).comp.last.value.color.get())
-    print(b[0][0].color)
-    print(b[0][1].color)
 
 
 

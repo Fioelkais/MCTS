@@ -101,7 +101,6 @@ class GoState:
             self.komove.clear()
         else:
             self.lastpass=False
-            first=True
             self.komove.clear()
             tocheck=[]
             (x,y)=(move[0],move[1])
@@ -170,48 +169,65 @@ class GoState:
 
             for i in tocheck:
                 col=self.board[i[0]][i[1]].color.get()
-                nd= Find(self.board[i[0]][i[1]]).lib.first
+                #nd= Find(self.board[i[0]][i[1]]).lib.first
+                #test=Find(self.board[i[0]][i[1]]).lib.first
+                if Find(self.board[i[0]][i[1]]).freed==None:
+                    nd= Find(self.board[i[0]][i[1]]).lib.first
+                    test=Find(self.board[i[0]][i[1]]).lib.first
+                    first=Find(self.board[i[0]][i[1]]).lib.first
+                else:
+                    nd=Find(self.board[i[0]][i[1]]).freed
+                    test=Find(self.board[i[0]][i[1]]).freed
+                    first=Find(self.board[i[0]][i[1]]).lib.first
+
                 free=False
                 finish=False
+                #second=0
                 if nd==None:
                     free=True
-
-                #print(i[0],i[1])
-                while not free and not finish :
+                while not free and not finish:# and second <2:
                     #print(nd.value.x,nd.value.y)
-                    #print(nd.value.x,nd.value.y,nd.value.color.get())
                     if nd.value.color.get()==0 :
                         free=True
+                        Find(self.board[i[0]][i[1]]).freed=nd#PROBLEM SUR CE ND ET L ATTRIBUTION DU FIND
+
                     #Suppress stone of the same group in the liberties
-                    #if nd.next.value.color.get()==col:
                     if nd.next != None:
+
                         nd=nd.next
                     else:
+                        nd= first
+                        #second+=1
+                    if nd == test:
                         finish=True
+
+
+
                 #if no lib with ==0,destroy
-                #TODO : add residu
-                #print("test",free,tocheck)
                 if not free:
-                    #print("toast")
                     temp=Find(self.board[i[0]][i[1]]).comp.first
+                    temp2=temp.next
                     temp.value.color.set(0)
                     temp.value.rank=0
                     temp.value.parent=temp.value
                     temp.value.comp.clear()
                     temp.value.lib.clear()
+                    temp.value.freed=None
                     self.moves1.insert((temp.value.x,temp.value.y))
                     self.moves2.insert((temp.value.x,temp.value.y))
-                    while(temp.next !=None):
-                        temp.next.value.color.set(0)
-                        temp.next.value.rank=0
-                        temp.next.value.parent=temp.value
-                        temp.next.value.comp.clear()
-                        temp.next.value.lib.clear()
-                        self.moves1.insert((temp.next.value.x,temp.next.value.y))
-                        self.moves2.insert((temp.next.value.x,temp.next.value.y))
+                    temp=temp2
+                    while not temp ==None:
                         temp2=temp.next
-                        temp.next=None
+                        temp.value.color.set(0)
+                        temp.value.rank=0
+                        temp.value.parent=temp.value
+                        temp.value.comp.clear()
+                        temp.value.lib.clear()
+                        temp.value.freed=None
+                        self.moves1.insert((temp.value.x,temp.value.y))
+                        self.moves2.insert((temp.value.x,temp.value.y))
                         temp=temp2
+
 
 
 
@@ -470,43 +486,41 @@ def UCT(rootstate, itermax, verbose = False):
         # Expand
         if not node.untriedMoves.isempty(): # if we can expand (i.e. state/node is non-terminal)
             m = node.untriedMoves.getRandom()
-            while not state.Check(m[0],m[1],3-state.playerJustMoved):
+            still=True
+            while (not state.Check(m[0],m[1],3-state.playerJustMoved)) and still:
                 node.untriedMoves.remove(m)
-                m=node.untriedMoves.getRandom()
+                if node.untriedMoves.isempty:
+                    still=False
+                else:
+                    m=node.untriedMoves.getRandom()
 
-            state.DoMove(m)
-            node = node.AddChild(m,state) # add child and descend tree
+            if still:
+                state.DoMove(m)
+                node = node.AddChild(m,state) # add child and descend tree
 
         # Rollout - this can often be made orders of magnitude quicker using a state.GetRandomMove() function
         while not state.GetMoves().isempty() : # while state is non-terminal
-            m=state.GetMoves().getRandom()
+            temp=state.GetMoves()
+            m=temp.getRandom()
             still=True
             while not state.Check(m[0],m[1],3-state.playerJustMoved) and still :
-                state.GetMoves().show()
                 if 3-state.playerJustMoved==2:
-                    state.moves2.remove(m)
-                else:
                     state.moves1.remove(m)
-                if state.GetMoves().isempty():
+                    temp.remove(m)
+                else:
+                    state.moves2.remove(m)
+                    temp.remove(m)
+                if temp.isempty():
                     still=False
                 else:
-                    m=state.GetMoves().getRandom()
+                    m=temp.getRandom()
             if still:
                 state.DoMove(m)
-            print("MOVE DONE :", m)
-            for i in range(state.size):
-                for j in range(state.size) :
-                    print(state.board[i][j].color.get(),end="")
-                print()
-            print("--------------")
-
-
-
 
         # Backpropagate
 
         p1=copy.deepcopy(state.GetResult(1))
-        print(p1)
+        #print(p1)
         p2=1-p1
 
         while node != None: # backpropagate from the expanded node and work back to the root node
@@ -531,13 +545,13 @@ def UCTPlayGame():
     """ Play a sample game between two UCT players where each player gets a different number
         of UCT iterations (= simulations = tree nodes).
     """
-    state = GoState(5)
+    state = GoState(9)
     while not state.GetMoves().isempty():
         print(str(state))
         if state.playerJustMoved == 1:
-            m = UCT(rootstate = state, itermax = 1, verbose = False) # play with values for itermax and verbose = True
+            m = UCT(rootstate = state, itermax = 100, verbose = False) # play with values for itermax and verbose = True
         else:
-            m = UCT(rootstate = state, itermax = 1, verbose = False)
+            m = UCT(rootstate = state, itermax = 100, verbose = False)
         print("Best Move: " + str(m) + "\n")
         state.DoMove(m)
         for i in range(state.size):
@@ -554,52 +568,36 @@ def UCTPlayGame():
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players
 """
-    a=GoState(4)
+    a=GoState(9)
     #print(a.CheckP(0,0,1))
 
     s=time.time()
-    m=UCT(rootstate = a, itermax = 3, verbose = False)
-
-    print('AZD')
-    a.DoMove((2,1))
-    a.DoMove((0,3))
-    a.DoMove((3,2))
-    a.DoMove((1,1))
-    a.DoMove((2,2))
-    a.DoMove((1,0))
-    a.DoMove((1,2))
-    a.DoMove((1,3))
-    a.DoMove((3,1))
-    a.DoMove((-1,-1))
-    a.DoMove((3,0))
-    a.DoMove((2,0))
-    a.DoMove((0,0))
-    a.DoMove((2,3))
-    a.DoMove((0,1))
-    a.DoMove((1,1))
-    a.DoMove((0,2))
-    a.DoMove((-1,-1))
-    a.DoMove((3,3))
-    a.DoMove((0,3))
-    a.DoMove((1,0))
+    #m=UCT(rootstate = a, itermax = 30000, verbose = False)
 
     #test=Find(a.board[1][1]).lib.first
     #print(test.value.x,test.value.y)
     #print(test.value.color.get())
     #test=test.next
 
-
-    print("mid----------------")
-
-
-
-
-
-
     #test=a.board[0][0].lib.first
     #print(test.value.x,test.value.y)
-
+    """
     #a.DoMove((0,1))
+    a.DoMove((0,0))
+    a.DoMove((0,1))
+    a.DoMove((1,1))
+    a.DoMove((0,2))
+    a.DoMove((1,2))
+    a.DoMove((0,1))
+    print("------------------------")
+    a.DoMove((0,2))"""
+
+
+
+
+
+
+
     for i in range(a.size):
             for j in range(a.size) :
                 print(a.board[i][j].color.get(),end="")
@@ -618,7 +616,7 @@ if __name__ == "__main__":
     #a.DoMove((0,2))
     #a.DoMove((2,2))
 
-    #UCTPlayGame()
+    UCTPlayGame()
 
 
 

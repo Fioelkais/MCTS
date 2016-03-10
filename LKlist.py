@@ -1,6 +1,6 @@
 __author__ = 'admin'
 
-class Node:
+class NodeL:
     def __init__(self,v):
         self.value=v
         self.next=None
@@ -13,25 +13,25 @@ class Node:
 
 class LKlist (object):
     def __init__(self,v):
-        self.first=Node(v)
+        self.first=NodeL(v)
         self.last=self.first
 
     def getFirst(self):
         return self.first
 
     def add(self,v):
-        temp=Node(v)
+        temp=NodeL(v)
+        if(self.first==None):
+            self.last=temp
         temp.next=self.first
         self.first=temp
-        if(self.last==None):
-            self.last=self.first
     def union(self,lk):
         self.last.next=lk.first
         self.last=lk.last
 
     def clear(self):
         self.first=None
-        self.last=None
+
 
     def __str__(self):
         current=self.first
