@@ -244,6 +244,8 @@ class GoState:
             if self.board[x-1][y].color.get()==0:
                 check=True
             elif self.CheckL(x-1,y) and self.board[x-1][y].color.get()==p:
+                #self.board[x][y].color.set(0)
+                #return True
                 check= True
             elif not self.CheckL(x-1,y) and self.board[x-1][y].color.get()==3-p:
                 check=True
@@ -274,6 +276,7 @@ class GoState:
         return check
 
     def CheckL(self,x,y):
+        #col = Find(self.board[x][y]).color.get()
         if Find(self.board[x][y]).freed==None:
             nd= Find(self.board[x][y]).lib.first
             test=Find(self.board[x][y]).lib.first
@@ -289,6 +292,10 @@ class GoState:
             if nd.value.color.get()==0 :
                 free=True
                 Find(self.board[x][y]).freed=nd
+            """
+            elif nd.value.color.get()==col:
+                if nd.next!= None:
+            """
             #Suppress stone of the same group in the liberties
             if nd.next != None:
 
@@ -580,7 +587,7 @@ if __name__ == "__main__":
     #print(a.CheckP(0,0,1))
 
     s=time.time()
-    #m=UCT(rootstate = a, itermax = 1000, verbose = False)
+    m=UCT(rootstate = a, itermax = 1000, verbose = False)
 
     #test=Find(a.board[1][1]).lib.first
     #print(test.value.x,test.value.y)
