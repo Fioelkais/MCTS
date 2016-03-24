@@ -192,6 +192,12 @@ class GoState:
                         Find(self.board[i[0]][i[1]]).freed=nd#PROBLEM SUR CE ND ET L ATTRIBUTION DU FIND
 
                     #Suppress stone of the same group in the liberties
+                    if nd.next!=None:
+                        if nd.next.value.color.get()==col and nd.next != test:
+                            nd.next=nd.next.next
+                            #"""
+
+
                     if nd.next != None:
 
                         nd=nd.next
@@ -276,7 +282,7 @@ class GoState:
         return check
 
     def CheckL(self,x,y):
-        #col = Find(self.board[x][y]).color.get()
+        col = Find(self.board[x][y]).color.get()
         if Find(self.board[x][y]).freed==None:
             nd= Find(self.board[x][y]).lib.first
             test=Find(self.board[x][y]).lib.first
@@ -293,10 +299,20 @@ class GoState:
                 free=True
                 Find(self.board[x][y]).freed=nd
             """
-            elif nd.value.color.get()==col:
-                if nd.next!= None:
-            """
+            elif test.value.color.get()==col:
+                if test.next!=None:
+                    test=test.next
+                else:
+                    test=Find(self.board[x][y]).lib.first
+            #"""
+            #"""
             #Suppress stone of the same group in the liberties
+            if nd.next!=None:
+                if nd.next.value.color.get()==col and nd.next != test:
+                    nd.next=nd.next.next
+                    #"""
+
+
             if nd.next != None:
 
                 nd=nd.next
@@ -596,16 +612,16 @@ if __name__ == "__main__":
 
     #test=a.board[0][0].lib.first
     #print(test.value.x,test.value.y)
-    """
-    #a.DoMove((0,1))
-    a.DoMove((0,0))
+
     a.DoMove((0,1))
-    a.DoMove((1,1))
+    a.DoMove((0,0))
+    a.DoMove((1,0))
+    """a.DoMove((1,1))
     a.DoMove((0,2))
     a.DoMove((1,2))
-    a.DoMove((0,1))
+    a.DoMove((0,1))"""
     print("------------------------")
-    a.DoMove((0,2))"""
+    a.DoMove((0,2))
 
     for i in range(a.size):
             for j in range(a.size) :

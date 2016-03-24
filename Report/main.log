@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.10.14)  2 JAN 2016 13:15
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.10.14)  23 MAR 2016 18:35
 entering extended mode
 **main.tex
 ("E:\Thibault\travail\Master INFO21\MasterThesis\MCTS\MCTS\Report\main.tex"
@@ -741,117 +741,97 @@ Underfull \hbox (badness 10000) in paragraph at lines 5--7
 <images/Golibs.png, id=30, 220.825pt x 219.82124pt>
 File: images/Golibs.png Graphic file (type png)
  <use images/Golibs.png>
-Package pdftex.def Info: images/Golibs.png used on input line 11.
+Package pdftex.def Info: images/Golibs.png used on input line 13.
 (pdftex.def)             Requested size: 110.41222pt x 109.91034pt.
 
+<images/gogroupe.jpg, id=32, 176.66pt x 146.5475pt>
+File: images/gogroupe.jpg Graphic file (type jpg)
+ <use images/gogroupe.jpg>
+Package pdftex.def Info: images/gogroupe.jpg used on input line 22.
+(pdftex.def)             Requested size: 88.32977pt x 73.27356pt.
+
+<images/scorego.jpg, id=33, 730.73pt x 548.0475pt>
+File: images/scorego.jpg Graphic file (type jpg)
+ <use images/scorego.jpg>
+Package pdftex.def Info: images/scorego.jpg used on input line 31.
+(pdftex.def)             Requested size: 292.28682pt x 219.2151pt.
+)
 [7
 
- <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/images/Golibs
-.png>] <images/gogroupe.jpg, id=36, 176.66pt x 146.5475pt>
-File: images/gogroupe.jpg Graphic file (type jpg)
-
-<use images/gogroupe.jpg>
-Package pdftex.def Info: images/gogroupe.jpg used on input line 17.
-(pdftex.def)             Requested size: 88.32977pt x 73.27356pt.
- <images/scorego.jpg, id=37, 730.73pt x 548.0475pt>
-File: images/scorego.jpg Graphic file (type jpg)
-
-<use images/scorego.jpg>
-Package pdftex.def Info: images/scorego.jpg used on input line 25.
-(pdftex.def)             Requested size: 292.28682pt x 219.2151pt.
-) [8 <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/images/go
-groupe.jpg> <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/im
-ages/scorego.jpg>]
+] [8 <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/images/Go
+libs.png> <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/imag
+es/gogroupe.jpg>] [9 <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/
+Report/images/scorego.jpg>]
 Chapter 2.
 
 ("E:\Thibault\travail\Master INFO21\MasterThesis\MCTS\MCTS\Report\chapters/chap
 1.tex"
-Underfull \hbox (badness 10000) in paragraph at lines 2--4
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 5--7
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 8--10
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 11--13
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 20--22
-
- []
-
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 26.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 17.
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 26.
- [9
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 17.
+ [10
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 53--55
+Underfull \hbox (badness 10000) in paragraph at lines 44--46
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 56--58
+Underfull \hbox (badness 10000) in paragraph at lines 47--49
 
  []
 
-[10]
-Underfull \hbox (badness 10000) in paragraph at lines 78--81
+[11]
+Underfull \hbox (badness 10000) in paragraph at lines 69--72
 
  []
 
-[11] [12] [13] [14]
-Underfull \hbox (badness 10000) in paragraph at lines 194--196
+[12] [13] [14] [15]
+Underfull \hbox (badness 10000) in paragraph at lines 185--187
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 197--199
+Underfull \hbox (badness 10000) in paragraph at lines 188--190
 
  []
 
-[15]
-Underfull \hbox (badness 10000) in paragraph at lines 209--211
+[16]
+Underfull \hbox (badness 10000) in paragraph at lines 200--202
 
  []
 
-[16] [17] <images/perf.jpg, id=79, 556.0775pt x 393.47pt>
+[17] [18] <images/perf.jpg, id=83, 556.0775pt x 393.47pt>
 File: images/perf.jpg Graphic file (type jpg)
 
 <use images/perf.jpg>
-Package pdftex.def Info: images/perf.jpg used on input line 266.
+Package pdftex.def Info: images/perf.jpg used on input line 257.
 (pdftex.def)             Requested size: 278.03807pt x 196.73451pt.
- [18]
-Underfull \hbox (badness 10000) in paragraph at lines 274--276
+ [19]
+Underfull \hbox (badness 10000) in paragraph at lines 265--267
 
  []
 
-[19 <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/images/per
-f.jpg>] [20]) [21]
+[20 <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/images/per
+f.jpg>] [21]) [22]
 Chapter 3.
 
 ("E:\Thibault\travail\Master INFO21\MasterThesis\MCTS\MCTS\Report\chapters/chap
-2.tex" [22
+2.tex" [23
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 46--48
 
  []
 
-[23] [24] [25] [26]
+[24] [25] [26] [27]
 Underfull \hbox (badness 10000) in paragraph at lines 166--167
 
  []
@@ -861,26 +841,26 @@ Underfull \hbox (badness 10000) in paragraph at lines 168--169
 
  []
 
-) [27]
+) [28]
 Chapter 4.
 
 ("E:\Thibault\travail\Master INFO21\MasterThesis\MCTS\MCTS\Report\chapters/chap
-3.tex" [28
+3.tex" [29
 
-] [29] [30]) [31]
+] [30] [31]) [32]
 Chapter 5.
-[32
+[33
 
 ]
 Appendix A.
-[33
+[34
 
 ] ("E:\Thibault\travail\Master INFO21\MasterThesis\MCTS\MCTS\Report\main.aux") 
 ) 
 Here is how much of TeX's memory you used:
  14397 strings out of 493921
  311165 string characters out of 3144875
- 359973 words of memory out of 3000000
+ 359911 words of memory out of 3000000
  17424 multiletter control sequences out of 15000+200000
  10531 words of font info for 37 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
@@ -899,9 +879,9 @@ les (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files
 iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files (x86)/MiKT
 eX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Program Files (x86)/MiKTeX
  2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on main.pdf (34 pages, 524050 bytes).
+Output written on main.pdf (35 pages, 525539 bytes).
 PDF statistics:
- 176 PDF objects out of 1000 (max. 8388607)
+ 179 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  33 words of extra memory for PDF output out of 10000 (max. 10000000)
 
