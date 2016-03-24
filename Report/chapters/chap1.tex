@@ -8,25 +8,25 @@ And last but not least,we will see the application of MCTS to Go and which are s
 
 \subsection{Monte Carlo}
 
-Monte Carlo methods are a big set of algorithms that works by using a repeated random sample to estimate a solution. They are widely used in a lot of domains like Physics, computational biology, computer graphics or science, Artificial intelligence, even economics. 
+Monte Carlo methods are algorithms used to estimate a solution, using repeated random samples. They are widely used in a lot of domains like Physics, computational biology, computer graphics, computer science, Artificial intelligence, and even economics. 
 \\
 
-There is four steps to a Monte Carlo algorithm : 
+There are four steps in a Monte Carlo algorithm : 
 
 \begin{itemize}
-\item Define a domain of inputs
-\item Generate random value over the domain following a probability distribution
-\item Compute the result
-\item Use the result to get what you wanted
+\item Define a domain of inputs :it first has to define in which domain the random data will be generated
+\item Sample random values over the domain by following a probability distribution 
+\item Compute the result : Thanks to all the random data, it can compute property based on theses values(like mean by example)
+\item Use the result to get what you wanted : With the values and properties found, it should be able to deduce the information the algorithm was looking for. 
 \end{itemize} 
 
 We'll show this four steps through an example : the computation of $\pi$. How to estimate $\pi$ with a random generation. 
 
 \begin{itemize}
 \item Define a domain of inputs : the square of coordinates (0,0),(1,0),(0,1) and (1,1).
-\item Generate random value over the domain following a probability distribution : Generate points randomly into this square. 
-\item Compute the result : compute $x$ where $x = \frac{In}{Total}$ and where $Total$ is the number of points generated and $In$ is the number of points inside the circle of radius 1. 
-\item Use the result to get what you wanted : With a sufficient high number of $Total$ we can approximate thanks to the law of big numbers and assume
+\item Sample random value over the domain following a probability distribution : here a uniform distribution. 
+\item Compute the result : compute $x$ where $x = \frac{In}{Total}$ and where $Total$ is the number of points sampled and $In$ is the number of theses points which fall within the circle of radius 1. 
+\item Use the result to get what you wanted : With a sufficient high number of $Total$ we can approximate $\pi$ thanks to the law of big numbers and assuming : 
 
 
 $$\frac{In}{Total}= \frac{\textrm{area of the quarter of the circle}}{\textrm{area of the square}}$$
