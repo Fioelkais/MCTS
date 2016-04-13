@@ -1,11 +1,12 @@
 \documentclass[12pt]{report}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
-\usepackage{algpseudocode}
+%\usepackage{algpseudocode}
+\usepackage[boxed,vlined,linesnumbered,ruled]{algorithm2e}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes}
-
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}
 \tikzset{
   treenode/.style = {align=center, inner sep=0pt, text centered,
     font=\sffamily},
@@ -27,7 +28,7 @@
 	{\large UCL - Ecole polytechnique de Louvain}\\
 	%{\includegraphics{university.jpg}}
 }
-\author{Vandermoste Thibault}
+\author{Vandermosten Thibault}
 \date{Day Month Year}
 
 
@@ -51,6 +52,9 @@
 
 \chapter{State of the art}
 \input{chapters/chap1}
+
+\chapter{MCTS applied to Go}
+\input{chapters/chap1b}
 
 \chapter{Naive version}
 \input{chapters/chap2}

@@ -4,12 +4,6 @@ class NodeL:
     def __init__(self,v):
         self.value=v
         self.next=None
-    def getVal(self):
-        return self.value
-    def getNext(self):
-        return self.next
-    def removeNext(self):
-        self.next=self.next.next
 
 class LKlist (object):
     def __init__(self,v):

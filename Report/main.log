@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.10.14)  23 MAR 2016 18:35
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.10.14)  13 APR 2016 00:46
 entering extended mode
 **main.tex
 ("E:\Thibault\travail\Master INFO21\MasterThesis\MCTS\MCTS\Report\main.tex"
@@ -280,42 +280,76 @@ Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 \Gin@req@height=\dimen103
 \Gin@req@width=\dimen104
 )
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\algorithmicx\algpseudocode.sty"
-Package: algpseudocode 
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\algorithm2e\algorithm2e.sty"
+Package: algorithm2e 2013/01/06 v5.00 algorithms environments
+\c@AlgoLine=\count89
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ifthen.sty"
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\algorithmicx\algorithmicx.sty"
-Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+\algocf@hangindent=\skip43
 
-Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
-\c@ALG@line=\count89
-\c@ALG@rem=\count90
-\c@ALG@nested=\count91
-\ALG@tlm=\skip43
-\ALG@thistlm=\skip44
-\c@ALG@Lnr=\count92
-\c@ALG@blocknr=\count93
-\c@ALG@storecount=\count94
-\c@ALG@tmpcounter=\count95
-\ALG@tmplength=\skip45
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\xspace.sty"
+Package: xspace 2009/10/20 v1.13 Space after command names (DPC,MH)
 )
-Document Style - pseudocode environments for use with the `algorithmicx' style
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ltxmisc\relsize.sty"
+Package: relsize 2003/07/04 ver 3.1
+)
+********************************************************
+Package `algorithm2e' Release 5.1 -- october 19 2015 --
+- algorithm2e-announce@lirmm.fr mailing list for announcement about releases
+- algorithm2e-discussion@lirmm.fr mailing list for discussion about package
+subscribe by emailing sympa@lirmm.fr with 'subscribe <list> <firstname name>'
+- Author: Christophe Fiorio (christophe.fiorio@umontpellier.fr)
+********************************************************
+\skiptotal=\skip44
+\skiplinenumber=\skip45
+\skiprule=\skip46
+\skiphlne=\skip47
+\skiptext=\skip48
+\skiplength=\skip49
+\algomargin=\skip50
+\skipalgocfslide=\skip51
+\algowidth=\dimen105
+\inoutsize=\dimen106
+\inoutindent=\dimen107
+\interspacetitleruled=\dimen108
+\interspacealgoruled=\dimen109
+\interspacetitleboxruled=\dimen110
+\algocf@ruledwidth=\skip52
+\algocf@inoutbox=\box26
+\algocf@inputbox=\box27
+\AlCapSkip=\skip53
+\AlCapHSkip=\skip54
+\algoskipindent=\skip55
+\algocf@nlbox=\box28
+\algocf@hangingbox=\box29
+\algocf@untilbox=\box30
+\algocf@skipuntil=\skip56
+\algocf@capbox=\box31
+\algoheightruledefault=\skip57
+\algoheightrule=\skip58
+\algotitleheightruledefault=\skip59
+\algotitleheightrule=\skip60
+\c@algocfline=\count90
+\c@algocfproc=\count91
+\c@algocf=\count92
+\algocf@algoframe=\box32
+\algocf@algobox=\box33
 ) ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pgf\frontendlayer\tikz.sty"
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pgf\basiclayer\pgf.sty"
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pgf\utilities\pgfrcs.sty"
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\utilities\pgfutil-common.te
 x"
 \pgfutil@everybye=\toks17
-\pgfutil@tempdima=\dimen105
-\pgfutil@tempdimb=\dimen106
+\pgfutil@tempdima=\dimen111
+\pgfutil@tempdimb=\dimen112
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\utilities\pgfutil-common-li
 sts.tex"))
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\utilities\pgfutil-latex.def
 "
-\pgfutil@abb=\box26
+\pgfutil@abb=\box34
  ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ms\everyshi.sty"
 Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
 ))
@@ -337,20 +371,20 @@ Package: pgfsys 2013/11/30 v3.0.0 (rcs-revision 1.47)
 ode.tex"
 \pgfkeys@tmptoks=\toks20
 ))
-\pgf@x=\dimen107
-\pgf@y=\dimen108
-\pgf@xa=\dimen109
-\pgf@ya=\dimen110
-\pgf@xb=\dimen111
-\pgf@yb=\dimen112
-\pgf@xc=\dimen113
-\pgf@yc=\dimen114
+\pgf@x=\dimen113
+\pgf@y=\dimen114
+\pgf@xa=\dimen115
+\pgf@ya=\dimen116
+\pgf@xb=\dimen117
+\pgf@yb=\dimen118
+\pgf@xc=\dimen119
+\pgf@yc=\dimen120
 \w@pgf@writea=\write3
 \r@pgf@reada=\read1
-\c@pgf@counta=\count96
-\c@pgf@countb=\count97
-\c@pgf@countc=\count98
-\c@pgf@countd=\count99
+\c@pgf@counta=\count93
+\c@pgf@countb=\count94
+\c@pgf@countc=\count95
+\c@pgf@countd=\count96
 \t@pgf@toka=\toks21
 \t@pgf@tokb=\toks22
 \t@pgf@tokc=\toks23
@@ -371,8 +405,8 @@ File: pgfsys-common-pdf.def 2013/10/10  (rcs-revision 1.13)
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\systemlayer\pgfsyssoftpath.
 code.tex"
 File: pgfsyssoftpath.code.tex 2013/09/09  (rcs-revision 1.9)
-\pgfsyssoftpath@smallbuffer@items=\count100
-\pgfsyssoftpath@bigbuffer@items=\count101
+\pgfsyssoftpath@smallbuffer@items=\count97
+\pgfsyssoftpath@bigbuffer@items=\count98
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\systemlayer\pgfsysprotocol.
 code.tex"
@@ -402,9 +436,9 @@ Package: pgfcore 2010/04/11 v3.0.0 (rcs-revision 1.7)
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathutil.code.tex")
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathparser.code.tex
 "
-\pgfmath@dimen=\dimen115
-\pgfmath@count=\count102
-\pgfmath@box=\box27
+\pgfmath@dimen=\dimen121
+\pgfmath@count=\count99
+\pgfmath@box=\box35
 \pgfmath@toks=\toks24
 \pgfmath@stack@operand=\toks25
 \pgfmath@stack@operation=\toks26
@@ -428,57 +462,57 @@ code.tex")
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfunctions.integ
 erarithmetics.code.tex")))
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmathfloat.code.tex"
-\c@pgfmathroundto@lastzeros=\count103
+\c@pgfmathroundto@lastzeros=\count100
 ))
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorepoints.co
 de.tex"
 File: pgfcorepoints.code.tex 2013/10/07  (rcs-revision 1.27)
-\pgf@picminx=\dimen116
-\pgf@picmaxx=\dimen117
-\pgf@picminy=\dimen118
-\pgf@picmaxy=\dimen119
-\pgf@pathminx=\dimen120
-\pgf@pathmaxx=\dimen121
-\pgf@pathminy=\dimen122
-\pgf@pathmaxy=\dimen123
-\pgf@xx=\dimen124
-\pgf@xy=\dimen125
-\pgf@yx=\dimen126
-\pgf@yy=\dimen127
-\pgf@zx=\dimen128
-\pgf@zy=\dimen129
+\pgf@picminx=\dimen122
+\pgf@picmaxx=\dimen123
+\pgf@picminy=\dimen124
+\pgf@picmaxy=\dimen125
+\pgf@pathminx=\dimen126
+\pgf@pathmaxx=\dimen127
+\pgf@pathminy=\dimen128
+\pgf@pathmaxy=\dimen129
+\pgf@xx=\dimen130
+\pgf@xy=\dimen131
+\pgf@yx=\dimen132
+\pgf@yy=\dimen133
+\pgf@zx=\dimen134
+\pgf@zy=\dimen135
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorepathconst
 ruct.code.tex"
 File: pgfcorepathconstruct.code.tex 2013/10/07  (rcs-revision 1.29)
-\pgf@path@lastx=\dimen130
-\pgf@path@lasty=\dimen131
+\pgf@path@lastx=\dimen136
+\pgf@path@lasty=\dimen137
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorepathusage
 .code.tex"
 File: pgfcorepathusage.code.tex 2013/12/13  (rcs-revision 1.23)
-\pgf@shorten@end@additional=\dimen132
-\pgf@shorten@start@additional=\dimen133
+\pgf@shorten@end@additional=\dimen138
+\pgf@shorten@start@additional=\dimen139
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorescopes.co
 de.tex"
 File: pgfcorescopes.code.tex 2013/10/09  (rcs-revision 1.44)
-\pgfpic=\box28
-\pgf@hbox=\box29
-\pgf@layerbox@main=\box30
-\pgf@picture@serial@count=\count104
+\pgfpic=\box36
+\pgf@hbox=\box37
+\pgf@layerbox@main=\box38
+\pgf@picture@serial@count=\count101
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoregraphicst
 ate.code.tex"
 File: pgfcoregraphicstate.code.tex 2013/09/19  (rcs-revision 1.11)
-\pgflinewidth=\dimen134
+\pgflinewidth=\dimen140
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoretransform
 ations.code.tex"
 File: pgfcoretransformations.code.tex 2013/10/10  (rcs-revision 1.17)
-\pgf@pt@x=\dimen135
-\pgf@pt@y=\dimen136
-\pgf@pt@temp=\dimen137
+\pgf@pt@x=\dimen141
+\pgf@pt@y=\dimen142
+\pgf@pt@temp=\dimen143
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorequick.cod
 e.tex"
@@ -495,13 +529,13 @@ File: pgfcorepathprocessing.code.tex 2013/09/09  (rcs-revision 1.9)
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorearrows.co
 de.tex"
 File: pgfcorearrows.code.tex 2013/11/07  (rcs-revision 1.40)
-\pgfarrowsep=\dimen138
+\pgfarrowsep=\dimen144
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoreshade.cod
 e.tex"
 File: pgfcoreshade.code.tex 2013/07/15  (rcs-revision 1.15)
-\pgf@max=\dimen139
-\pgf@sys@shading@range@num=\count105
+\pgf@max=\dimen145
+\pgf@sys@shading@range@num=\count102
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoreimage.cod
 e.tex"
@@ -510,7 +544,7 @@ File: pgfcoreimage.code.tex 2013/07/15  (rcs-revision 1.18)
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcoreexternal.
 code.tex"
 File: pgfcoreexternal.code.tex 2013/07/15  (rcs-revision 1.20)
-\pgfexternal@startupbox=\box31
+\pgfexternal@startupbox=\box39
 ))
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\basiclayer\pgfcorelayers.co
 de.tex"
@@ -527,7 +561,7 @@ File: pgfcorepatterns.code.tex 2013/11/07  (rcs-revision 1.5)
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\modules\pgfmoduleshapes.cod
 e.tex"
 File: pgfmoduleshapes.code.tex 2013/10/31  (rcs-revision 1.34)
-\pgfnodeparttextbox=\box32
+\pgfnodeparttextbox=\box40
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\modules\pgfmoduleplot.code.
 tex"
@@ -536,8 +570,8 @@ File: pgfmoduleplot.code.tex 2013/07/31  (rcs-revision 1.12)
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pgf\compatibility\pgfcomp-version
 -0-65.sty"
 Package: pgfcomp-version-0-65 2007/07/03 v3.0.0 (rcs-revision 1.7)
-\pgf@nodesepstart=\dimen140
-\pgf@nodesepend=\dimen141
+\pgf@nodesepstart=\dimen146
+\pgf@nodesepend=\dimen147
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pgf\compatibility\pgfcomp-version
 -1-18.sty"
@@ -552,8 +586,8 @@ Package: pgfcomp-version-1-18 2007/07/23 v3.0.0 (rcs-revision 1.1)
 Package: pgffor 2013/12/13 v3.0.0 (rcs-revision 1.25)
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\math\pgfmath.code.tex")
-\pgffor@iter=\dimen142
-\pgffor@skip=\dimen143
+\pgffor@iter=\dimen148
+\pgffor@skip=\dimen149
 \pgffor@stack=\toks27
 \pgffor@toks=\toks28
 ))
@@ -564,32 +598,32 @@ Package: tikz 2013/12/13 v3.0.0 (rcs-revision 1.142)
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\libraries\pgflibraryplothan
 dlers.code.tex"
 File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.0 (rcs-revision 1.20)
-\pgf@plot@mark@count=\count106
-\pgfplotmarksize=\dimen144
+\pgf@plot@mark@count=\count103
+\pgfplotmarksize=\dimen150
 )
-\tikz@lastx=\dimen145
-\tikz@lasty=\dimen146
-\tikz@lastxsaved=\dimen147
-\tikz@lastysaved=\dimen148
-\tikzleveldistance=\dimen149
-\tikzsiblingdistance=\dimen150
-\tikz@figbox=\box33
-\tikz@figbox@bg=\box34
-\tikz@tempbox=\box35
-\tikz@tempbox@bg=\box36
-\tikztreelevel=\count107
-\tikznumberofchildren=\count108
-\tikznumberofcurrentchild=\count109
-\tikz@fig@count=\count110
+\tikz@lastx=\dimen151
+\tikz@lasty=\dimen152
+\tikz@lastxsaved=\dimen153
+\tikz@lastysaved=\dimen154
+\tikzleveldistance=\dimen155
+\tikzsiblingdistance=\dimen156
+\tikz@figbox=\box41
+\tikz@figbox@bg=\box42
+\tikz@tempbox=\box43
+\tikz@tempbox@bg=\box44
+\tikztreelevel=\count104
+\tikznumberofchildren=\count105
+\tikznumberofcurrentchild=\count106
+\tikz@fig@count=\count107
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\modules\pgfmodulematrix.cod
 e.tex"
 File: pgfmodulematrix.code.tex 2013/09/17  (rcs-revision 1.8)
-\pgfmatrixcurrentrow=\count111
-\pgfmatrixcurrentcolumn=\count112
-\pgf@matrix@numberofcolumns=\count113
+\pgfmatrixcurrentrow=\count108
+\pgfmatrixcurrentcolumn=\count109
+\pgf@matrix@numberofcolumns=\count110
 )
-\tikz@expandcount=\count114
+\tikz@expandcount=\count111
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\frontendlayer\tikz\librarie
 s\tikzlibrarytopaths.code.tex"
@@ -602,7 +636,7 @@ File: tikzlibraryarrows.code.tex 2008/01/09 v3.0.0 (rcs-revision 1.1)
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\libraries\pgflibraryarrows.
 code.tex"
 File: pgflibraryarrows.code.tex 2013/09/23 v3.0.0 (rcs-revision 1.16)
-\arrowsize=\dimen151
+\arrowsize=\dimen157
 ))
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\frontendlayer\tikz\librarie
 s\tikzlibraryshapes.code.tex"
@@ -653,59 +687,62 @@ File: tikzlibraryshapes.multipart.code.tex 2008/01/09 v3.0.0 (rcs-revision 1.1)
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\libraries\shapes\pgflibrary
 shapes.multipart.code.tex"
 File: pgflibraryshapes.multipart.code.tex 2010/01/07 v3.0.0 (rcs-revision 1.2)
-\pgfnodepartlowerbox=\box37
-\pgfnodeparttwobox=\box38
-\pgfnodepartthreebox=\box39
-\pgfnodepartfourbox=\box40
-\pgfnodeparttwentybox=\box41
-\pgfnodepartnineteenbox=\box42
-\pgfnodeparteighteenbox=\box43
-\pgfnodepartseventeenbox=\box44
-\pgfnodepartsixteenbox=\box45
-\pgfnodepartfifteenbox=\box46
-\pgfnodepartfourteenbox=\box47
-\pgfnodepartthirteenbox=\box48
-\pgfnodeparttwelvebox=\box49
-\pgfnodepartelevenbox=\box50
-\pgfnodeparttenbox=\box51
-\pgfnodepartninebox=\box52
-\pgfnodeparteightbox=\box53
-\pgfnodepartsevenbox=\box54
-\pgfnodepartsixbox=\box55
-\pgfnodepartfivebox=\box56
+\pgfnodepartlowerbox=\box45
+\pgfnodeparttwobox=\box46
+\pgfnodepartthreebox=\box47
+\pgfnodepartfourbox=\box48
+\pgfnodeparttwentybox=\box49
+\pgfnodepartnineteenbox=\box50
+\pgfnodeparteighteenbox=\box51
+\pgfnodepartseventeenbox=\box52
+\pgfnodepartsixteenbox=\box53
+\pgfnodepartfifteenbox=\box54
+\pgfnodepartfourteenbox=\box55
+\pgfnodepartthirteenbox=\box56
+\pgfnodeparttwelvebox=\box57
+\pgfnodepartelevenbox=\box58
+\pgfnodeparttenbox=\box59
+\pgfnodepartninebox=\box60
+\pgfnodeparteightbox=\box61
+\pgfnodepartsevenbox=\box62
+\pgfnodepartsixbox=\box63
+\pgfnodepartfivebox=\box64
 )))
-("E:\Thibault\travail\Master INFO21\MasterThesis\MCTS\MCTS\Report\main.aux")
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
+("E:\Thibault\travail\Master INFO21\MasterThesis\MCTS\MCTS\Report\main.aux"
 
-("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+LaTeX Warning: Label `Check' multiply defined.
+
+)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count115
-\scratchdimen=\dimen152
-\scratchbox=\box57
-\nofMPsegments=\count116
-\nofMParguments=\count117
+\scratchcounter=\count112
+\scratchdimen=\dimen158
+\scratchbox=\box65
+\nofMPsegments=\count113
+\nofMParguments=\count114
 \everyMPshowfont=\toks29
-\MPscratchCnt=\count118
-\MPscratchDim=\dimen153
-\MPnumerator=\count119
-\makeMPintoPDFobject=\count120
+\MPscratchCnt=\count115
+\MPscratchDim=\dimen159
+\MPnumerator=\count116
+\makeMPintoPDFobject=\count117
 \everyMPtoPDFconversion=\toks30
 ) ABD: EveryShipout initializing macros
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 36.
+(Font)              <14.4> on input line 37.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 36.
+(Font)              <7> on input line 37.
  [1
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [1
@@ -741,27 +778,31 @@ Underfull \hbox (badness 10000) in paragraph at lines 5--7
 <images/Golibs.png, id=30, 220.825pt x 219.82124pt>
 File: images/Golibs.png Graphic file (type png)
  <use images/Golibs.png>
-Package pdftex.def Info: images/Golibs.png used on input line 13.
+Package pdftex.def Info: images/Golibs.png used on input line 12.
 (pdftex.def)             Requested size: 110.41222pt x 109.91034pt.
 
 <images/gogroupe.jpg, id=32, 176.66pt x 146.5475pt>
 File: images/gogroupe.jpg Graphic file (type jpg)
  <use images/gogroupe.jpg>
-Package pdftex.def Info: images/gogroupe.jpg used on input line 22.
+Package pdftex.def Info: images/gogroupe.jpg used on input line 13.
 (pdftex.def)             Requested size: 88.32977pt x 73.27356pt.
 
-<images/scorego.jpg, id=33, 730.73pt x 548.0475pt>
-File: images/scorego.jpg Graphic file (type jpg)
- <use images/scorego.jpg>
-Package pdftex.def Info: images/scorego.jpg used on input line 31.
-(pdftex.def)             Requested size: 292.28682pt x 219.2151pt.
-)
+Underfull \hbox (badness 10000) in paragraph at lines 23--25
+
+ []
+
 [7
 
-] [8 <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/images/Go
+] <images/scorego.PNG, id=36, 250.68657pt x 321.45094pt>
+File: images/scorego.PNG Graphic file (type png)
+
+<use images/scorego.PNG>
+Package pdftex.def Info: images/scorego.PNG used on input line 29.
+(pdftex.def)             Requested size: 125.34297pt x 160.72507pt.
+) [8 <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/images/Go
 libs.png> <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/imag
-es/gogroupe.jpg>] [9 <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/
-Report/images/scorego.jpg>]
+es/gogroupe.jpg> <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Repo
+rt/images/scorego.PNG>]
 Chapter 2.
 
 ("E:\Thibault\travail\Master INFO21\MasterThesis\MCTS\MCTS\Report\chapters/chap
@@ -770,118 +811,225 @@ Underfull \hbox (badness 10000) in paragraph at lines 11--13
 
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 17.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 19.
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 17.
- [10
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 19.
+ [9
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 44--46
+<images/circleMC.png, id=47, 176.66pt x 176.66pt>
+File: images/circleMC.png Graphic file (type png)
+ <use images/circleMC.png>
+Package pdftex.def Info: images/circleMC.png used on input line 46.
+(pdftex.def)             Requested size: 88.32977pt x 88.32977pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--55
+
+ []
+
+[10]
+Underfull \hbox (badness 10000) in paragraph at lines 56--58
+
+ []
+
+[11 <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/images/cir
+cleMC.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 87--89
+
+ []
+
+[12]
+Underfull \hbox (badness 10000) in paragraph at lines 146--148
+
+ []
+
+[13] [14] [15] [16]
+Underfull \hbox (badness 10000) in paragraph at lines 272--274
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 47--49
+Underfull \hbox (badness 10000) in paragraph at lines 275--277
 
  []
 
-[11]
-Underfull \hbox (badness 10000) in paragraph at lines 69--72
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 287--289
 
  []
 
-[12] [13] [14] [15]
-Underfull \hbox (badness 10000) in paragraph at lines 185--187
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 188--190
-
- []
-
-[16]
-Underfull \hbox (badness 10000) in paragraph at lines 200--202
-
- []
-
-[17] [18] <images/perf.jpg, id=83, 556.0775pt x 393.47pt>
-File: images/perf.jpg Graphic file (type jpg)
-
-<use images/perf.jpg>
-Package pdftex.def Info: images/perf.jpg used on input line 257.
-(pdftex.def)             Requested size: 278.03807pt x 196.73451pt.
- [19]
-Underfull \hbox (badness 10000) in paragraph at lines 265--267
-
- []
-
-[20 <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/images/per
-f.jpg>] [21]) [22]
+[18] [19]) [20]
 Chapter 3.
 
 ("E:\Thibault\travail\Master INFO21\MasterThesis\MCTS\MCTS\Report\chapters/chap
-2.tex" [23
+1b.tex" <images/perf.jpg, id=90, 556.0775pt x 393.47pt>
+File: images/perf.jpg Graphic file (type jpg)
+ <use images/perf.jpg>
+Package pdftex.def Info: images/perf.jpg used on input line 8.
+(pdftex.def)             Requested size: 278.03807pt x 196.73451pt.
 
-]
-Underfull \hbox (badness 10000) in paragraph at lines 46--48
-
- []
-
-[24] [25] [26] [27]
-Underfull \hbox (badness 10000) in paragraph at lines 166--167
+Underfull \hbox (badness 10000) in paragraph at lines 20--22
 
  []
 
+[21
 
-Underfull \hbox (badness 10000) in paragraph at lines 168--169
-
- []
-
-) [28]
+] [22 <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/images/p
+erf.jpg>] [23]) [24]
 Chapter 4.
 
 ("E:\Thibault\travail\Master INFO21\MasterThesis\MCTS\MCTS\Report\chapters/chap
-3.tex" [29
+2.tex" [25
 
-] [30] [31]) [32]
+]
+Underfull \hbox (badness 10000) in paragraph at lines 42--44
+
+ []
+
+[26] [27] [28] [29]
+Underfull \hbox (badness 10000) in paragraph at lines 142--143
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 144--145
+
+ []
+
+) [30]
 Chapter 5.
-[33
+
+("E:\Thibault\travail\Master INFO21\MasterThesis\MCTS\MCTS\Report\chapters/chap
+3.tex" <images/Find.png, id=126, 427.5975pt x 242.40562pt>
+File: images/Find.png Graphic file (type png)
+
+<use images/Find.png>
+Package pdftex.def Info: images/Find.png used on input line 40.
+(pdftex.def)             Requested size: 213.79822pt x 121.2025pt.
+ [31
+
+] [32 <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/images/F
+ind.png (PNG copy)>]
+<images/Union.png, id=133, 470.50781pt x 228.10219pt>
+File: images/Union.png Graphic file (type png)
+ <use images/Union.png>
+Package pdftex.def Info: images/Union.png used on input line 68.
+(pdftex.def)             Requested size: 235.25333pt x 114.0508pt.
+
+[33 <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/images/Uni
+on.png (PNG copy)>] [34]
+Underfull \hbox (badness 10000) in paragraph at lines 134--135
+
+ []
+
+[35]
+Underfull \hbox (badness 10000) in paragraph at lines 148--150
+
+ []
+
+<images/Lklistlib1.png, id=143, 215.30438pt x 210.03468pt>
+File: images/Lklistlib1.png Graphic file (type png)
+
+<use images/Lklistlib1.png>
+Package pdftex.def Info: images/Lklistlib1.png used on input line 153.
+(pdftex.def)             Requested size: 107.65192pt x 105.01707pt.
+
+<images/Lklistlib2.png, id=144, 207.02344pt x 213.04594pt>
+File: images/Lklistlib2.png Graphic file (type png)
+
+<use images/Lklistlib2.png>
+Package pdftex.def Info: images/Lklistlib2.png used on input line 154.
+(pdftex.def)             Requested size: 103.51146pt x 106.5227pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 160--162
+
+ []
+
+[36] <images/Lklistlib3.png, id=149, 213.79875pt x 209.28188pt>
+File: images/Lklistlib3.png Graphic file (type png)
+
+<use images/Lklistlib3.png>
+Package pdftex.def Info: images/Lklistlib3.png used on input line 167.
+(pdftex.def)             Requested size: 106.89911pt x 104.64067pt.
+ [37 <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/images/Lk
+listlib1.png> <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/
+images/Lklistlib2.png> <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCT
+S/Report/images/Lklistlib3.png>]
+<images/UFD1.png, id=156, 122.70844pt x 112.92188pt>
+File: images/UFD1.png Graphic file (type png)
+ <use images/UFD1.png>
+Package pdftex.def Info: images/UFD1.png used on input line 199.
+(pdftex.def)             Requested size: 61.35406pt x 56.46078pt.
+
+<images/UFD2.png, id=157, 338.76563pt x 145.29282pt>
+File: images/UFD2.png Graphic file (type png)
+ <use images/UFD2.png>
+Package pdftex.def Info: images/UFD2.png used on input line 200.
+(pdftex.def)             Requested size: 169.38239pt x 72.64622pt.
+
+[38]
+Underfull \hbox (badness 10000) in paragraph at lines 226--229
+
+ []
+
+[39 <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/images/UFD
+1.png> <E:/Thibault/travail/Master INFO21/MasterThesis/MCTS/MCTS/Report/images/
+UFD2.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 230--232
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 233--234
+
+ []
+
+) [40]
+Chapter 6.
+[41
 
 ]
 Appendix A.
-[34
+[42
 
-] ("E:\Thibault\travail\Master INFO21\MasterThesis\MCTS\MCTS\Report\main.aux") 
-) 
+] ("E:\Thibault\travail\Master INFO21\MasterThesis\MCTS\MCTS\Report\main.aux")
+
+LaTeX Warning: There were multiply-defined labels.
+
+ )
+(\end occurred inside a group at level 1)
+
+### simple group (level 1) entered at line 1061 ({)
+### bottom level 
 Here is how much of TeX's memory you used:
- 14397 strings out of 493921
- 311165 string characters out of 3144875
- 359911 words of memory out of 3000000
- 17424 multiletter control sequences out of 15000+200000
- 10531 words of font info for 37 fonts, out of 3000000 for 9000
+ 15071 strings out of 493921
+ 324194 string characters out of 3144875
+ 395108 words of memory out of 3000000
+ 18081 multiletter control sequences out of 15000+200000
+ 10840 words of font info for 38 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 55i,14n,76p,731b,1549s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
-C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:
-/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/P
-rogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Prog
-ram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program
- Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Fi
-les (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files
- (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files (x8
-6)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/Program Files (x86)
-/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Program Files (x86)
-/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/M
-iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files (x86)/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Program Files (x86)/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on main.pdf (35 pages, 525539 bytes).
+ 55i,17n,76p,916b,12530s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmbx12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
+/cmbx8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
+ex10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi
+12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.
+pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb
+><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C
+:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/P
+rogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Progr
+am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/Program
+ Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Program
+ Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program F
+iles (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program File
+s (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Program Files 
+(x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on main.pdf (43 pages, 1009917 bytes).
 PDF statistics:
- 179 PDF objects out of 1000 (max. 8388607)
+ 225 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 33 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 73 words of extra memory for PDF output out of 10000 (max. 10000000)
 
