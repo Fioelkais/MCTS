@@ -1,64 +1,67 @@
 \contentsline {chapter}{\numberline {1}Introduction}{7}
-\contentsline {section}{\numberline {1.1}start of intro}{7}
-\contentsline {section}{\numberline {1.2}Rules of Go}{7}
-\contentsline {chapter}{\numberline {2}State of the art}{9}
-\contentsline {section}{\numberline {2.1}Monte Carlo and Tree search}{9}
-\contentsline {subsection}{\numberline {2.1.1}Monte Carlo}{9}
-\contentsline {subsection}{\numberline {2.1.2}Tree search}{11}
-\contentsline {subsubsection}{Mini-max}{12}
-\contentsline {subsection}{\numberline {2.1.3}Monte Carlo and Tree search combined}{14}
-\contentsline {subsubsection}{Four Steps}{14}
-\contentsline {subsubsection}{Selection(descent)}{14}
-\contentsline {subsubsection}{Expansion(growth)}{16}
-\contentsline {subsubsection}{Simulation(roll-out)}{16}
-\contentsline {subsubsection}{Backpropagation(update)}{16}
+\contentsline {section}{\numberline {1.1}Go and artificial intelligence}{7}
+\contentsline {section}{\numberline {1.2}Rules of Go}{8}
+\contentsline {chapter}{\numberline {2}State of the art}{10}
+\contentsline {section}{\numberline {2.1}Monte Carlo and Tree search}{10}
+\contentsline {subsection}{\numberline {2.1.1}Monte Carlo}{10}
+\contentsline {subsection}{\numberline {2.1.2}Tree search}{12}
+\contentsline {subsubsection}{Mini-max}{13}
+\contentsline {subsection}{\numberline {2.1.3}Monte Carlo and Tree search combined}{15}
+\contentsline {subsubsection}{Four Steps}{15}
+\contentsline {subsubsection}{Selection(descent)}{15}
+\contentsline {subsubsection}{Expansion(growth)}{15}
+\contentsline {subsubsection}{Simulation(roll-out)}{17}
+\contentsline {subsubsection}{Backpropagation(update)}{17}
 \contentsline {subsection}{\numberline {2.1.4}Basic Strategies for each step}{18}
-\contentsline {subsubsection}{Selection - Objective Monte Carlo}{18}
+\contentsline {subsubsection}{Selection - Objective Monte Carlo}{19}
 \contentsline {subsubsection}{Expansion}{19}
-\contentsline {subsubsection}{Simulation}{19}
-\contentsline {subsubsection}{Backpropagation}{19}
-\contentsline {subsubsection}{Selection of the final move}{19}
-\contentsline {subsection}{\numberline {2.1.5}Benefits and Drawbacks}{19}
-\contentsline {subsubsection}{Benefits}{19}
-\contentsline {subsubsection}{Drawbacks}{20}
-\contentsline {chapter}{\numberline {3}MCTS applied to Go}{21}
-\contentsline {section}{\numberline {3.1}Monte Carlo tree search applied to Go}{21}
-\contentsline {subsection}{\numberline {3.1.1}Improvement}{21}
-\contentsline {subsubsection}{MC-RAVE}{21}
-\contentsline {subsubsection}{Bradley and Terry model}{22}
-\contentsline {subsection}{\numberline {3.1.2}Alpha-Go}{24}
-\contentsline {chapter}{\numberline {4}Naive version}{25}
-\contentsline {section}{\numberline {4.1}General Monte Carlo}{25}
-\contentsline {subsection}{\numberline {4.1.1}Game State}{25}
-\contentsline {subsection}{\numberline {4.1.2}Node class}{26}
-\contentsline {subsection}{\numberline {4.1.3}Simple pseudo code}{26}
-\contentsline {section}{\numberline {4.2}Adaptation to Go}{26}
-\contentsline {subsection}{\numberline {4.2.1}GetMoves}{28}
-\contentsline {subsubsection}{In general}{28}
-\contentsline {subsubsection}{In programming}{28}
-\contentsline {subsection}{\numberline {4.2.2}DoMove}{29}
-\contentsline {subsubsection}{In Go}{29}
-\contentsline {subsubsection}{in programming}{29}
-\contentsline {subsection}{\numberline {4.2.3}GetResult}{29}
-\contentsline {subsubsection}{In Go}{29}
+\contentsline {subsubsection}{Simulation}{20}
+\contentsline {subsubsection}{Backpropagation}{20}
+\contentsline {subsubsection}{Selection of the final move}{20}
+\contentsline {subsection}{\numberline {2.1.5}Benefits and Drawbacks}{20}
+\contentsline {subsubsection}{Benefits}{20}
+\contentsline {subsubsection}{Drawbacks}{21}
+\contentsline {chapter}{\numberline {3}MCTS applied to Go}{22}
+\contentsline {section}{\numberline {3.1}Monte Carlo tree search applied to Go}{22}
+\contentsline {subsection}{\numberline {3.1.1}Improvement}{22}
+\contentsline {subsubsection}{MC-RAVE}{22}
+\contentsline {subsubsection}{Bradley and Terry model}{23}
+\contentsline {subsection}{\numberline {3.1.2}Alpha-Go}{25}
+\contentsline {chapter}{\numberline {4}Naive version}{26}
+\contentsline {section}{\numberline {4.1}General Monte Carlo}{26}
+\contentsline {subsection}{\numberline {4.1.1}Game State}{26}
+\contentsline {subsection}{\numberline {4.1.2}Node class}{27}
+\contentsline {subsection}{\numberline {4.1.3}Simple pseudo code}{27}
+\contentsline {section}{\numberline {4.2}Adaptation to Go}{27}
+\contentsline {subsection}{\numberline {4.2.1}GetMoves}{29}
+\contentsline {subsubsection}{In general}{29}
 \contentsline {subsubsection}{In programming}{29}
-\contentsline {section}{\numberline {4.3}Total complexity}{30}
-\contentsline {chapter}{\numberline {5}Optimization}{31}
-\contentsline {section}{\numberline {5.1}Union Find, or how to solve the group problems}{31}
-\contentsline {subsection}{\numberline {5.1.1}Presentation of Union Find}{31}
-\contentsline {subsubsection}{Find(x)}{31}
-\contentsline {subsubsection}{Union(x,y)}{33}
-\contentsline {section}{\numberline {5.2}Improvement 1}{33}
-\contentsline {subsection}{\numberline {5.2.1}Special structure to solve the GetMoves complexity}{34}
-\contentsline {subsection}{\numberline {5.2.2}Complexity}{35}
-\contentsline {section}{\numberline {5.3}Improvement 2}{36}
-\contentsline {subsection}{\numberline {5.3.1}Remember the component}{36}
-\contentsline {subsection}{\numberline {5.3.2}Remember the liberties}{36}
-\contentsline {subsection}{\numberline {5.3.3}Complexity}{37}
-\contentsline {section}{\numberline {5.4}Another improvement}{38}
-\contentsline {subsection}{\numberline {5.4.1}Final Model}{38}
-\contentsline {subsubsection}{DoMove}{38}
-\contentsline {subsection}{\numberline {5.4.2}Drawbacks}{39}
-\contentsline {section}{\numberline {5.5}Final improvement}{40}
-\contentsline {chapter}{\numberline {6}Conclusion}{41}
-\contentsline {chapter}{\numberline {A}Appendix Title}{42}
+\contentsline {subsection}{\numberline {4.2.2}DoMove}{30}
+\contentsline {subsubsection}{In Go}{30}
+\contentsline {subsubsection}{in programming}{30}
+\contentsline {subsection}{\numberline {4.2.3}GetResult}{30}
+\contentsline {subsubsection}{In Go}{30}
+\contentsline {subsubsection}{In programming}{30}
+\contentsline {section}{\numberline {4.3}Total complexity}{31}
+\contentsline {chapter}{\numberline {5}Optimization}{32}
+\contentsline {section}{\numberline {5.1}Union Find, or how to solve the group problems}{32}
+\contentsline {subsection}{\numberline {5.1.1}Presentation of Union Find}{32}
+\contentsline {subsubsection}{Find(x)}{32}
+\contentsline {subsubsection}{Union(x,y)}{34}
+\contentsline {section}{\numberline {5.2}Improvement 1}{34}
+\contentsline {subsection}{\numberline {5.2.1}Special structure to solve the GetMoves complexity}{35}
+\contentsline {subsection}{\numberline {5.2.2}Complexity}{36}
+\contentsline {section}{\numberline {5.3}Improvement 2}{37}
+\contentsline {subsection}{\numberline {5.3.1}Remember the component}{37}
+\contentsline {subsection}{\numberline {5.3.2}Remember the liberties}{37}
+\contentsline {subsection}{\numberline {5.3.3}Complexity}{38}
+\contentsline {section}{\numberline {5.4}Another improvement}{39}
+\contentsline {subsection}{\numberline {5.4.1}Union-Find-Delete Model}{39}
+\contentsline {subsubsection}{DoMove}{39}
+\contentsline {subsection}{\numberline {5.4.2}Drawbacks}{40}
+\contentsline {section}{\numberline {5.5}Final improvement}{41}
+\contentsline {subsection}{\numberline {5.5.1}Main idea}{41}
+\contentsline {subsection}{\numberline {5.5.2}Proof}{41}
+\contentsline {subsection}{\numberline {5.5.3}Conclusion}{41}
+\contentsline {chapter}{\numberline {6}Conclusion}{43}
+\contentsline {chapter}{\numberline {A}Appendix Title}{44}
