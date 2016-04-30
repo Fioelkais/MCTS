@@ -188,22 +188,25 @@ class GoState:
 
     def DeleteGroup(self,x):
         temp=Find(x).comp.first
+        if temp.next==None:
+            self.komove.append((Find(x).x,Find(x).y))
         while temp != None :
             temp.value.color=0
             temp.value.rank=0
             temp.value.size=0
-            self.moves1.insert((temp.value.x,temp.value.y))#TODO ERROR , insertion 2 fois check notepad
-            self.moves2.insert((temp.value.x,temp.value.y))
+            if not self.moves1.contain((temp.value.x,temp.value.y)):
+                self.moves1.insert((temp.value.x,temp.value.y))#TODO ERROR , insertion 2 fois check notepad
+                self.moves2.insert((temp.value.x,temp.value.y))
+                if temp.value.x>0:
+                    Find(self.board[temp.value.x-1][temp.value.y]).size+=1
+                if temp.value.y>0:
+                    Find(self.board[temp.value.x][temp.value.y-1]).size+=1
+                if temp.value.x<self.size-1:
+                    Find(self.board[temp.value.x+1][temp.value.y]).size+=1
+                if temp.value.y <self.size-1:
+                    Find(self.board[temp.value.x][temp.value.y+1]).size+=1
             temp.value.parent=temp.value
             temp.value.comp.clear()
-            if temp.value.x>0:
-                Find(self.board[temp.value.x-1][temp.value.y]).size+=1
-            if temp.value.y>0:
-                Find(self.board[temp.value.x][temp.value.y-1]).size+=1
-            if temp.value.x<self.size-1:
-                Find(self.board[temp.value.x+1][temp.value.y]).size+=1
-            if temp.value.y <self.size-1:
-                Find(self.board[temp.value.x][temp.value.y+1]).size+=1
             temp2=temp.next
             temp.next=None
             temp=temp2
@@ -216,19 +219,44 @@ class GoState:
             return True
         check=False
 
+        nb=set()
+
         if x>0:
             if self.board[x-1][y].color != 0:
                 Find(self.board[x-1][y]).size-=1
+                nb.add(Find(self.board[x-1][y]))
         if y>0:
             if self.board[x][y-1].color!=0:
                 Find(self.board[x][y-1]).size-=1
+                nb.add(Find(self.board[x][y-1]))
         if x<self.size-1:
             if self.board[x+1][y].color!=0:
                 Find(self.board[x+1][y]).size-=1
+                nb.add(Find(self.board[x+1][y]))
         if y <self.size-1:
             if self.board[x][y+1].color!=0:
                 Find(self.board[x][y+1]).size-=1
+                nb.add(Find(self.board[x][y+1]))
 
+        if len(nb)==1:
+            if nb.pop().color==p:
+
+                if x>0:
+                    if self.board[x-1][y].color != 0:
+                        Find(self.board[x-1][y]).size+=1
+                if y>0:
+                    if self.board[x][y-1].color!=0:
+                        Find(self.board[x][y-1]).size+=1
+                if x<self.size-1:
+                    if self.board[x+1][y].color!=0:
+                        Find(self.board[x+1][y]).size+=1
+                if y <self.size-1:
+                    if self.board[x][y+1].color!=0:
+                        Find(self.board[x][y+1]).size+=1
+
+                return False
+
+        nb.clear()
 
         if x>0:
             if self.board[x-1][y].color==0:
@@ -299,10 +327,12 @@ class GoState:
                 a=self.moves1
             else:
                 a=self.moves2
-            if not a.contain((-1,-1)):
-                a.insert((-1,-1))
+
             if len(self.komove)==1 and a.contain(self.komove[0]):
                 a.remove(self.komove[0])
+            if a.isempty():# and not a.contain((-1,-1)):
+                a.insert((-1,-1))
+
             return a
         #ATTENTION AU KO ! TODO
 
@@ -488,20 +518,59 @@ def UCT(rootstate, itermax, verbose = False):
                 state.DoMove(m)
                 node = node.AddChild(m,state) # add child and descend tree
 
+
+        ck=True
+
         # Rollout - this can often be made orders of magnitude quicker using a state.GetRandomMove() function
-        while not state.GetMoves().isempty() : # while state is non-terminal
+        while not state.GetMoves().isempty() and ck : # while state is non-terminal
             #state.GetMoves().show()
-            m=state.GetMoves().getRandom()
-
+            """m=state.GetMoves().getRandom()
             if  state.Check(m[0],m[1],3-state.playerJustMoved):
-                state.DoMove(m)
-                """for i in range(state.size):
-                    for j in range(state.size) :
-                        print(state.board[i][j].color,end="")
-                    print()
-                print(m)"""
+                    state.DoMove(m)
+                    movetodo=False
+                    for i in range(state.size):
+                        for j in range(state.size) :
+                            if state.board[i][j].color == 0:
+                                print(".",end="")
+                            else:
+                                print(state.board[i][j].color,end="")
+                        print()
+                    print(m)
+            else :
+                if 3-state.playerJustMoved==1:
+                        state.moves1.remove(m)
+                else:
+                        state.moves2.remove(m)"""
 
-            else:
+
+            templist=state.GetMoves()#copy.deepcopy(state.GetMoves()) # La copy coute trop cher, je peux juste pas copy.deepcopy
+            movetodo=True
+
+            while movetodo and not templist.isempty():
+                m=templist.getRandom()
+
+                if  state.Check(m[0],m[1],3-state.playerJustMoved):
+                    state.DoMove(m)
+                    movetodo=False
+                    """for i in range(state.size):
+                        for j in range(state.size) :
+                            if state.board[i][j].color == 0:
+                                print(".",end="")
+                            else:
+                                print(state.board[i][j].color,end="")
+                        print()
+                    print(m)"""
+
+                else:
+                    templist.remove(m)
+                    if(templist.isempty()):
+                        if state.lastpass==False:
+                            state.DoMove((-1,-1))
+                            movetodo=False
+                        else:
+                            ck=False
+
+            """
                 try:
                     if 3-state.playerJustMoved==1:
                         state.moves1.remove(m)
@@ -513,7 +582,7 @@ def UCT(rootstate, itermax, verbose = False):
                         for j in range(state.size) :
                             print(state.board[i][j].color,end="")
                         print()
-                    print(m)
+                    print(m)"""
 
 
 
@@ -578,6 +647,9 @@ if __name__ == "__main__":
 """
     a=GoState(9)
     #print(a.CheckP(0,0,1)
+
+
+    print(a.board[1][0].size)
 
     s=time.time()
     m=UCT(rootstate = a, itermax = 1000, verbose = False)
