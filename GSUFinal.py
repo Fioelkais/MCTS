@@ -224,19 +224,21 @@ class GoState:
         if x>0:
             if self.board[x-1][y].color != 0:
                 Find(self.board[x-1][y]).size-=1
-                nb.add(Find(self.board[x-1][y]))
+            nb.add(Find(self.board[x-1][y]))
         if y>0:
             if self.board[x][y-1].color!=0:
                 Find(self.board[x][y-1]).size-=1
-                nb.add(Find(self.board[x][y-1]))
+            nb.add(Find(self.board[x][y-1]))
         if x<self.size-1:
             if self.board[x+1][y].color!=0:
                 Find(self.board[x+1][y]).size-=1
-                nb.add(Find(self.board[x+1][y]))
+            nb.add(Find(self.board[x+1][y]))
         if y <self.size-1:
             if self.board[x][y+1].color!=0:
                 Find(self.board[x][y+1]).size-=1
-                nb.add(Find(self.board[x][y+1]))
+            nb.add(Find(self.board[x][y+1]))
+
+
 
         if len(nb)==1:
             if nb.pop().color==p:
@@ -253,7 +255,7 @@ class GoState:
                 if y <self.size-1:
                     if self.board[x][y+1].color!=0:
                         Find(self.board[x][y+1]).size+=1
-
+                print("test")
                 return False
 
         nb.clear()
@@ -645,14 +647,23 @@ def UCTPlayGame():
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players
 """
-    a=GoState(9)
+    a=GoState(4)
     #print(a.CheckP(0,0,1)
 
+    a.DoMove((0,1))
+    a.DoMove((0,2))
+    a.DoMove((1,1))
+    a.DoMove((1,2))
+    a.DoMove((2,1))
+    a.DoMove((2,2))
+    a.DoMove((3,1))
+    a.DoMove((3,2))
 
+    print(a.Check(0,0,1))
     print(a.board[1][0].size)
 
     s=time.time()
-    m=UCT(rootstate = a, itermax = 1000, verbose = False)
+    #m=UCT(rootstate = a, itermax = 1000, verbose = False)
     """
     a.GetMoves().show()
 
