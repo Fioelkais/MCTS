@@ -17,6 +17,7 @@ Expériences :
 Tester contre autre bot
 tester temps
 tester joseki(pour différents nombre iter, calculer le % de bonne décisions)
+Montrer en fonction du nombre d'itérations les pourcentages de play à cet endroit en partant du départ
 
 sur ce joseki :
 00120

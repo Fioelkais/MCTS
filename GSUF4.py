@@ -336,6 +336,9 @@ class GoState:
         if l :
             if l.count(l[0])==len(l) and l[0].color==player:
                 check=False
+        if len(l)==1:
+            if l[0].color==player:
+                return False
         return check
 
     def GetMoves(self):
@@ -550,6 +553,15 @@ def UCT(rootstate, itermax, verbose = False):
         #print(state.playerJustMoved,"playerjustmoved")
         # Backpropagate
 
+        for i in range(state.size):
+            for j in range(state.size) :
+                if state.board[i][j].color == 0:
+                    print(".",end="")
+                else:
+                    print(state.board[i][j].color,end="")
+            print()
+        print()
+
         p1=copy.deepcopy(state.GetResult(1))
         #print(p1)
         p2=1-p1
@@ -595,11 +607,11 @@ def UCTPlayGame():
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players
 """
-    a=GoState(19)
+    a=GoState(9)
     #print(a.CheckP(0,0,1))
 
     s=time.time()
-    m=UCT(rootstate = a, itermax = 1000, verbose = False)
+    m=UCT(rootstate = a, itermax = 10, verbose = False)
 
     print(m)
     a.DoMove(m)

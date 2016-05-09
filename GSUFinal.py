@@ -72,7 +72,7 @@ class GoState:
                 self.moves1.insert((i,j))
                 self.moves2.insert((i,j))
         self.points1 = 0
-        self.points2 = 0
+        self.points2 = 0.5
         self.size = size
         self.lastpass= False
         self.komove=[]
@@ -230,43 +230,32 @@ class GoState:
                 return False
 
         if x>0:
-            if self.board[x-1][y].color != 0:
-                Find(self.board[x-1][y]).size-=1
             nb.add(Find(self.board[x-1][y]))
         if y>0:
-            if self.board[x][y-1].color!=0:
-                Find(self.board[x][y-1]).size-=1
             nb.add(Find(self.board[x][y-1]))
         if x<self.size-1:
-            if self.board[x+1][y].color!=0:
-                Find(self.board[x+1][y]).size-=1
             nb.add(Find(self.board[x+1][y]))
         if y <self.size-1:
-            if self.board[x][y+1].color!=0:
-                Find(self.board[x][y+1]).size-=1
             nb.add(Find(self.board[x][y+1]))
-
-
 
         if len(nb)==1:
             if nb.pop().color==p:
-
-                if x>0:
-                    if self.board[x-1][y].color != 0:
-                        Find(self.board[x-1][y]).size+=1
-                if y>0:
-                    if self.board[x][y-1].color!=0:
-                        Find(self.board[x][y-1]).size+=1
-                if x<self.size-1:
-                    if self.board[x+1][y].color!=0:
-                        Find(self.board[x+1][y]).size+=1
-                if y <self.size-1:
-                    if self.board[x][y+1].color!=0:
-                        Find(self.board[x][y+1]).size+=1
-
+                nb.clear()
                 return False
 
-        nb.clear()
+        if x>0:
+            if self.board[x-1][y].color != 0:
+                Find(self.board[x-1][y]).size-=1
+        if y>0:
+            if self.board[x][y-1].color!=0:
+                Find(self.board[x][y-1]).size-=1
+        if x<self.size-1:
+            if self.board[x+1][y].color!=0:
+                Find(self.board[x+1][y]).size-=1
+        if y <self.size-1:
+            if self.board[x][y+1].color!=0:
+                Find(self.board[x][y+1]).size-=1
+
 
         if x>0:
             if self.board[x-1][y].color==0:
@@ -317,42 +306,33 @@ class GoState:
 
         return check
 
+    def CheckEye(self,x,y,p):
+        check=False
+        nb=set()
+        if x>0:
+            nb.add(Find(self.board[x-1][y]))
+        if y>0:
+            nb.add(Find(self.board[x][y-1]))
+        if x<self.size-1:
+            nb.add(Find(self.board[x+1][y]))
+        if y <self.size-1:
+            nb.add(Find(self.board[x][y+1]))
+
+        if len(nb)==1:
+            if nb.pop().color==p:
+                nb.clear()
+                return True
+        return check
+
     def CheckL(self,x,y):
         return Find(self.board[x][y]).size>0
 
     def GetMoves(self):
-        """
-        if self.lastpass==True:
-            if self.moves2.contain((-1,-1)):
-                self.moves2.remove((-1,-1))
-            if self.moves1.contain((-1,-1)):
-                self.moves1.remove((-1,-1))
-            #return [(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j].color == 0 and self.Check(i,j)]#
-            if self.playerJustMoved==2:
-                return self.moves1
-            else:
-                return self.moves2
-        else :
-            #a =list([(i,j) for i in range(self.size) for j in range(self.size)  if self.board[i][j].color == 0 and self.Check(i,j)])
-            if self.playerJustMoved==2:
-                a=self.moves1
-            else:
-                a=self.moves2
 
-            if len(self.komove)==1 and a.contain(self.komove[0]):
-                a.remove(self.komove[0])
-            if a.isempty():# and not a.contain((-1,-1)):
-                a.insert((-1,-1))
-
-            return a
-        """
         if self.playerJustMoved==2:
             a=self.moves1
         else:
             a=self.moves2
-
-        """if len(self.komove)==1 and a.contain(self.komove[0]):
-            a.remove(self.komove[0])"""
 
         return a
 
@@ -557,13 +537,14 @@ def UCT(rootstate, itermax, verbose = False):
             else:
                 while movetodo :
                     m=templist.getRandom()
-                    if  state.Check(m[0],m[1],3-state.playerJustMoved):
+                    if  state.Check(m[0],m[1],3-state.playerJustMoved) and not m in deleted:
                         state.DoMove(m)
                         movetodo=False
 
                     else:
                         templist.remove(m)
-                        deleted.add(m)
+                        if not state.CheckEye(m[0],m[1],3-state.playerJustMoved):
+                            deleted.add(m)
                         if templist.isempty():
                             movetodo=False
                             if state.lastpass==False:
@@ -579,10 +560,6 @@ def UCT(rootstate, itermax, verbose = False):
                         if not state.moves1.contain(i):
                             state.moves1.insert(i)
 
-
-
-
-
         """for i in range(state.size):
             for j in range(state.size) :
                 if state.board[i][j].color == 0:
@@ -593,17 +570,17 @@ def UCT(rootstate, itermax, verbose = False):
         print()"""
         # Backpropagate
 
-        p1=copy.deepcopy(state.GetWinner(1))
+        #p1=copy.deepcopy(state.GetWinner(1))
         #print(p1)
-        p2=1-p1
+        #p2=1-p1
 
         while node != None: # backpropagate from the expanded node and work back to the root node
-            #node.Update(state.GetWinner(node.playerJustMoved)) # state is terminal. Update node with result from POV of node.playerJustMoved
+            node.Update(state.GetWinner(node.playerJustMoved)) # state is terminal. Update node with result from POV of node.playerJustMoved
 
-            if node.playerJustMoved==2:
+            """if node.playerJustMoved==2:
                 node.Update(p2)
             if node.playerJustMoved==1:
-                node.Update(p1)
+                node.Update(p1)"""
 
             #print("backpropagate")
             node = node.parentNode
@@ -657,6 +634,7 @@ if __name__ == "__main__":
     m=UCT(rootstate = a, itermax = 1000, verbose = False)
     cor=0
     print(m)
+
 
     """for i in range(a.size):
             for j in range(a.size) :
