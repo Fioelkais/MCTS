@@ -595,7 +595,7 @@ def UCTPlayGame():
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players
 """
-    a=GoState(9)
+    a=GoState(19)
     #print(a.CheckP(0,0,1))
 
     s=time.time()

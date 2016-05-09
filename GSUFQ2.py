@@ -599,11 +599,11 @@ def UCTPlayGame():
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players
 """
-    a=GoState(9)
+    a=GoState(19)
     #print(a.CheckP(0,0,1))
 
     s=time.time()
-    m=UCT(rootstate = a, itermax = 100, verbose = False)
+    m=UCT(rootstate = a, itermax = 1000, verbose = False)
 
     #test=Find(a.board[1][1]).lib.first
     #print(test.value.x,test.value.y)

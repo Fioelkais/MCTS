@@ -3,7 +3,9 @@ from math import *
 import random
 import queue
 import copy
+import time
 from UF import *
+
 class GameState:
     """ A state of the game, i.e. the game board. These are the only functions which are
         absolutely necessary to implement UCT in any 2-player complete information deterministic
@@ -490,10 +492,12 @@ def UCTPlayGame():
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players.
 """
-    a=GoState(2)
-    a.points2=0
-    a.board=[[2, 2, 2, 2, 1, 0], [2, 2, 2, 2, 1, 1], [2, 0, 2, 2, 2, 2], [2, 2, 2, 2, 2, 2], [2, 2, 2, 0, 2, 2], [2, 2, 2, 2, 1, 0]]
-
+    a=GoState(19)
+    #a.points2=0
+    #a.board=[[2, 2, 2, 2, 1, 0], [2, 2, 2, 2, 1, 1], [2, 0, 2, 2, 2, 2], [2, 2, 2, 2, 2, 2], [2, 2, 2, 0, 2, 2], [2, 2, 2, 2, 1, 0]]
+    s=time.time()
+    m=UCT(rootstate = a, itermax = 10, verbose = False)
+    print(time.time()-s)
     #a.lastboard=[[1,0],[0,0]]
     #print(a.CheckNB(1,1))
     #print(a.board)
@@ -508,7 +512,7 @@ if __name__ == "__main__":
     #MakeSet(a)
 
 
-    UCTPlayGame()
+    #UCTPlayGame()
 
 
     #TODO : COmmunication with GTP /The pass problem : Solution  add a move pass (-1,-1), can be play only when the last mvoe wasn't pass.

@@ -3,27 +3,66 @@ MCTS applied to Go
 
 TODO
 
-Rajouter comme heuristique, ne pas jouer dans un oeil OK
-
 Retirer le pass , il crée des problèmes  : si plus de moves possible -> pass, si 2 pass ->over OK
+Still problematique ? verifier fin de partie parfois étrange
 
 
-Another problem : si j'ai un oeil pour noir, je teste le move pour blanc, il est invalide, je le retire, plus tard j'ai encerlé le groupe noir, mais je ne peux plus jouer l'oeil vu qu'il a été retiré,
-il faudrait le retirer d'une liste temporaire pas de l'original IMPORTANT ->TOujours à corriger ce problème là :
+Redaction :
+Bibli
+Conclu
+Intro ajouter complexité
 
-221111222
-2.211112.<-------- il faudrait que 2 puisse passer pour permettre à noir de jouer voir le roll out
-222111222
-221111112
-.21121111
-222121.1.
-222221111
-222.221.1
-.2.22111.
+Expériences :
+
+Tester contre autre bot
+tester temps
+tester joseki(pour différents nombre iter, calculer le % de bonne décisions)
+
+sur ce joseki :
+00120
+00122
+00120
+11222
+22220
+99% de bon choix : 1,0
+
+cor=0
+for i in range (100):
+    a=GoState(5)
+    a.DoMove((0,2))
+    a.DoMove((0,3))
+    a.DoMove((1,2))
+    a.DoMove((1,3))
+    a.DoMove((2,2))
+    a.DoMove((2,3))
+
+    a.DoMove((3,0))
+    a.DoMove((3,2))
+    a.DoMove((3,1))
+    a.DoMove((3,3))
+
+    a.playerJustMoved=1
+    a.DoMove((4,0))
+    a.playerJustMoved=1
+    a.DoMove((4,1))
+    a.playerJustMoved=1
+    a.DoMove((4,2))
+    a.playerJustMoved=1
+    a.DoMove((4,3))
+    a.playerJustMoved=1
+    a.DoMove((3,4))
+    a.playerJustMoved=1
+    a.DoMove((1,4))
+
+    #a.DoMove((2,1))
+
+    m=UCT(rootstate = a, itermax = 1000, verbose = False)
+    if m==((1,0)):
+        cor+=1
+print(cor/100)
 
 
-Pour le problème précédent, plutot garder les moves supprimés et quand un move trouvé, le remettre
+Montrer qu'a temps égal, Final bat UFSEt par exemple
 
-Verifier que le getwinner renvoie correctement
 
 
