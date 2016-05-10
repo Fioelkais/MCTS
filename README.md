@@ -19,13 +19,14 @@ tester temps
 tester joseki(pour différents nombre iter, calculer le % de bonne décisions)
 Montrer en fonction du nombre d'itérations les pourcentages de play à cet endroit en partant du départ
 
+Faire plusieurs fois les itérations, et ensuite sommer les stats de ces différentes là, puis choisir le meilleur, pour éviter de partir dans une mauvais direction
+
 sur ce joseki :
 00120
 00122
 00120
 11222
 22220
-99% de bon choix : 1,0
 
 cor=0
 for i in range (100):
@@ -63,7 +64,6 @@ for i in range (100):
 print(cor/100)
 
 
-Montrer qu'a temps égal, Final bat UFSEt par exemple
 
 
 

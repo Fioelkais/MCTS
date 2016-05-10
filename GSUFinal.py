@@ -102,8 +102,20 @@ class GoState:
         else:
             self.lastpass=False
             self.komove.clear()
-            tocheck=[]
+
+
             (x,y)=(move[0],move[1])
+            if self.board[x][y].color != 0:
+                print("AAAAAAAAAAAAAAAA")
+                print(move,"MOVE FAILED")
+                for i in range(self.size):
+                    for j in range(self.size) :
+                        if self.board[i][j].color == 0:
+                            print(".",end="")
+                        else:
+                            print(self.board[i][j].color,end="")
+                    print()
+                print()
             self.board[x][y].color = 3 - self.playerJustMoved
             self.board[x][y].comp.add(self.board[x][y])
             self.board[x][y].size=0
@@ -223,6 +235,9 @@ class GoState:
         if x==-1 and y==-1:
             return True
         check=False
+
+        if self.board[x][y].color!=0:
+            return False
 
         nb=set()
         if len(self.komove)==1:
@@ -419,7 +434,7 @@ class GoState:
                     """2eme methode a faire pour une autre representation, voire feuille pq dans celle ci
                     probleme du fait qu'on ne peut jouer un coup perdu, sauf si ca tue"""
         win1= self.points1>self.points2
-        if (player==1 and win1) or (player==2 and not win1):
+        if (player==1 and win1) or (player==2 and not win1): #or  self.points1==self.points2:
             return 1.0
         else:
             return 0.0
@@ -538,7 +553,20 @@ def UCT(rootstate, itermax, verbose = False):
                 while movetodo :
                     m=templist.getRandom()
                     if  state.Check(m[0],m[1],3-state.playerJustMoved) and not m in deleted:
-                        state.DoMove(m)
+                        try:
+                            state.DoMove(m)
+                        except:
+                            print(m,"MOVE FAILED")
+                            ck=False
+                            for i in range(state.size):
+                                for j in range(state.size) :
+                                    if state.board[i][j].color == 0:
+                                        print(".",end="")
+                                    else:
+                                        print(state.board[i][j].color,end="")
+                                print()
+                            print()
+
                         movetodo=False
 
                     else:
@@ -624,16 +652,28 @@ def UCTPlayGame():
         print ("Player " + str(3 - state.playerJustMoved) + " wins!")
     else: print ("Nobody wins!")
 
+def UCTdivided(rootstate,x):
+    test=[]
+    testset=set()
+    for i in range (10):
+        m=UCT(rootstate,int(x/10), verbose = False)
+        test.append(m)
+        testset.add(m)
+    best=0
+    for i in testset:
+        if test.count(i)>best:
+            best=test.count(i)
+            bestm=i
+    return bestm
 if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players
 """
     a=GoState(9)
     #print(a.CheckP(0,0,1)
 
+
     s=time.time()
-    m=UCT(rootstate = a, itermax = 1000, verbose = False)
-    cor=0
-    print(m)
+
 
 
     """for i in range(a.size):
