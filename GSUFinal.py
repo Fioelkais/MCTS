@@ -72,10 +72,11 @@ class GoState:
                 self.moves1.insert((i,j))
                 self.moves2.insert((i,j))
         self.points1 = 0
-        self.points2 = 0.5
+        self.points2 = 4.5
         self.size = size
         self.lastpass= False
         self.komove=[]
+        self.tocheck=set()
         #KOMI TODO
 
     def Clone(self):
@@ -91,6 +92,7 @@ class GoState:
         st.komove=self.komove
         st.moves1=copy.deepcopy(self.moves1)
         st.moves2=copy.deepcopy(self.moves2)
+        st.tocheck=self.tocheck
         return st
 
     def DoMove(self,move):
@@ -336,6 +338,7 @@ class GoState:
         if len(nb)==1:
             if nb.pop().color==p:
                 nb.clear()
+                self.tocheck.add((x,y))
                 return True
         return check
 
@@ -352,9 +355,24 @@ class GoState:
         return a
 
     def GetWinner(self,player):
-        for i in range(self.size):
+        """"for i in range(self.size):
             for j in range(self.size):
                 if self.board[i][j].color==0:
+                    if i <1:
+                        if self.board[i+1][j].color==1:
+                            self.points1+=1
+                        else :
+                            self.points2+=1
+                    else:
+                        if self.board[i-1][j].color==1:
+                            self.points1+=1
+                        else :
+                            self.points2+=1"""
+
+        for a in self.tocheck:
+            i=a[0]
+            j=a[1]
+            if self.board[i][j].color==0:
                     if i <1:
                         if self.board[i+1][j].color==1:
                             self.points1+=1
@@ -438,6 +456,17 @@ class GoState:
             return 1.0
         else:
             return 0.0
+
+    def GetResJoseki(self):
+        white=False
+        for i in range(self.size):
+            for j in range (self.size):
+                if self.board[i][j].color==2:
+                    white=True
+        if white:
+            return 0
+        else:
+            return 1
 
 class Node:
     """ A node in the game tree. Note wins is always from the viewpoint of playerJustMoved.
@@ -598,25 +627,159 @@ def UCT(rootstate, itermax, verbose = False):
         print()"""
         # Backpropagate
 
-        #p1=copy.deepcopy(state.GetWinner(1))
-        #print(p1)
-        #p2=1-p1
+
+        p1=state.GetWinner(1)
+        #p1=state.GetResJoseki()
+        p2=1-p1
+
 
         while node != None: # backpropagate from the expanded node and work back to the root node
-            node.Update(state.GetWinner(node.playerJustMoved)) # state is terminal. Update node with result from POV of node.playerJustMoved
+            #node.Update(state.GetWinner(node.playerJustMoved)) # state is terminal. Update node with result from POV of node.playerJustMoved
 
-            """if node.playerJustMoved==2:
+            if node.playerJustMoved==2:
                 node.Update(p2)
             if node.playerJustMoved==1:
-                node.Update(p1)"""
+                node.Update(p1)
 
             #print("backpropagate")
             node = node.parentNode
 
 
     # Output some information about the tree - can be omitted
-    if (verbose): print (rootnode.TreeToString(0))
-    else: print (rootnode.ChildrenToString())
+    #if (verbose): print (rootnode.TreeToString(0))
+    #else: print (rootnode.ChildrenToString())
+
+    """if not rootnode.childNodes:
+         return((-2,-2))
+    else :"""
+    try :
+        return sorted(rootnode.childNodes, key = lambda c: c.visits)[-1].move # return the move that was most visited
+    except IndexError:
+        return ((-2,-2))
+
+def UCTtime(rootstate, timelimit, verbose = False):
+    """ Conduct a UCT search for itermax iterations starting from rootstate.
+        Return the best move from the rootstate.
+        Assumes 2 alternating players (player 1 starts), with game results in the range [0.0, 1.0]."""
+
+    rootnode = Node(state = rootstate)
+    m1=copy.deepcopy(rootstate.moves1)
+    m2=copy.deepcopy(rootstate.moves2)
+    s=time.time()
+    while time.time()-s < timelimit:
+        node = rootnode
+        rootstate.moves1=m1
+        rootstate.moves2=m2
+        state = rootstate.Clone()
+
+        # Select
+        while node.untriedMoves.isempty() and node.childNodes != []: # node is fully expanded and non-terminal
+            node = node.UCTSelectChild()
+            state.DoMove(node.move)
+            #print("select")
+        #print(i,rootstate.board)
+
+        # Expand
+        if not node.untriedMoves.isempty(): # if we can expand (i.e. state/node is non-terminal)
+            m = node.untriedMoves.getRandom()
+            still=True
+            while (not state.Check(m[0],m[1],3-state.playerJustMoved)) and still:
+                node.untriedMoves.remove(m)
+                if node.untriedMoves.isempty:
+                    still=False
+                else:
+                    m=node.untriedMoves.getRandom()
+
+            if still:
+                state.DoMove(m)
+                node = node.AddChild(m,state) # add child and descend tree
+
+
+        ck=True
+
+        # Rollout - this can often be made orders of magnitude quicker using a state.GetRandomMove() function
+        while ck : # while state is non-terminal
+
+            templist=state.GetMoves()
+            movetodo=True
+            deleted =set()
+
+            if templist.isempty():
+                if state.lastpass==False:
+                    state.DoMove((-1,-1))
+                    movetodo=False
+                else:
+                    ck=False
+            else:
+                while movetodo :
+                    m=templist.getRandom()
+                    if  state.Check(m[0],m[1],3-state.playerJustMoved) and not m in deleted:
+                        try:
+                            state.DoMove(m)
+                        except:
+                            print(m,"MOVE FAILED")
+                            ck=False
+                            for i in range(state.size):
+                                for j in range(state.size) :
+                                    if state.board[i][j].color == 0:
+                                        print(".",end="")
+                                    else:
+                                        print(state.board[i][j].color,end="")
+                                print()
+                            print()
+
+                        movetodo=False
+
+                    else:
+                        templist.remove(m)
+                        if not state.CheckEye(m[0],m[1],3-state.playerJustMoved):
+                            deleted.add(m)
+                        if templist.isempty():
+                            movetodo=False
+                            if state.lastpass==False:
+                                state.DoMove((-1,-1))
+                            else:
+                                ck=False
+                if state.playerJustMoved==2:
+                    for i in deleted:
+                        if not state.moves2.contain(i):
+                            state.moves2.insert(i)
+                else:
+                    for i in deleted:
+                        if not state.moves1.contain(i):
+                            state.moves1.insert(i)
+
+        """for i in range(state.size):
+            for j in range(state.size) :
+                if state.board[i][j].color == 0:
+                    print(".",end="")
+                else:
+                    print(state.board[i][j].color,end="")
+            print()
+        print()"""
+        # Backpropagate
+
+
+        p1=state.GetWinner(1)
+        #p1=state.GetResJoseki()
+        p2=1-p1
+
+
+        while node != None: # backpropagate from the expanded node and work back to the root node
+            #node.Update(state.GetWinner(node.playerJustMoved)) # state is terminal. Update node with result from POV of node.playerJustMoved
+
+            if node.playerJustMoved==2:
+                node.Update(p2)
+            if node.playerJustMoved==1:
+                node.Update(p1)
+
+            #print("backpropagate")
+            node = node.parentNode
+
+
+    # Output some information about the tree - can be omitted
+    #if (verbose): print (rootnode.TreeToString(0))
+    #else: print (rootnode.ChildrenToString())
 
     """if not rootnode.childNodes:
          return((-2,-2))
@@ -630,7 +793,7 @@ def UCTPlayGame():
     """ Play a sample game between two UCT players where each player gets a different number
         of UCT iterations (= simulations = tree nodes).
     """
-    state = GoState(6)
+    state = GoState(5)
     m=((-3,-3))
     while not state.GetMoves().isempty() and m !=((-2,-2)):
         print(str(state))
@@ -646,17 +809,18 @@ def UCTPlayGame():
                 print(state.board[i][j].color,end="")
             print()
 
+    print("score",state.points1,state.points2)
     if state.GetWinner(state.playerJustMoved) == 1.0:
         print("Player " + str(state.playerJustMoved) + " wins!")
     elif state.GetWinner(state.playerJustMoved) == 0.0:
         print ("Player " + str(3 - state.playerJustMoved) + " wins!")
     else: print ("Nobody wins!")
 
-def UCTdivided(rootstate,x):
+def UCTdivided(rootstate,x,div):
     test=[]
     testset=set()
-    for i in range (10):
-        m=UCT(rootstate,int(x/10), verbose = False)
+    for i in range (div):
+        m=UCT(rootstate,int(x/div), verbose = False)
         test.append(m)
         testset.add(m)
     best=0
@@ -673,6 +837,9 @@ if __name__ == "__main__":
 
 
     s=time.time()
+
+    #m=UCT(a,200,verbose=False)
+
 
 
 
@@ -694,7 +861,7 @@ if __name__ == "__main__":
     #a.DoMove((0,2))
     #a.DoMove((2,2))
 
-    #UCTPlayGame()
+    UCTPlayGame()
 
 
 

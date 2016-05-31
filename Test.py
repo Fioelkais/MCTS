@@ -60,6 +60,141 @@ def joseki34(iter, divided):
     print(cor/100)
 
 
+def joseki46b(iter, divided):
+    cor=0
+    #Strange behaviour
+    for i in range (100):
+        a=GoState(5)
+        a.points2=0
+        a.points1=0.5
+
+        a.DoMove((0,2))
+        a.DoMove((0,1))
+        a.DoMove((1,1))
+        a.DoMove((1,0))
+        a.DoMove((2,1))
+        a.DoMove((2,0))
+
+        a.DoMove((1,3))
+        a.DoMove((0,0))
+        a.DoMove((2,3))
+        a.DoMove((1,4))
+
+        a.DoMove((3,3))
+        a.DoMove((3,0))
+        a.DoMove((3,4))
+        a.DoMove((3,1))
+
+        a.playerJustMoved=1
+        a.DoMove((4,2))
+        a.playerJustMoved=1
+        a.DoMove((4,3))
+        a.playerJustMoved=1
+        a.DoMove((4,4))
+
+        a.moves1.remove((4,0))
+        a.moves1.remove((4,1))
+        a.moves2.remove((4,0))
+        a.moves2.remove((4,1))
+
+
+
+        #a.DoMove((2,1))
+        if divided:
+            m=UCTdivided( a, iter)
+        else:
+            m=UCT(rootstate = a, itermax = iter, verbose = False)
+        if m==((2,4)) or  m==((2,2)) or m==((3,2)):
+            cor+=1
+    print(cor/100)
+
+
+def joseki32h(iter, divided):
+    cor=0
+    #Strange behaviour
+    for i in range (100):
+        a=GoState(6)
+
+        a.DoMove((0,3))
+        a.DoMove((0,2))
+        a.DoMove((1,4))
+        a.DoMove((1,1))
+        a.DoMove((2,1))
+        a.DoMove((2,0))
+        a.DoMove((2,4))
+        a.DoMove((2,2))
+        a.DoMove((3,3))
+        a.DoMove((2,3))
+
+        a.DoMove((4,0))
+        a.DoMove((4,1))
+        a.DoMove((4,3))
+        a.DoMove((4,2))
+
+        a.DoMove((5,1))
+        a.playerJustMoved=2
+        a.DoMove((5,2))
+        a.playerJustMoved=2
+        a.DoMove((5,3))
+        a.playerJustMoved=2
+
+
+        #a.DoMove((2,1))
+        if divided:
+            m=UCTdivided( a, iter)
+        else:
+            m=UCT(rootstate = a, itermax = iter, verbose = False)
+        if m==((3,2)) :
+            cor+=1
+    print(cor/100)
+
+def testmatch(iter1, iter2, divided,div):
+    won1=0
+    won2=0
+    for a in range (50):
+        state = GoState(9)
+        m=((-3,-3))
+        passe=0
+        while not state.GetMoves().isempty() and passe<2:
+            #print(str(state))
+            if state.playerJustMoved == 1:
+                #if divided:
+                 #   m=UCTdivided(state,iter2,div)
+                #else:
+                m = UCT(rootstate = state, itermax = iter2, verbose = False) # play with values for itermax and verbose = True
+            else:
+                if divided:
+                    m=UCTdivided(state,iter1,div)
+                else:
+                    m = UCT(rootstate = state, itermax = iter1, verbose = False)
+            #print("Best Move: " + str(m) + "\n")
+            if m !=((-2,-2)):
+                passe=0
+                state.DoMove(m)
+            else:
+                passe+=1
+                state.playerJustMoved=3-state.playerJustMoved
+        for i in range(state.size):
+            for j in range(state.size) :
+                print(state.board[i][j].color,end="")
+            print()
+
+        if state.GetWinner(1) == 1.0:
+            won1+=1
+            #print("Player " + str(state.playerJustMoved) + " wins!")
+        else:
+            won2+=1
+        #else: print ("Nobody wins!")
+        print(a,won1,won2)
+
+
+
 if __name__ == "__main__":
-    testall(100,9,1000)
-    #joseki34(1000,True  )
+    #testall(5000,9,1000)
+    #joseki34(1000,False )
+    #joseki46b(1000,False)
+    #joseki32h(10000,False)
+    s=time.time()
+    print("5*1000vs5000")
+    testmatch(5000,5000,True,5)
+    print(time.time()-s)
