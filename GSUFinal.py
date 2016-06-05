@@ -1,50 +1,11 @@
-__author__ = 'admin'
-__author__ = 'admin'
-__author__ = 'admin'
+__author__ = 'Thibault Vandermosten'
 
 from math import *
-import random
-import queue
 import copy
 from MoveStruct import *
 from UFinal import *
 import time
 
-class GameState:
-    """ A state of the game, i.e. the game board. These are the only functions which are
-        absolutely necessary to implement UCT in any 2-player complete information deterministic
-        zero-sum game, although they can be enhanced and made quicker, for example by using a
-        GetRandomMove() function to generate a random move during rollout.
-        By convention the players are numbered 1 and 2.
-    """
-    def __init__(self):
-            self.playerJustMoved = 2 # At the root pretend the player just moved is player 2 - player 1 has the first move
-
-    def Clone(self):
-        """ Create a deep clone of this game state.
-        """
-        st = GameState()
-        st.playerJustMoved = self.playerJustMoved
-        return st
-
-    def DoMove(self, move):
-        """ Update a state by carrying out the given move.
-            Must update playerJustMoved.
-        """
-        self.playerJustMoved = 3 - self.playerJustMoved
-
-    def GetMoves(self):
-        """ Get all possible moves from this state.
-        """
-
-    def GetResult(self, playerjm):
-        """ Get the game result from the viewpoint of playerjm.
-        """
-
-    def __repr__(self):
-        """ Don't need this - but good style.
-        """
-        pass
 
 """
 Definition of the GoState
@@ -363,7 +324,7 @@ class GoState:
         else:
             return 0.0
 
-    def GetResJoseki(self):
+    def GetResJoseki32(self):
         white=False
         for i in range(self.size):
             for j in range (self.size):
@@ -373,6 +334,16 @@ class GoState:
             return 0
         else:
             return 1
+    def GetResJoseki46(self):
+        black=False
+        for i in range(self.size):
+            for j in range (self.size):
+                if self.board[i][j].color==1:
+                    black=True
+        if black:
+            return 1
+        else:
+            return 0
 
 class Node:
     """ A node in the game tree. Note wins is always from the viewpoint of playerJustMoved.
@@ -411,6 +382,12 @@ class Node:
     def __repr__(self):
         return "[M:" + str(self.move) + " W/V:" + str(self.wins) + "/" + str(self.visits) #+ " U:" + str(self.untriedMoves) + "]"
 
+    def ChildrenToString(self):
+        s = ""
+        for c in self.childNodes:
+             s += str(c) + "\n"
+        return s
+
 
 def UCT(rootstate, itermax, verbose = False):
     """ Conduct a UCT search for itermax iterations starting from rootstate.
@@ -430,8 +407,6 @@ def UCT(rootstate, itermax, verbose = False):
         while node.untriedMoves.isempty() and node.childNodes != []: # node is fully expanded and non-terminal
             node = node.UCTSelectChild()
             state.DoMove(node.move)
-            #print("select")
-        #print(i,rootstate.board)
 
         # Expand
         if not node.untriedMoves.isempty(): # if we can expand (i.e. state/node is non-terminal)
@@ -457,31 +432,20 @@ def UCT(rootstate, itermax, verbose = False):
             templist=state.GetMoves()
             movetodo=True
             deleted =set()
-
+            #if no more moves, including pass, we stop
             if templist.isempty():
                 if state.lastpass==False:
                     state.DoMove((-1,-1))
                     movetodo=False
                 else:
                     ck=False
+            #if still moves possible, we look for one until either we got one and apply it, either we realize that the list was fill
+            #with impossible moves and so we pass or stop the game
             else:
                 while movetodo :
                     m=templist.getRandom()
                     if  state.Check(m[0],m[1],3-state.playerJustMoved) and not m in deleted:
-                        try:
-                            state.DoMove(m)
-                        except:
-                            print(m,"MOVE FAILED")
-                            ck=False
-                            for i in range(state.size):
-                                for j in range(state.size) :
-                                    if state.board[i][j].color == 0:
-                                        print(".",end="")
-                                    else:
-                                        print(state.board[i][j].color,end="")
-                                print()
-                            print()
-
+                        state.DoMove(m)
                         movetodo=False
 
                     else:
@@ -507,6 +471,7 @@ def UCT(rootstate, itermax, verbose = False):
 
 
         p1=state.GetWinner(1)
+        #p1=state.GetResJoseki46()
         p2=1-p1
 
 
@@ -519,6 +484,7 @@ def UCT(rootstate, itermax, verbose = False):
                 node.Update(p1)
             node = node.parentNode
 
+    print (rootnode.ChildrenToString())
 
     try :
         return sorted(rootnode.childNodes, key = lambda c: c.visits)[-1].move # return the move that was most visited

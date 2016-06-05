@@ -22,7 +22,7 @@ def testall(iter, size,all):
 
 def joseki34(iter, divided):
     cor=0
-    for i in range (500):
+    for i in range (100):
         a=GoState(5)
         a.points2=0
         a.DoMove((0,2))
@@ -52,7 +52,7 @@ def joseki34(iter, divided):
 
         #a.DoMove((2,1))
         if divided:
-            m=UCTdivided( a, iter)
+            m=UCTdivided( a, iter,20)
         else:
             m=UCT(rootstate = a, itermax = iter, verbose = False)
         if m==((1,0)):
@@ -63,7 +63,7 @@ def joseki34(iter, divided):
 def joseki46b(iter, divided):
     cor=0
     #Strange behaviour
-    for i in range (100):
+    for i in range (10):
         a=GoState(5)
         a.points2=0
         a.points1=0.5
@@ -136,13 +136,15 @@ def joseki32h(iter, divided):
         a.DoMove((5,3))
         a.playerJustMoved=2
 
+        a.DoMove((3,2))
+
 
         #a.DoMove((2,1))
         if divided:
             m=UCTdivided( a, iter)
         else:
             m=UCT(rootstate = a, itermax = iter, verbose = False)
-        if m==((3,2)) :
+        if m==((3,1)) :
             cor+=1
     print(cor/100)
 
@@ -185,9 +187,9 @@ def testmatch(iter1, iter2, divided,div1,div2):
 
 if __name__ == "__main__":
     #testall(5000,9,1000)
-    joseki34(1000,False )
-    #joseki46b(100,True)
-    #joseki32h(10000,False)
+    #joseki34(1000,False )
+    #joseki46b(1000,True)
+    joseki32h(1000,False)
     s=time.time()
     #print("5*1000vs5000")
     #testmatch(5000,5000,True,5,10)
