@@ -3,7 +3,6 @@ from LKlist import *
 class NodeUF(object):
     def __init__(self):
         self.parent = self
-        #self.value = value
         self.rank = 0
         self.color=0
         self.comp = LKlist((self))
@@ -29,7 +28,7 @@ def Union(x, y):
          yRoot.parent = xRoot
 
          xRoot.size=xRoot.size+yRoot.size
-         #process of transferring children
+         #process of transferring components
          xRoot.comp.union(yRoot.comp)
 
 
@@ -51,32 +50,12 @@ def Union(x, y):
 
          xRoot.rank = xRoot.rank + 1
 
-def Destroy(x):
-    temp=Find(x).comp.first
-    temp.value.color.set(0)
-    temp.value.rank=0
-    temp.value.parent=temp.value
-    temp.value.comp=LKlist(temp.value)
-    while(temp.next !=None):
-        temp.next.value.color.set(0)
-        temp.next.value.rank=0
-        temp.next.value.parent=temp.next.value
-        temp.next.value.comp=LKlist(temp.next.value)
-        temp2=temp.next
-        temp.next=None
-        temp=temp2
-
 def Find(x):
      if x.parent == x:
         return x
      else:
         x.parent = Find(x.parent)
         return x.parent
-
-def Extend1(x,y):
-    for i in y:
-        if i not in x:
-            x.append(i)
 
 if __name__ == "__main__":
     """Unit test to verify the methods of UF"""

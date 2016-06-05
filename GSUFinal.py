@@ -107,17 +107,6 @@ class GoState:
 
 
             (x,y)=(move[0],move[1])
-            if self.board[x][y].color != 0:
-                print("AAAAAAAAAAAAAAAA")
-                print(move,"MOVE FAILED")
-                for i in range(self.size):
-                    for j in range(self.size) :
-                        if self.board[i][j].color == 0:
-                            print(".",end="")
-                        else:
-                            print(self.board[i][j].color,end="")
-                    print()
-                print()
             self.board[x][y].color = 3 - self.playerJustMoved
             self.board[x][y].comp.add(self.board[x][y])
             self.board[x][y].size=0
@@ -214,7 +203,7 @@ class GoState:
                     self.points2+=1
                 else:
                     self.points1+=1
-                self.moves1.insert((temp.value.x,temp.value.y))#TODO ERROR , insertion 2 fois check notepad
+                self.moves1.insert((temp.value.x,temp.value.y))
                 self.moves2.insert((temp.value.x,temp.value.y))
                 if temp.value.x>0:
                     Find(self.board[temp.value.x-1][temp.value.y]).size+=1
@@ -355,20 +344,6 @@ class GoState:
         return a
 
     def GetWinner(self,player):
-        """"for i in range(self.size):
-            for j in range(self.size):
-                if self.board[i][j].color==0:
-                    if i <1:
-                        if self.board[i+1][j].color==1:
-                            self.points1+=1
-                        else :
-                            self.points2+=1
-                    else:
-                        if self.board[i-1][j].color==1:
-                            self.points1+=1
-                        else :
-                            self.points2+=1"""
-
         for a in self.tocheck:
             i=a[0]
             j=a[1]
@@ -384,75 +359,6 @@ class GoState:
                         else :
                             self.points2+=1
         if (player==1 and self.points1>self.points2) or (player==2 and self.points2>self.points1):
-            return 1.0
-        else:
-            return 0.0
-
-    def GetResult(self,player):
-        checked = [[False] * self.size for _ in range(self.size)]
-        q = queue.Queue()
-        for i in range(self.size):
-            for j in range (self.size):
-                if(self.board[i][j].color==0 and checked[i][j]==False):
-                    q.put((i,j))
-                    b=False
-                    w=False
-                    count=0
-                    while (q.empty()==False):
-                        #print(q.qsize())
-                        #print(self.board)
-                        pos=q.get()
-                        checked[pos[0]][pos[1]]=True
-                        count+=1
-                        if(pos[0]>0):
-                            if (self.board[pos[0]-1][pos[1]].color==0 and checked[pos[0]-1][pos[1]]==False):
-                                #print((pos[0]-1,pos[1]))
-                                #print(checked[pos[0]-1][pos[1]])
-                                q.put((pos[0]-1,pos[1]))
-                            if (self.board[pos[0]-1][pos[1]].color==1):
-                                b=True
-                            if (self.board[pos[0]-1][pos[1]].color==2):
-                                w=True
-
-                        if(pos[0]<self.size-1):
-                            if (self.board[pos[0]+1][pos[1]].color==0 and checked[pos[0]+1][pos[1]]==False ):
-                                q.put((pos[0]+1,pos[1]))
-                            if (self.board[pos[0]+1][pos[1]].color==1):
-                                b=True
-                            if (self.board[pos[0]+1][pos[1]].color==2):
-                                w=True
-
-                        if(pos[1]>0):
-                            if (self.board[pos[0]][pos[1]-1].color==0 and checked[pos[0]][pos[1]-1]==False):
-                                q.put((pos[0],pos[1]-1))
-                            if (self.board[pos[0]][pos[1]-1].color==1):
-                                b=True
-                            if (self.board[pos[0]][pos[1]-1].color==2):
-                                w=True
-
-                        if(pos[1]<self.size-1):
-                            if (self.board[pos[0]][pos[1]+1].color==0 and checked[pos[0]][pos[1]+1]==False):
-                                q.put((pos[0],pos[1]+1))
-                            if (self.board[pos[0]][pos[1]+1].color==1):
-                                b=True
-                            if (self.board[pos[0]][pos[1]+1].color==2):
-                                w=True
-
-                    if b and not w :
-                        self.points1+=count
-                    if w and not b:
-                        self.points2+=count
-                    """if(NOIR ET PAS BLANC):
-                        update points noir
-                    if(BLANC ET PAS NOIR):
-                        update points blanc
-                    if(BLANC ET NOIR):
-                        Partie pas finie -> DETECTER FIN DE PARTIE ?"""
-
-                    """2eme methode a faire pour une autre representation, voire feuille pq dans celle ci
-                    probleme du fait qu'on ne peut jouer un coup perdu, sauf si ca tue"""
-        win1= self.points1>self.points2
-        if (player==1 and win1) or (player==2 and not win1): #or  self.points1==self.points2:
             return 1.0
         else:
             return 0.0
@@ -482,9 +388,7 @@ class Node:
         self.playerJustMoved = state.playerJustMoved # the only part of the state that the Node needs later
 
     def UCTSelectChild(self):
-        """ Use the UCB1 formula to select a child node. Often a constant UCTK is applied so we have
-            lambda c: c.wins/c.visits + UCTK * sqrt(2*log(self.visits)/c.visits to vary the amount of
-            exploration versus exploitation.
+        """ Use the UCB1 formula to select a child node
         """
         s = sorted(self.childNodes, key = lambda c: c.wins/c.visits + sqrt(2*log(self.visits)/c.visits))[-1]
         return s
@@ -506,24 +410,6 @@ class Node:
 
     def __repr__(self):
         return "[M:" + str(self.move) + " W/V:" + str(self.wins) + "/" + str(self.visits) #+ " U:" + str(self.untriedMoves) + "]"
-
-    def TreeToString(self, indent):
-        s = self.IndentString(indent) + str(self)
-        for c in self.childNodes:
-             s += c.TreeToString(indent+1)
-        return s
-
-    def IndentString(self,indent):
-        s = "\n"
-        for i in range (1,indent+1):
-            s += "| "
-        return s
-
-    def ChildrenToString(self):
-        s = ""
-        for c in self.childNodes:
-             s += str(c) + "\n"
-        return s
 
 
 def UCT(rootstate, itermax, verbose = False):
@@ -565,7 +451,7 @@ def UCT(rootstate, itermax, verbose = False):
 
         ck=True
 
-        # Rollout - this can often be made orders of magnitude quicker using a state.GetRandomMove() function
+        # Rollout -
         while ck : # while state is non-terminal
 
             templist=state.GetMoves()
@@ -617,50 +503,30 @@ def UCT(rootstate, itermax, verbose = False):
                         if not state.moves1.contain(i):
                             state.moves1.insert(i)
 
-        """for i in range(state.size):
-            for j in range(state.size) :
-                if state.board[i][j].color == 0:
-                    print(".",end="")
-                else:
-                    print(state.board[i][j].color,end="")
-            print()
-        print()"""
         # Backpropagate
 
 
         p1=state.GetWinner(1)
-        #p1=state.GetResJoseki()
         p2=1-p1
 
 
         while node != None: # backpropagate from the expanded node and work back to the root node
-            #node.Update(state.GetWinner(node.playerJustMoved)) # state is terminal. Update node with result from POV of node.playerJustMoved
+            # Update node with result from POV of node.playerJustMoved
 
             if node.playerJustMoved==2:
                 node.Update(p2)
             if node.playerJustMoved==1:
                 node.Update(p1)
-
-            #print("backpropagate")
             node = node.parentNode
 
 
-    # Output some information about the tree - can be omitted
-    #if (verbose): print (rootnode.TreeToString(0))
-    #else: print (rootnode.ChildrenToString())
-
-    """if not rootnode.childNodes:
-         return((-2,-2))
-    else :"""
     try :
         return sorted(rootnode.childNodes, key = lambda c: c.visits)[-1].move # return the move that was most visited
     except IndexError:
         return ((-2,-2))
 
 def UCTtime(rootstate, timelimit, verbose = False):
-    """ Conduct a UCT search for itermax iterations starting from rootstate.
-        Return the best move from the rootstate.
-        Assumes 2 alternating players (player 1 starts), with game results in the range [0.0, 1.0]."""
+    """ Same than UCT, but with a limit of time instead of iterations"""
 
     rootnode = Node(state = rootstate)
     m1=copy.deepcopy(rootstate.moves1)
@@ -676,8 +542,6 @@ def UCTtime(rootstate, timelimit, verbose = False):
         while node.untriedMoves.isempty() and node.childNodes != []: # node is fully expanded and non-terminal
             node = node.UCTSelectChild()
             state.DoMove(node.move)
-            #print("select")
-        #print(i,rootstate.board)
 
         # Expand
         if not node.untriedMoves.isempty(): # if we can expand (i.e. state/node is non-terminal)
@@ -697,7 +561,7 @@ def UCTtime(rootstate, timelimit, verbose = False):
 
         ck=True
 
-        # Rollout - this can often be made orders of magnitude quicker using a state.GetRandomMove() function
+        # Rollout
         while ck : # while state is non-terminal
 
             templist=state.GetMoves()
@@ -748,15 +612,6 @@ def UCTtime(rootstate, timelimit, verbose = False):
                     for i in deleted:
                         if not state.moves1.contain(i):
                             state.moves1.insert(i)
-
-        """for i in range(state.size):
-            for j in range(state.size) :
-                if state.board[i][j].color == 0:
-                    print(".",end="")
-                else:
-                    print(state.board[i][j].color,end="")
-            print()
-        print()"""
         # Backpropagate
 
 
@@ -766,24 +621,13 @@ def UCTtime(rootstate, timelimit, verbose = False):
 
 
         while node != None: # backpropagate from the expanded node and work back to the root node
-            #node.Update(state.GetWinner(node.playerJustMoved)) # state is terminal. Update node with result from POV of node.playerJustMoved
+            # Update node with result from POV of node.playerJustMoved
 
             if node.playerJustMoved==2:
                 node.Update(p2)
             if node.playerJustMoved==1:
                 node.Update(p1)
-
-            #print("backpropagate")
             node = node.parentNode
-
-
-    # Output some information about the tree - can be omitted
-    #if (verbose): print (rootnode.TreeToString(0))
-    #else: print (rootnode.ChildrenToString())
-
-    """if not rootnode.childNodes:
-         return((-2,-2))
-    else :"""
     try :
         return sorted(rootnode.childNodes, key = lambda c: c.visits)[-1].move # return the move that was most visited
     except IndexError:
@@ -817,6 +661,9 @@ def UCTPlayGame():
     else: print ("Nobody wins!")
 
 def UCTdivided(rootstate,x,div):
+    """
+    A uct method with div time x/div operation, majority voting technique
+    """
     test=[]
     testset=set()
     for i in range (div):
@@ -833,12 +680,10 @@ if __name__ == "__main__":
     """ Play a single game to the end using UCT for both players
 """
     a=GoState(9)
-    #print(a.CheckP(0,0,1)
-
 
     s=time.time()
 
-    #m=UCT(a,200,verbose=False)
+    m=UCT(a,1000,verbose=False)
 
 
 
@@ -847,21 +692,11 @@ if __name__ == "__main__":
             for j in range(a.size) :
                 print(a.board[i][j].color,end="")
             print()"""
-    #a.GetMoves().show()
-    #a.GetMoves().show()
 
     print(time.time()-s)
-    #a.DoMove((1,4)))
-    #a.GetWinner(2)
-    #print(a.GetMoves())
-    #print(a.GetMoves().isempty())
 
-    #a.DoMove((1,0))
-   # print(a.GetMoves())
-    #a.DoMove((0,2))
-    #a.DoMove((2,2))
 
-    UCTPlayGame()
+    #UCTPlayGame()
 
 
 

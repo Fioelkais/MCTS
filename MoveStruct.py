@@ -1,6 +1,10 @@
 __author__ = 'admin'
 import random
 
+"""
+Data structure that support insert, remove and getRandomElement in O(1)
+"""
+
 class Mpos(object):
     def __init__(self):
         self.h={}
@@ -39,42 +43,4 @@ class Mpos(object):
 
 if __name__ == "__main__":
     a=Mpos()
-    a.insert("Nicolas")
-    a.insert("Jess")
-    a.insert("Leon")
-    a.insert("Alex")
-    a.insert("Merry")
-    temp= a.getRandom()
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
-    print(temp)
+

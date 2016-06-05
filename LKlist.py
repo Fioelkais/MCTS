@@ -1,5 +1,9 @@
 __author__ = 'admin'
 
+"""
+Chained list, there is no correct pre implementation in Python
+"""
+
 class NodeL:
     def __init__(self,v):
         self.value=v

@@ -57,8 +57,8 @@ class Prompt(cmd.Cmd):
     def do_genmove(self,arg):
         if(arg=='w'):
             self.a.playerJustMoved=1
-            #move=UCT(rootstate = self.a, itermax = 5000, verbose = False)
-            move=UCTtime(rootstate = self.a,timelimit= 60, verbose = False)
+            move=UCT(rootstate = self.a, itermax = 10000, verbose = False)
+            #move=UCTtime(rootstate = self.a,timelimit= 60, verbose = False)
             self.a.DoMove(move)
             result = self.inttogtp(move[0],move[1])
             if result[0]=="@" and result[1]==self.size+1:
@@ -68,8 +68,8 @@ class Prompt(cmd.Cmd):
                 print('= '+result2 +'\n')
         if (arg=='b'):
             self.a.playerJustMoved=2
-            #move=UCT(rootstate = self.a, itermax = 5000, verbose = False)
-            move=UCTtime(rootstate = self.a,timelimit= 60, verbose = False)
+            move=UCT(rootstate = self.a, itermax = 10000, verbose = False)
+            #move=UCTtime(rootstate = self.a,timelimit= 60, verbose = False)
             self.a.DoMove(move)
             result=self.inttogtp(move[0],move[1])
             if result[0]=="@" and result[1]==self.size+1:

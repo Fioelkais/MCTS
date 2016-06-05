@@ -1,5 +1,5 @@
 from LKlist import *
-from rf import *
+from previous_versions.rf import *
 class NodeUF(object):
     def __init__(self):
         self.parent = self

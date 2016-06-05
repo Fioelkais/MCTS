@@ -22,7 +22,7 @@ def testall(iter, size,all):
 
 def joseki34(iter, divided):
     cor=0
-    for i in range (100):
+    for i in range (500):
         a=GoState(5)
         a.points2=0
         a.DoMove((0,2))
@@ -57,7 +57,7 @@ def joseki34(iter, divided):
             m=UCT(rootstate = a, itermax = iter, verbose = False)
         if m==((1,0)):
             cor+=1
-    print(cor/100)
+    print(cor/500)
 
 
 def joseki46b(iter, divided):
@@ -97,11 +97,9 @@ def joseki46b(iter, divided):
         a.moves2.remove((4,0))
         a.moves2.remove((4,1))
 
-
-
         #a.DoMove((2,1))
         if divided:
-            m=UCTdivided( a, iter)
+            m=UCTdivided( a, iter,10)
         else:
             m=UCT(rootstate = a, itermax = iter, verbose = False)
         if m==((2,4)) or  m==((2,2)) or m==((3,2)):
@@ -148,7 +146,7 @@ def joseki32h(iter, divided):
             cor+=1
     print(cor/100)
 
-def testmatch(iter1, iter2, divided,div):
+def testmatch(iter1, iter2, divided,div1,div2):
     won1=0
     won2=0
     for a in range (50):
@@ -156,18 +154,16 @@ def testmatch(iter1, iter2, divided,div):
         m=((-3,-3))
         passe=0
         while not state.GetMoves().isempty() and passe<2:
-            #print(str(state))
             if state.playerJustMoved == 1:
-                #if divided:
-                 #   m=UCTdivided(state,iter2,div)
-                #else:
-                m = UCT(rootstate = state, itermax = iter2, verbose = False) # play with values for itermax and verbose = True
+                if divided:
+                    m=UCTdivided(state,iter2,div2)
+                else:
+                    m = UCT(rootstate = state, itermax = iter2, verbose = False)
             else:
                 if divided:
-                    m=UCTdivided(state,iter1,div)
+                    m=UCTdivided(state,iter1,div1)
                 else:
                     m = UCT(rootstate = state, itermax = iter1, verbose = False)
-            #print("Best Move: " + str(m) + "\n")
             if m !=((-2,-2)):
                 passe=0
                 state.DoMove(m)
@@ -181,20 +177,20 @@ def testmatch(iter1, iter2, divided,div):
 
         if state.GetWinner(1) == 1.0:
             won1+=1
-            #print("Player " + str(state.playerJustMoved) + " wins!")
         else:
             won2+=1
-        #else: print ("Nobody wins!")
         print(a,won1,won2)
 
 
 
 if __name__ == "__main__":
     #testall(5000,9,1000)
-    #joseki34(1000,False )
-    #joseki46b(1000,False)
+    joseki34(1000,False )
+    #joseki46b(100,True)
     #joseki32h(10000,False)
     s=time.time()
-    print("5*1000vs5000")
-    testmatch(5000,5000,True,5)
+    #print("5*1000vs5000")
+    #testmatch(5000,5000,True,5,10)
+    #a=GoState(7)
+    #m=UCT(a,1000,False)
     print(time.time()-s)

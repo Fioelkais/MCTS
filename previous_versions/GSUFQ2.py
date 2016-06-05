@@ -1,14 +1,16 @@
 __author__ = 'admin'
 __author__ = 'admin'
 
-from math import *
-import random
-import queue
 import copy
-from MoveStruct import *
-from UFQ2 import *
-from rf import *
+import queue
 import time
+from math import *
+
+from rf import *
+
+from MoveStruct import *
+from previous_versions.UFQ2 import *
+
 
 class GameState:
     """ A state of the game, i.e. the game board. These are the only functions which are
